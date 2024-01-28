@@ -1,3 +1,11 @@
+# DOCKER:
+
+##  Demarrer le conteneur MySQL.
+docker start mysql
+
+##  Demarrer le conteneur Phpmyadmin
+docker start myadmin pour démarrer le conteneur phpMyAdmin.
+
 # front
 
 ## Build Setup
