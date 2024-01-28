@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\SceneRepository;
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SceneRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene
@@ -15,6 +18,9 @@ class Scene
 
     #[ORM\Column]
     private ?int $SIRET = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Banner = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
@@ -53,6 +59,18 @@ class Scene
     public function setSIRET(int $SIRET): static
     {
         $this->SIRET = $SIRET;
+
+        return $this;
+    }
+
+    public function getBanner(): ?string
+    {
+        return $this->Banner;
+    }
+
+    public function setBanner(string $Banner): static
+    {
+        $this->Banner = $Banner;
 
         return $this;
     }
@@ -152,4 +170,5 @@ class Scene
 
         return $this;
     }
+
 }

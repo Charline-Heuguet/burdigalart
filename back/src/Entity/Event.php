@@ -21,7 +21,7 @@ class Event
     private ?string $Description = null;
 
     #[ORM\Column(type: Types::DATETIMETZ_MUTABLE)]
-    private ?\DateTimeInterface $Date = null;
+    private ?\DateTimeInterface $DateTime = null;
 
     #[ORM\Column(length: 255)]
     private ?string $EventPhoto = null;
@@ -58,14 +58,14 @@ class Event
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateTime(): ?\DateTimeInterface
     {
-        return $this->Date;
+        return $this->DateTime;
     }
 
-    public function setDate(\DateTimeInterface $Date): static
+    public function setDateTime(\DateTimeInterface $DateTime): static
     {
-        $this->Date = $Date;
+        $this->DateTime = $DateTime;
 
         return $this;
     }
@@ -93,4 +93,5 @@ class Event
 
         return $this;
     }
+
 }

@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ArtistRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArtistRepository;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 class Artist
@@ -13,6 +13,9 @@ class Artist
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $OfficialPhoto = null;
 
     #[ORM\Column(length: 255)]
     private ?string $ArtistName = null;
@@ -35,12 +38,21 @@ class Artist
     #[ORM\Column(type: Types::TEXT)]
     private ?string $ShowDescription = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $OfficialPhoto = null;
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getOfficialPhoto(): ?string
+    {
+        return $this->OfficialPhoto;
+    }
+
+    public function setOfficialPhoto(string $OfficialPhoto): static
+    {
+        $this->OfficialPhoto = $OfficialPhoto;
+
+        return $this;
     }
 
     public function getArtistName(): ?string
@@ -127,15 +139,4 @@ class Artist
         return $this;
     }
 
-    public function getOfficialPhoto(): ?string
-    {
-        return $this->OfficialPhoto;
-    }
-
-    public function setOfficialPhoto(string $OfficialPhoto): static
-    {
-        $this->OfficialPhoto = $OfficialPhoto;
-
-        return $this;
-    }
 }
