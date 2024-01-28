@@ -46,6 +46,18 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $Facebook = null;
 
+    #[ORM\OneToMany(mappedBy: 'scene', targetEntity: Event::class)]
+    private Collection $events;
+
+    #[ORM\ManyToOne(targetEntity:User::class, inversedBy: 'scenes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +179,48 @@ class Scene
     public function setFacebook(string $Facebook): static
     {
         $this->Facebook = $Facebook;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setScene($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getScene() === $this) {
+                $event->setScene(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

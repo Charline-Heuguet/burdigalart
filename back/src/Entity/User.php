@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Scene;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 
@@ -28,6 +30,26 @@ class User
 
     #[ORM\Column(length: 255)]
     private ?string $Avatar = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
+    private Collection $scenes;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
+    private Collection $artists;
+
+    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'users')]
+    private Collection $events;
+
+    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
+    private Collection $roles;
+
+    public function __construct()
+    {
+        $this->scenes = new ArrayCollection();
+        $this->artists = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->roles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +112,117 @@ class User
     public function setAvatar(string $Avatar): static
     {
         $this->Avatar = $Avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scene>
+     */
+    public function getScenes(): Collection
+    {
+        return $this->scenes;
+    }
+
+    public function addScene(Scene $scene): static
+    {
+        if (!$this->scenes->contains($scene)) {
+            $this->scenes->add($scene);
+            $scene->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScene(Scene $scene): static
+    {
+        if ($this->scenes->removeElement($scene)) {
+            // set the owning side to null (unless already changed)
+            if ($scene->getUser() === $this) {
+                $scene->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Artist>
+     */
+    public function getArtists(): Collection
+    {
+        return $this->artists;
+    }
+
+    public function addArtist(Artist $artist): static
+    {
+        if (!$this->artists->contains($artist)) {
+            $this->artists->add($artist);
+            $artist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtist(Artist $artist): static
+    {
+        if ($this->artists->removeElement($artist)) {
+            // set the owning side to null (unless already changed)
+            if ($artist->getUser() === $this) {
+                $artist->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        $this->events->removeElement($event);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): static
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+            $role->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): static
+    {
+        if ($this->roles->removeElement($role)) {
+            $role->removeUser($this);
+        }
 
         return $this;
     }

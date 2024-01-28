@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArtistRepository;
@@ -37,6 +39,34 @@ class Artist
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $ShowDescription = null;
+
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'artists')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
+    #[ORM\ManyToOne(targetEntity:User::class,inversedBy: 'artists')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(targetEntity:Style::class, inversedBy: 'artists')]
+    private ?Style $style = null;
+
+    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'artists')]
+    private Collection $events;
+
+    #[ORM\JoinTable(name: "recommendation")]
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'recommandedBy')]
+    private Collection $artistRecommended;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'artistRecommended')]
+    private Collection $recommandedBy;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+        $this->artistRecommended = new ArrayCollection();
+        $this->recommandedBy = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,4 +169,114 @@ class Artist
         return $this;
     }
 
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStyle(): ?Style
+    {
+        return $this->style;
+    }
+
+    public function setStyle(?Style $style): static
+    {
+        $this->style = $style;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        $this->events->removeElement($event);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getArtistRecommended(): Collection
+    {
+        return $this->artistRecommended;
+    }
+
+    public function addArtistRecommended(self $artistRecommended): static
+    {
+        if (!$this->artistRecommended->contains($artistRecommended)) {
+            $this->artistRecommended->add($artistRecommended);
+        }
+
+        return $this;
+    }
+
+    public function removeArtistRecommended(self $artistRecommended): static
+    {
+        $this->artistRecommended->removeElement($artistRecommended);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getRecommandedBy(): Collection
+    {
+        return $this->recommandedBy;
+    }
+
+    public function addRecommandedBy(self $recommandedBy): static
+    {
+        if (!$this->recommandedBy->contains($recommandedBy)) {
+            $this->recommandedBy->add($recommandedBy);
+            $recommandedBy->addArtistRecommended($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecommandedBy(self $recommandedBy): static
+    {
+        if ($this->recommandedBy->removeElement($recommandedBy)) {
+            $recommandedBy->removeArtistRecommended($this);
+        }
+
+        return $this;
+    }
 }
