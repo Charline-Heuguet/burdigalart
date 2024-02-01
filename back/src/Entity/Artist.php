@@ -54,7 +54,6 @@ class Artist
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'artists')]
     private Collection $events;
 
-    #[ORM\JoinTable(name: "Recommendation")]
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'recommandedBy')]
     private Collection $artistRecommended;
 

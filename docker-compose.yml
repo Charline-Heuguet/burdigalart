@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+        MYSQL_DATABASE: ${MYSQL_DATABASE:-burdigalart}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD:-burdigalart}
+        MYSQL_USER: ${MYSQL_USER:-burdigalart}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+        TZ: ${TZ:-Europe/Paris}
+    volumes:
+        - mysql_database:/var/lib/mysql
+    ports:
+        - "3306:3306"
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      - db
+
+volumes:
+  mysql_database:
