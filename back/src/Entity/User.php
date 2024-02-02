@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Entity\Scene;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+#[ApiResource]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
@@ -28,7 +30,7 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $Password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $Avatar = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]

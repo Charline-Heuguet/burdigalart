@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SceneRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+#[ApiResource]
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene
 {
