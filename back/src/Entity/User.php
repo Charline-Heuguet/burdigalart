@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use App\Entity\Scene;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
@@ -11,15 +15,25 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ApiResource(
-    itemOperations: [
-        'put' => [
-            'security' => "is_granted('EDIT', object)",
-            'security_message' => 'Seulement l\'utilisateur concerné peut modifier ses informations.'
-        ],
-        'delete' => [
-            'security' => "is_granted('DELETE', object)",
-            'security_message' => 'Seulement l\'utilisateur concerné peut supprimer son profil.'
-        ],
+    operations: [
+        new Post(
+            // Permet à tout le monde de s'inscrire. Aucune restriction de sécurité nécessaire pour l'inscription.
+            security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
+        ),
+        new Get(
+            // Un utilisateur ne peut voir que son propre profil.
+            // Utilise 'is_granted("ROLE_USER") and object == user' pour vérifier que l'utilisateur est authentifié et accède à son propre profil.
+            security: "is_granted('ROLE_USER') and object == user",
+        ),
+        new Put(
+            // Un utilisateur peut modifier son propre profil.
+            // Même vérification que pour le GET.
+            security: "is_granted('ROLE_USER') and object == user",
+        ),
+        new Delete(
+            // Un utilisateur peut supprimer son propre profil.
+            security: "is_granted('ROLE_USER') and object == user",
+        ),
     ]
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]

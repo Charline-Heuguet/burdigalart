@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RoleRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),// Tout le monde peut voir les événements.
+        new Get(),
+    ]
+)]
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
 {

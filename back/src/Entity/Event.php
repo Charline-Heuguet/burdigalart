@@ -2,14 +2,35 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EventRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),// Tout le monde peut voir les événements.
+        new Get(), // Tout le monde peut voir l'événement.
+        new Post(
+            security: 'is_granted("ROLE_MANAGER")',// Seul un gérant de scène peut créer un événement.
+            securityMessage: 'Seuls les gérants de scène peuvent créer un événement.'
+        ),
+        new Put(
+            security: 'object.getScene().getUser() == user', // Seul le gérant de la scène peut modifier l'événement.
+        ),
+        new Delete(
+            security: 'object.getScene().getUser() == user', // Seul le gérant de la scène peut supprimer l'événement.
+        ),
+    ]
+)]
+
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {

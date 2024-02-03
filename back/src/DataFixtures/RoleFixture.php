@@ -11,7 +11,7 @@ class RoleFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         // On ne veut que 3 rôles
-        $roles = ['Gérant', 'Artiste', 'Public'];
+        $roles = ['Gérant', 'Artiste', 'Spectateur'];
 
         foreach ($roles as $roleName) {
             $role = new Role();

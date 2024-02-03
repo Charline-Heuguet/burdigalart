@@ -2,14 +2,35 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArtistRepository;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(), // Tout le monde peut voir la fiche.
+        new GetCollection(),// Tout le monde peut voir la fiche.
+        new Post(
+            security: 'is_granted("ROLE_ARTIST")',
+            securityMessage: 'Seuls les artistes peuvent créer leur fiche.'
+        ),
+        new Put(
+            security: 'object.getUser() == user', // L'artiste peut modifier sa fiche.
+        ),
+        new Delete(
+            security: 'object.getUser() == user', // L'artiste peut supprimer sa fiche.
+        ),
+    ]
+)]
+
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 class Artist
 {
