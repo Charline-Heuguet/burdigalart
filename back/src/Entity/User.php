@@ -10,7 +10,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-#[ApiResource]
+#[ApiResource(
+    itemOperations: [
+        'put' => [
+            'security' => "is_granted('EDIT', object)",
+            'security_message' => 'Seulement l\'utilisateur concerné peut modifier ses informations.'
+        ],
+        'delete' => [
+            'security' => "is_granted('DELETE', object)",
+            'security_message' => 'Seulement l\'utilisateur concerné peut supprimer son profil.'
+        ],
+    ]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements PasswordAuthenticatedUserInterface
 {
