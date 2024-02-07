@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Delete;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SceneRepository;
 use ApiPlatform\Metadata\ApiResource;
@@ -74,17 +75,37 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $Facebook = null;
 
-    #[ORM\OneToMany(mappedBy: 'scene', targetEntity: Event::class)]
-    private Collection $events;
-
     #[ORM\ManyToOne(targetEntity:User::class, inversedBy: 'scenes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $eventTitle = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $eventDescription = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $eventDatetime = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $eventPoster = null;
+
+    #[ORM\Column]
+    private ?float $eventPrice = null;
+
+    #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
+    private Collection $artists;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'scene')]
+    private Collection $users;
+
     public function __construct()
     {
-        $this->events = new ArrayCollection();
+        $this->artists = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -211,36 +232,6 @@ class Scene
         return $this;
     }
 
-    /**
-     * @return Collection<int, Event>
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): static
-    {
-        if (!$this->events->contains($event)) {
-            $this->events->add($event);
-            $event->setScene($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): static
-    {
-        if ($this->events->removeElement($event)) {
-            // set the owning side to null (unless already changed)
-            if ($event->getScene() === $this) {
-                $event->setScene(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -249,6 +240,120 @@ class Scene
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getEventTitle(): ?string
+    {
+        return $this->eventTitle;
+    }
+
+    public function setEventTitle(string $eventTitle): static
+    {
+        $this->eventTitle = $eventTitle;
+
+        return $this;
+    }
+
+    public function getEventDescription(): ?string
+    {
+        return $this->eventDescription;
+    }
+
+    public function setEventDescription(string $eventDescription): static
+    {
+        $this->eventDescription = $eventDescription;
+
+        return $this;
+    }
+
+    public function getEventDatetime(): ?\DateTimeImmutable
+    {
+        return $this->eventDatetime;
+    }
+
+    public function setEventDatetime(\DateTimeImmutable $eventDatetime): static
+    {
+        $this->eventDatetime = $eventDatetime;
+
+        return $this;
+    }
+
+    public function getEventPoster(): ?string
+    {
+        return $this->eventPoster;
+    }
+
+    public function setEventPoster(string $eventPoster): static
+    {
+        $this->eventPoster = $eventPoster;
+
+        return $this;
+    }
+
+    public function getEventPrice(): ?float
+    {
+        return $this->eventPrice;
+    }
+
+    public function setEventPrice(float $eventPrice): static
+    {
+        $this->eventPrice = $eventPrice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Artist>
+     */
+    public function getArtists(): Collection
+    {
+        return $this->artists;
+    }
+
+    public function addArtist(Artist $artist): static
+    {
+        if (!$this->artists->contains($artist)) {
+            $this->artists->add($artist);
+            $artist->addScene($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtist(Artist $artist): static
+    {
+        if ($this->artists->removeElement($artist)) {
+            $artist->removeScene($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addScene($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeScene($this);
+        }
 
         return $this;
     }

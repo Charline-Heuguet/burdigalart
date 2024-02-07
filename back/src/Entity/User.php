@@ -65,18 +65,18 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'users')]
-    private Collection $events;
-
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
     private Collection $roles;
+
+    #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'users')]
+    private Collection $scene;
 
     public function __construct()
     {
         $this->scenes = new ArrayCollection();
         $this->artists = new ArrayCollection();
-        $this->events = new ArrayCollection();
         $this->roles = new ArrayCollection();
+        $this->scene = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,31 +203,7 @@ class User implements PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Event>
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): static
-    {
-        if (!$this->events->contains($event)) {
-            $this->events->add($event);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): static
-    {
-        $this->events->removeElement($event);
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Role>
      */
@@ -253,5 +229,13 @@ class User implements PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Scene>
+     */
+    public function getScene(): Collection
+    {
+        return $this->scene;
     }
 }

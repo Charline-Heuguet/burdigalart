@@ -1,5 +1,7 @@
+
+import Inscription from './components/Inscription.vue';
 <template>
   <div>
-    <NuxtWelcome />
+    <Inscription />
   </div>
 </template>

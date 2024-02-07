@@ -74,20 +74,21 @@ class Artist
     #[ORM\ManyToOne(targetEntity:Style::class, inversedBy: 'artists')]
     private ?Style $style = null;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'artists')]
-    private Collection $events;
-
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'recommandedBy')]
     private Collection $artistRecommended;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'artistRecommended')]
     private Collection $recommandedBy;
 
+    #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'artists')]
+    private Collection $scene;
+
+
     public function __construct()
     {
-        $this->events = new ArrayCollection();
         $this->artistRecommended = new ArrayCollection();
         $this->recommandedBy = new ArrayCollection();
+        $this->scene = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,30 +229,6 @@ class Artist
     }
 
     /**
-     * @return Collection<int, Event>
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): static
-    {
-        if (!$this->events->contains($event)) {
-            $this->events->add($event);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): static
-    {
-        $this->events->removeElement($event);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, self>
      */
     public function getArtistRecommended(): Collection
@@ -298,6 +275,30 @@ class Artist
         if ($this->recommandedBy->removeElement($recommandedBy)) {
             $recommandedBy->removeArtistRecommended($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scene>
+     */
+    public function getScene(): Collection
+    {
+        return $this->scene;
+    }
+
+    public function addScene(Scene $scene): static
+    {
+        if (!$this->scene->contains($scene)) {
+            $this->scene->add($scene);
+        }
+
+        return $this;
+    }
+
+    public function removeScene(Scene $scene): static
+    {
+        $this->scene->removeElement($scene);
 
         return $this;
     }
