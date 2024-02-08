@@ -2,41 +2,12 @@
 
 namespace App\Entity;
 
-use App\Entity\User;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
+use App\Repository\SceneRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\SceneRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", // Tout le monde peut voir la liste des scènes.
-        ),
-        new Get(
-            security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", // Tout le monde peut voir une scène spécifique.
-        ),
-        new Post(
-            security: "is_granted('ROLE_MANAGER')", // Seul un gérant peut créer une scène.
-            securityMessage: "Seuls les gérants peuvent créer une scène.",
-        ),
-        new Put(
-            security: "object.getUser() == user", // Seul le gérant associé peut modifier une scène.
-            securityMessage: "Seul le gérant associé peut modifier cette scène.",
-        ),
-        new Delete(
-            security: "object.getUser() == user", // Seul le gérant associé peut supprimer une scène.
-            securityMessage: "Seul le gérant associé peut supprimer cette scène.",
-        ),
-    ]
-)]
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene
 {
@@ -46,38 +17,34 @@ class Scene
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $SIRET = null;
+    private ?int $siret = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Banner = null;
+    private ?string $banner = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Name = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Address = null;
+    private ?string $address = null;
 
     #[ORM\Column]
-    private ?int $ZipCode = null;
+    private ?int $zipcode = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Town = null;
+    private ?string $town = null;
 
     #[ORM\Column]
-    private ?int $Phone = null;
+    private ?int $phoneNumber = null;
 
     #[ORM\Column]
-    private ?int $Capacity = null;
+    private ?int $capacity = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Instagram = null;
+    private ?string $instagram = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Facebook = null;
-
-    #[ORM\ManyToOne(targetEntity:User::class, inversedBy: 'scenes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?string $facebook = null;
 
     #[ORM\Column(length: 255)]
     private ?string $eventTitle = null;
@@ -86,13 +53,17 @@ class Scene
     private ?string $eventDescription = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $eventDatetime = null;
+    private ?\DateTimeImmutable $eventDateTime = null;
 
     #[ORM\Column(length: 255)]
     private ?string $eventPoster = null;
 
     #[ORM\Column]
     private ?float $eventPrice = null;
+
+    #[ORM\ManyToOne(inversedBy: 'scenes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
     private Collection $artists;
@@ -106,140 +77,127 @@ class Scene
         $this->users = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSIRET(): ?int
+    public function getSiret(): ?int
     {
-        return $this->SIRET;
+        return $this->siret;
     }
 
-    public function setSIRET(int $SIRET): static
+    public function setSiret(int $siret): static
     {
-        $this->SIRET = $SIRET;
+        $this->siret = $siret;
 
         return $this;
     }
 
     public function getBanner(): ?string
     {
-        return $this->Banner;
+        return $this->banner;
     }
 
-    public function setBanner(string $Banner): static
+    public function setBanner(string $banner): static
     {
-        $this->Banner = $Banner;
+        $this->banner = $banner;
 
         return $this;
     }
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): static
+    public function setName(string $name): static
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
 
     public function getAddress(): ?string
     {
-        return $this->Address;
+        return $this->address;
     }
 
-    public function setAddress(string $Address): static
+    public function setAddress(string $address): static
     {
-        $this->Address = $Address;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getZipCode(): ?int
+    public function getZipcode(): ?int
     {
-        return $this->ZipCode;
+        return $this->zipcode;
     }
 
-    public function setZipCode(int $ZipCode): static
+    public function setZipcode(int $zipcode): static
     {
-        $this->ZipCode = $ZipCode;
+        $this->zipcode = $zipcode;
 
         return $this;
     }
 
     public function getTown(): ?string
     {
-        return $this->Town;
+        return $this->town;
     }
 
-    public function setTown(string $Town): static
+    public function setTown(string $town): static
     {
-        $this->Town = $Town;
+        $this->town = $town;
 
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhoneNumber(): ?int
     {
-        return $this->Phone;
+        return $this->phoneNumber;
     }
 
-    public function setPhone(int $Phone): static
+    public function setPhoneNumber(int $phoneNumber): static
     {
-        $this->Phone = $Phone;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
     public function getCapacity(): ?int
     {
-        return $this->Capacity;
+        return $this->capacity;
     }
 
-    public function setCapacity(int $Capacity): static
+    public function setCapacity(int $capacity): static
     {
-        $this->Capacity = $Capacity;
+        $this->capacity = $capacity;
 
         return $this;
     }
 
     public function getInstagram(): ?string
     {
-        return $this->Instagram;
+        return $this->instagram;
     }
 
-    public function setInstagram(string $Instagram): static
+    public function setInstagram(string $instagram): static
     {
-        $this->Instagram = $Instagram;
+        $this->instagram = $instagram;
 
         return $this;
     }
 
     public function getFacebook(): ?string
     {
-        return $this->Facebook;
+        return $this->facebook;
     }
 
-    public function setFacebook(string $Facebook): static
+    public function setFacebook(string $facebook): static
     {
-        $this->Facebook = $Facebook;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
+        $this->facebook = $facebook;
 
         return $this;
     }
@@ -268,14 +226,14 @@ class Scene
         return $this;
     }
 
-    public function getEventDatetime(): ?\DateTimeImmutable
+    public function getEventDateTime(): ?\DateTimeImmutable
     {
-        return $this->eventDatetime;
+        return $this->eventDateTime;
     }
 
-    public function setEventDatetime(\DateTimeImmutable $eventDatetime): static
+    public function setEventDateTime(\DateTimeImmutable $eventDateTime): static
     {
-        $this->eventDatetime = $eventDatetime;
+        $this->eventDateTime = $eventDateTime;
 
         return $this;
     }
@@ -300,6 +258,18 @@ class Scene
     public function setEventPrice(float $eventPrice): static
     {
         $this->eventPrice = $eventPrice;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
@@ -357,5 +327,4 @@ class Scene
 
         return $this;
     }
-
 }

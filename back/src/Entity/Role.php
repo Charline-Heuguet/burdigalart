@@ -2,20 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RoleRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource(
-    operations: [
-        new GetCollection(),// Tout le monde peut voir les événements.
-        new Get(),
-    ]
-)]
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
 {
@@ -25,9 +16,9 @@ class Role
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $RoleName = null;
+    private ?string $roleName = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roles')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'role')]
     private Collection $users;
 
     public function __construct()
@@ -42,12 +33,12 @@ class Role
 
     public function getRoleName(): ?string
     {
-        return $this->RoleName;
+        return $this->roleName;
     }
 
-    public function setRoleName(string $RoleName): static
+    public function setRoleName(string $roleName): static
     {
-        $this->RoleName = $RoleName;
+        $this->roleName = $roleName;
 
         return $this;
     }
@@ -64,6 +55,7 @@ class Role
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
+            $user->addRole($this);
         }
 
         return $this;
@@ -71,7 +63,9 @@ class Role
 
     public function removeUser(User $user): static
     {
-        $this->users->removeElement($user);
+        if ($this->users->removeElement($user)) {
+            $user->removeRole($this);
+        }
 
         return $this;
     }

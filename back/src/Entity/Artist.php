@@ -2,34 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Delete;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArtistRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
-#[ApiResource(
-    operations: [
-        new Get(), // Tout le monde peut voir la fiche.
-        new GetCollection(),// Tout le monde peut voir la fiche.
-        new Post(
-            security: 'is_granted("ROLE_ARTIST")',
-            securityMessage: 'Seuls les artistes peuvent créer leur fiche.'
-        ),
-        new Put(
-            security: 'object.getUser() == user', // L'artiste peut modifier sa fiche.
-        ),
-        new Delete(
-            security: 'object.getUser() == user', // L'artiste peut supprimer sa fiche.
-        ),
-    ]
-)]
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 class Artist
@@ -40,54 +17,54 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $OfficialPhoto = null;
+    private ?string $artistName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ArtistName = null;
+    private ?string $officialPhoto = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $LinkExcerpt = null;
+    private ?string $linkExcerpt = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Facebook = null;
+    private ?string $instagram = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Instagram = null;
+    private ?string $facebook = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ShowPhoto = null;
+    private ?string $showPhoto = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ShowTitle = null;
+    private ?string $showTitle = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $ShowDescription = null;
+    private ?string $showDescription = null;
 
-    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'artists')]
+    #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(targetEntity:User::class,inversedBy: 'artists')]
+    #[ORM\ManyToOne(inversedBy: 'artists')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Style $style = null;
+
+    #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(targetEntity:Style::class, inversedBy: 'artists')]
-    private ?Style $style = null;
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
+    private Collection $recommendedBy;
 
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'recommandedBy')]
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;
-
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'artistRecommended')]
-    private Collection $recommandedBy;
 
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'artists')]
     private Collection $scene;
 
-
     public function __construct()
     {
+        $this->recommendedBy = new ArrayCollection();
         $this->artistRecommended = new ArrayCollection();
-        $this->recommandedBy = new ArrayCollection();
         $this->scene = new ArrayCollection();
     }
 
@@ -96,98 +73,98 @@ class Artist
         return $this->id;
     }
 
-    public function getOfficialPhoto(): ?string
+    public function getArtistName(): ?string
     {
-        return $this->OfficialPhoto;
+        return $this->artistName;
     }
 
-    public function setOfficialPhoto(string $OfficialPhoto): static
+    public function setArtistName(string $artistName): static
     {
-        $this->OfficialPhoto = $OfficialPhoto;
+        $this->artistName = $artistName;
 
         return $this;
     }
 
-    public function getArtistName(): ?string
+    public function getOfficialPhoto(): ?string
     {
-        return $this->ArtistName;
+        return $this->officialPhoto;
     }
 
-    public function setArtistName(string $ArtistName): static
+    public function setOfficialPhoto(string $officialPhoto): static
     {
-        $this->ArtistName = $ArtistName;
+        $this->officialPhoto = $officialPhoto;
 
         return $this;
     }
 
     public function getLinkExcerpt(): ?string
     {
-        return $this->LinkExcerpt;
+        return $this->linkExcerpt;
     }
 
-    public function setLinkExcerpt(string $LinkExcerpt): static
+    public function setLinkExcerpt(string $linkExcerpt): static
     {
-        $this->LinkExcerpt = $LinkExcerpt;
-
-        return $this;
-    }
-
-    public function getFacebook(): ?string
-    {
-        return $this->Facebook;
-    }
-
-    public function setFacebook(string $Facebook): static
-    {
-        $this->Facebook = $Facebook;
+        $this->linkExcerpt = $linkExcerpt;
 
         return $this;
     }
 
     public function getInstagram(): ?string
     {
-        return $this->Instagram;
+        return $this->instagram;
     }
 
-    public function setInstagram(string $Instagram): static
+    public function setInstagram(string $instagram): static
     {
-        $this->Instagram = $Instagram;
+        $this->instagram = $instagram;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(string $facebook): static
+    {
+        $this->facebook = $facebook;
 
         return $this;
     }
 
     public function getShowPhoto(): ?string
     {
-        return $this->ShowPhoto;
+        return $this->showPhoto;
     }
 
-    public function setShowPhoto(string $ShowPhoto): static
+    public function setShowPhoto(string $showPhoto): static
     {
-        $this->ShowPhoto = $ShowPhoto;
+        $this->showPhoto = $showPhoto;
 
         return $this;
     }
 
     public function getShowTitle(): ?string
     {
-        return $this->ShowTitle;
+        return $this->showTitle;
     }
 
-    public function setShowTitle(string $ShowTitle): static
+    public function setShowTitle(string $showTitle): static
     {
-        $this->ShowTitle = $ShowTitle;
+        $this->showTitle = $showTitle;
 
         return $this;
     }
 
     public function getShowDescription(): ?string
     {
-        return $this->ShowDescription;
+        return $this->showDescription;
     }
 
-    public function setShowDescription(string $ShowDescription): static
+    public function setShowDescription(string $showDescription): static
     {
-        $this->ShowDescription = $ShowDescription;
+        $this->showDescription = $showDescription;
 
         return $this;
     }
@@ -204,6 +181,18 @@ class Artist
         return $this;
     }
 
+    public function getStyle(): ?Style
+    {
+        return $this->style;
+    }
+
+    public function setStyle(?Style $style): static
+    {
+        $this->style = $style;
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -216,14 +205,26 @@ class Artist
         return $this;
     }
 
-    public function getStyle(): ?Style
+    /**
+     * @return Collection<int, self>
+     */
+    public function getRecommendedBy(): Collection
     {
-        return $this->style;
+        return $this->recommendedBy;
     }
 
-    public function setStyle(?Style $style): static
+    public function addRecommendedBy(self $recommendedBy): static
     {
-        $this->style = $style;
+        if (!$this->recommendedBy->contains($recommendedBy)) {
+            $this->recommendedBy->add($recommendedBy);
+        }
+
+        return $this;
+    }
+
+    public function removeRecommendedBy(self $recommendedBy): static
+    {
+        $this->recommendedBy->removeElement($recommendedBy);
 
         return $this;
     }
@@ -240,6 +241,7 @@ class Artist
     {
         if (!$this->artistRecommended->contains($artistRecommended)) {
             $this->artistRecommended->add($artistRecommended);
+            $artistRecommended->addRecommendedBy($this);
         }
 
         return $this;
@@ -247,33 +249,8 @@ class Artist
 
     public function removeArtistRecommended(self $artistRecommended): static
     {
-        $this->artistRecommended->removeElement($artistRecommended);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getRecommandedBy(): Collection
-    {
-        return $this->recommandedBy;
-    }
-
-    public function addRecommandedBy(self $recommandedBy): static
-    {
-        if (!$this->recommandedBy->contains($recommandedBy)) {
-            $this->recommandedBy->add($recommandedBy);
-            $recommandedBy->addArtistRecommended($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRecommandedBy(self $recommandedBy): static
-    {
-        if ($this->recommandedBy->removeElement($recommandedBy)) {
-            $recommandedBy->removeArtistRecommended($this);
+        if ($this->artistRecommended->removeElement($artistRecommended)) {
+            $artistRecommended->removeRecommendedBy($this);
         }
 
         return $this;

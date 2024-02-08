@@ -2,20 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\StyleRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource(
-    operations: [
-        new Get(),
-        new GetCollection(),
-    ]
-)]
 #[ORM\Entity(repositoryClass: StyleRepository::class)]
 class Style
 {
@@ -25,10 +16,11 @@ class Style
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $StyleName = null;
+    private ?string $styleName = null;
 
-    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'styles')]
-    private ?Category $Category = null;
+    #[ORM\ManyToOne(inversedBy: 'styles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'style', targetEntity: Artist::class)]
     private Collection $artists;
@@ -45,24 +37,24 @@ class Style
 
     public function getStyleName(): ?string
     {
-        return $this->StyleName;
+        return $this->styleName;
     }
 
-    public function setStyleName(string $StyleName): static
+    public function setStyleName(string $styleName): static
     {
-        $this->StyleName = $StyleName;
+        $this->styleName = $styleName;
 
         return $this;
     }
 
     public function getCategory(): ?Category
     {
-        return $this->Category;
+        return $this->category;
     }
 
-    public function setCategory(?Category $Category): static
+    public function setCategory(?Category $category): static
     {
-        $this->Category = $Category;
+        $this->category = $category;
 
         return $this;
     }

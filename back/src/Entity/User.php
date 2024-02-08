@@ -2,42 +2,13 @@
 
 namespace App\Entity;
 
-use App\Entity\Scene;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use ApiPlatform\Metadata\ApiResource;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
-#[ApiResource(
-    operations: [
-        new Post(
-            // Permet à tout le monde de s'inscrire. Aucune restriction de sécurité nécessaire pour l'inscription.
-            security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')",
-        ),
-        new Get(
-            // Un utilisateur ne peut voir que son propre profil.
-            // Utilise 'is_granted("ROLE_USER") and object == user' pour vérifier que l'utilisateur est authentifié et accède à son propre profil.
-            security: "is_granted('ROLE_USER') and object == user",
-        ),
-        new Put(
-            // Un utilisateur peut modifier son propre profil.
-            // Même vérification que pour le GET.
-            security: "is_granted('ROLE_USER') and object == user",
-        ),
-        new Delete(
-            // Un utilisateur peut supprimer son propre profil.
-            security: "is_granted('ROLE_USER') and object == user",
-        ),
-    ]
-)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements PasswordAuthenticatedUserInterface
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -45,38 +16,38 @@ class User implements PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Name = null;
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Firstname = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Email = null;
+    private ?string $picture = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Password = null;
+    private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Avatar = null;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
-    private Collection $scenes;
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
-    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
-    private Collection $roles;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
+    private Collection $scenes;
 
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'users')]
     private Collection $scene;
 
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
+    private Collection $role;
+
     public function __construct()
     {
-        $this->scenes = new ArrayCollection();
         $this->artists = new ArrayCollection();
-        $this->roles = new ArrayCollection();
+        $this->scenes = new ArrayCollection();
         $this->scene = new ArrayCollection();
+        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,60 +57,90 @@ class User implements PasswordAuthenticatedUserInterface
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): static
+    public function setName(string $name): static
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->Firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $Firstname): static
+    public function setFirstName(string $firstName): static
     {
-        $this->Firstname = $Firstname;
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(string $picture): static
+    {
+        $this->picture = $picture;
 
         return $this;
     }
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(string $Email): static
+    public function setEmail(string $email): static
     {
-        $this->Email = $Email;
+        $this->email = $email;
 
         return $this;
     }
 
     public function getPassword(): ?string
     {
-        return $this->Password;
+        return $this->password;
     }
 
-    public function setPassword(string $Password): static
+    public function setPassword(string $password): static
     {
-        $this->Password = $Password;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getAvatar(): ?string
+    /**
+     * @return Collection<int, Artist>
+     */
+    public function getArtists(): Collection
     {
-        return $this->Avatar;
+        return $this->artists;
     }
 
-    public function setAvatar(string $Avatar): static
+    public function addArtist(Artist $artist): static
     {
-        $this->Avatar = $Avatar;
+        if (!$this->artists->contains($artist)) {
+            $this->artists->add($artist);
+            $artist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtist(Artist $artist): static
+    {
+        if ($this->artists->removeElement($artist)) {
+            // set the owning side to null (unless already changed)
+            if ($artist->getUser() === $this) {
+                $artist->setUser(null);
+            }
+        }
 
         return $this;
     }
@@ -175,48 +176,25 @@ class User implements PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Artist>
+     * @return Collection<int, Scene>
      */
-    public function getArtists(): Collection
+    public function getScene(): Collection
     {
-        return $this->artists;
+        return $this->scene;
     }
 
-    public function addArtist(Artist $artist): static
-    {
-        if (!$this->artists->contains($artist)) {
-            $this->artists->add($artist);
-            $artist->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArtist(Artist $artist): static
-    {
-        if ($this->artists->removeElement($artist)) {
-            // set the owning side to null (unless already changed)
-            if ($artist->getUser() === $this) {
-                $artist->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-    
     /**
      * @return Collection<int, Role>
      */
-    public function getRoles(): Collection
+    public function getRole(): Collection
     {
-        return $this->roles;
+        return $this->role;
     }
 
     public function addRole(Role $role): static
     {
-        if (!$this->roles->contains($role)) {
-            $this->roles->add($role);
-            $role->addUser($this);
+        if (!$this->role->contains($role)) {
+            $this->role->add($role);
         }
 
         return $this;
@@ -224,18 +202,8 @@ class User implements PasswordAuthenticatedUserInterface
 
     public function removeRole(Role $role): static
     {
-        if ($this->roles->removeElement($role)) {
-            $role->removeUser($this);
-        }
+        $this->role->removeElement($role);
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, Scene>
-     */
-    public function getScene(): Collection
-    {
-        return $this->scene;
     }
 }
