@@ -2,10 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\StyleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Artist;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StyleRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ]
+)]
 
 #[ORM\Entity(repositoryClass: StyleRepository::class)]
 class Style

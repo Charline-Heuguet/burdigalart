@@ -2,12 +2,41 @@
 
 namespace App\Entity;
 
-use App\Repository\SceneRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SceneRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
+
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", // Tout le monde peut voir la liste des scènes.
+        ),
+        new Get(
+            security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", // Tout le monde peut voir une scène spécifique.
+        ),
+        new Post(
+            security: "is_granted('ROLE_MANAGER')", // Seul un gérant peut créer une scène.
+            securityMessage: "Seuls les gérants peuvent créer une scène.",
+        ),
+        new Put(
+            security: "object.getUser() == user", // Seul le gérant associé peut modifier une scène.
+            securityMessage: "Seul le gérant associé peut modifier cette scène.",
+        ),
+        new Delete(
+            security: "object.getUser() == user", // Seul le gérant associé peut supprimer une scène.
+            securityMessage: "Seul le gérant associé peut supprimer cette scène.",
+        ),
+    ]
+)]
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene
 {
@@ -70,6 +99,9 @@ class Scene
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'scene')]
     private Collection $users;
+
+    #[ORM\Column]
+    private ?bool $subscription = null;
 
     public function __construct()
     {
@@ -324,6 +356,18 @@ class Scene
         if ($this->users->removeElement($user)) {
             $user->removeScene($this);
         }
+
+        return $this;
+    }
+
+    public function isSubscription(): ?bool
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(bool $subscription): static
+    {
+        $this->subscription = $subscription;
 
         return $this;
     }

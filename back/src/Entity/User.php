@@ -2,13 +2,39 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+
+#[ApiResource(
+    operations: [
+        new Post(),
+        new Get(
+            // Un utilisateur ne peut voir que son propre profil.
+            // Utilise 'is_granted("ROLE_USER") and object == user' pour vérifier que l'utilisateur est authentifié et accède à son propre profil.
+            security: "is_granted('ROLE_USER') and object == user",
+        ),
+        new Put(
+            // Un utilisateur peut modifier son propre profil.
+            // Même vérification que pour le GET.
+            security: "is_granted('ROLE_USER') and object == user",
+        ),
+        new Delete(
+            // Un utilisateur peut supprimer son propre profil.
+            security: "is_granted('ROLE_USER') and object == user",
+        ),
+    ]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

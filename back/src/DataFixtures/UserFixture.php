@@ -33,7 +33,7 @@ class UserFixture extends Fixture
             $hashedPassword = $this->passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
 
-            $user->setAvatar($faker->imageUrl(640, 480, 'cats'));
+            $user->setPicture($faker->imageUrl(640, 480, 'cats'));
             $manager->persist($user);
         }
 

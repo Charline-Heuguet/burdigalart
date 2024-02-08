@@ -2,10 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\RoleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RoleRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+    ]
+)]
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role
