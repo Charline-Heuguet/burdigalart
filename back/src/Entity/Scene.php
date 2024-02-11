@@ -103,6 +103,9 @@ class Scene
     #[ORM\Column]
     private ?bool $subscription = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->artists = new ArrayCollection();
@@ -368,6 +371,18 @@ class Scene
     public function setSubscription(bool $subscription): static
     {
         $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

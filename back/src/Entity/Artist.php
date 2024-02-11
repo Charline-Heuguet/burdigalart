@@ -84,6 +84,9 @@ class Artist
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'artists')]
     private Collection $scene;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->recommendedBy = new ArrayCollection();
@@ -299,6 +302,18 @@ class Artist
     public function removeScene(Scene $scene): static
     {
         $this->scene->removeElement($scene);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
