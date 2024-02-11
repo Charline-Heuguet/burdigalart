@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[ApiResource(
     operations: [
         new Get(), // Tout le monde peut voir la fiche.
-        new GetCollection(),// Tout le monde peut voir la fiche.
+        new GetCollection(), // Tout le monde peut voir la fiche.
         new Post(
             security: 'is_granted("ROLE_ARTIST")',
             securityMessage: 'Seuls les artistes peuvent créer leur fiche.'
@@ -316,5 +316,23 @@ class Artist
         $this->slug = $slug;
 
         return $this;
+    }
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateSlug(): void
+    {
+        if ($this->artistName) {
+            $this->slug = $this->createSlug($this->artistName);
+        }
+    }
+
+    private function createSlug(string $name): string
+    {
+        $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
+        $slug = strtolower(trim($slug, '-'));
+        return $slug;
     }
 }

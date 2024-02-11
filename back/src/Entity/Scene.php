@@ -386,4 +386,23 @@ class Scene
 
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateSlug(): void
+    {
+        if ($this->name) {
+            $this->slug = $this->createSlug($this->name);
+        }
+    }
+
+    private function createSlug(string $name): string
+    {
+        $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
+        $slug = strtolower(trim($slug, '-'));
+        return $slug;
+    }
 }
