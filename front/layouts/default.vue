@@ -7,9 +7,6 @@ import { NuxtLink } from '#build/components';
                 <img src="/icons/logo-rond.png" alt="Logo" class="logo" />
             </NuxtLink>
             <Navbar />
-            <nav>
-
-            </nav>
         </header>
         <main>
             <slot />
