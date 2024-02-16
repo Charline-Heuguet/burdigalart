@@ -35,7 +35,7 @@ use Doctrine\Common\Collections\ArrayCollection;
             security: "object.getUser() == user", // Seul le gérant associé peut supprimer une scène.
             securityMessage: "Seul le gérant associé peut supprimer cette scène.",
         ),
-    ]
+    ],
 )]
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene

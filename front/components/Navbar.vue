@@ -3,25 +3,25 @@
         <ul class="nav-list">
             <li class="nav-item">
                 <NuxtLink to="/" class="nav-link">
-                    <img src="/icons/icon-home.svg" alt="Home" class="nav-icon" />
+                    <img src="/img/icon-home.svg" alt="Home" class="nav-icon" />
                     <span class="nav-text">Accueil</span>
                 </NuxtLink>
             </li>
             <li class="nav-item">
                 <NuxtLink to="/scenes" class="nav-link">
-                    <img src="/icons/icon-scene.svg" alt="Scenes" class="nav-icon" />
+                    <img src="/img/icon-scene.svg" alt="Scenes" class="nav-icon" />
                     <span class="nav-text">Scènes</span>
                 </NuxtLink>
             </li>
             <li class="nav-item">
-                <NuxtLink to="/news" class="nav-link">
-                    <img src="/icons/icon-new.svg" alt="Nouveautés" class="nav-icon" />
+                <NuxtLink to="/nouveautes" class="nav-link">
+                    <img src="/img/icon-new.svg" alt="Nouveautés" class="nav-icon" />
                     <span class="nav-text">Nouveautés</span>
                 </NuxtLink>
             </li>
             <li class="nav-item">
                 <NuxtLink to="/profil" class="nav-link">
-                    <img src="/icons/icon-profil.svg" alt="Profil" class="nav-icon" />
+                    <img src="/img/icon-profil.svg" alt="Profil" class="nav-icon" />
                     <span class="nav-text">Profil</span>
                 </NuxtLink>
             </li>

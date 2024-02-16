@@ -4,7 +4,7 @@ import { NuxtLink } from '#build/components';
     <div>
         <header>
             <NuxtLink to="/">
-                <img src="/icons/logo-rond.png" alt="Logo" class="logo" />
+                <img src="/img/logo-rond.png" alt="Logo" class="logo" />
             </NuxtLink>
             <Navbar />
         </header>
