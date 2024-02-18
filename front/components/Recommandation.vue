@@ -15,20 +15,24 @@
 <script setup lang="ts">
 // Faire l'appel API pour les recommandations
 </script>
-<style>
+<style scoped lang="scss">
 .recommandation {
     display: flex;
 }
 
 .card-reco {
+    text-align: center;
     margin-right: 25px;
     max-width: 150px;
     border: 1px solid black;
     border-radius: 10px;
+    h1{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
 }
 .artist-photo {
-    
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     width: 100%;
     height: auto;
     overflow: hidden;

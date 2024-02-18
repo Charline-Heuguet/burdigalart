@@ -29,12 +29,14 @@
     </nav>
 </template>
 
-<style scoped>
+<style lang="scss">
+@import 'assets/base/colors';
 .navbar {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #fff;
+  background-color: $beige;
+  border-top: 1px solid gray;
 }
 
 .nav-list {

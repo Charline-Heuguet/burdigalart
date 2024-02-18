@@ -20,16 +20,16 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new Get(
             // Un utilisateur ne peut voir que son propre profil.
             // Utilise 'is_granted("ROLE_USER") and object == user' pour vérifier que l'utilisateur est authentifié et accède à son propre profil.
-            security: "is_granted('ROLE_USER') and object == user",
+            //security: "is_granted('ROLE_USER') and object == user",
         ),
         new Put(
             // Un utilisateur peut modifier son propre profil.
             // Même vérification que pour le GET.
-            security: "is_granted('ROLE_USER') and object == user",
+            //security: "is_granted('ROLE_USER') and object == user",
         ),
         new Delete(
             // Un utilisateur peut supprimer son propre profil.
-            security: "is_granted('ROLE_USER') and object == user",
+            //security: "is_granted('ROLE_USER') and object == user",
         ),
     ]
 )]

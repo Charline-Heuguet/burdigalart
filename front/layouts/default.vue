@@ -35,19 +35,19 @@ import { NuxtLink } from '#build/components';
 <!-- <script setup lang="ts">
 </script> -->
   
-<style>
+<style scoped lang="scss">
 /* Mobile first */
-.logo {
-    width: 80px;
-    margin: 0 auto;
+header {
+    .logo {
+        width: 80px;
+        margin: 0 auto;
+    }
 }
 
-.header-mobile {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+main {
+    padding:20px 15px 50px 15px;
 }
+
 
 .footer {
     width: 100%;

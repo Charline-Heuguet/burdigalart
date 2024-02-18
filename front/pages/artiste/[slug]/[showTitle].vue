@@ -19,7 +19,7 @@
         <button>Reserver</button>
     </div>
 </template>
-<style>
+<style scoped lang="scss">
 .icon {
     width: 50px;
     height: 50px;
