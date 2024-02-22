@@ -1,5 +1,5 @@
 <template>
     <div>
-        <p>Page du profil</p>
+        <ProfilBase />
     </div>
 </template>

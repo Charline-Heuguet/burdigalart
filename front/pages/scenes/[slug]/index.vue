@@ -12,8 +12,8 @@
             <p>Vous êtes un artiste et notre scène vous intéresse ? </p>
             <p>Contactez-nous</p>
         </div>
-        <h2>Ils viennent chez nous, pour vous !</h2>
-        <!-- Attention: uniquement le nom de la scène -->
-        <Participation />
+        <h2>Nos évènements :</h2>
+        <!-- Attention au dynamisme: uniquement le nom de la scène -->
+        <Event />
     </div>
 </template>

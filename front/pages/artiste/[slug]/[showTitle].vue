@@ -1,31 +1,40 @@
 <template>
     <div>
-        <img src="" alt="">
-        <div>
-            <h1>Nom de l'artiste</h1>
+        <img src="/medias/artistShowPicture.jpg" alt="affiche du spectacle">
+        <div class="name-title">
+            <h1>Nom de l'artiste - </h1>
             <p>Titre du show</p>
         </div>
-        <div class="info">
-            <img class="icon" src="/img/icon-pointeur.svg" alt="pointeur">
-            <p>Lieu de l'event</p>
-        </div>
-        <div class="info">
-            <img class="icon" src="/img/icon-calendar.png" alt="date">
-            <p>Date de l'evenement</p>
-        </div>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos quod corrupti enim dolore consequuntur dolorem ea, iure magni quibusdam quae temporibus nihil laborum libero. Eos possimus blanditiis voluptatem distinctio perferendis!
+        <p class="description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos quod corrupti enim dolore consequuntur dolorem ea,
+            iure magni quibusdam quae temporibus nihil laborum libero. Eos possimus blanditiis voluptatem distinctio
+            perferendis!
         </p>
-        <button>Reserver</button>
+        <NuxtLink to="/artiste/artistName">
+        </NuxtLink>
     </div>
 </template>
 <style scoped lang="scss">
-.icon {
-    width: 50px;
-    height: 50px;
+.name-title{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;    
 }
+
 .info {
     display: flex;
     align-items: center;
+
+    img {
+        width: 30px;
+        height: 30px;
+        margin-right: 20px;
+        margin-top: 5px;
+    }
+}
+
+.description {
+    margin: 20px 0;
 }
 </style>

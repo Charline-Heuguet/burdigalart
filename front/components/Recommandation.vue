@@ -1,10 +1,13 @@
 <template>
     <div class="recommandation">
-        <div class="card-reco">
-            <img class="artist-photo" src="/medias/artistPhotoOfficielle.jpg" alt="">
-            <h1>Nom de l'artiste</h1>
-            <p> Categorie</p>
-        </div>
+        <!-- TODO: etre en dynamique -->
+        <NuxtLink to="/">
+            <div class="card-reco">
+                <img class="artist-photo" src="/medias/artistPhotoOfficielle.jpg" alt="">
+                <h1>Nom de l'artiste</h1>
+                <p> Categorie</p>
+            </div>
+        </NuxtLink>
         <div class="card-reco">
             <img class="artist-photo" src="/medias/artistPhotoOfficielle.jpg" alt="">
             <h1>Nom de l'artiste</h1>
@@ -25,7 +28,7 @@
     margin-right: 25px;
     max-width: 150px;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 10px;      
     h1{
         margin-top: 5px;
         margin-bottom: 5px;

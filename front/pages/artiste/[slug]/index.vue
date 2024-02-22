@@ -1,5 +1,6 @@
 <template>
     <section>
+        <!-- PHOTO + NOM + CATEGORY -->
         <div class="presentation">
             <img src="/medias/artistPhotoOfficielle.jpg" alt="photo officielle de l'artiste">
             <div>
@@ -7,7 +8,9 @@
                 <TagCategory />
             </div>            
         </div>
-        <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aperiam aliquid aut maiores explicabo esse, consectetur nostrum earum excepturi aspernatur. Illo error ipsam nam pariatur corporis culpa nulla aspernatur magni. </p>
+        <!-- Description -->
+        <p class="description"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aperiam aliquid aut maiores explicabo esse, consectetur nostrum earum excepturi aspernatur. Illo error ipsam nam pariatur corporis culpa nulla aspernatur magni. </p>
+        <!-- RESEAUX -->
         <div class="reseaux">
             <a href="https://www.youtube.com">
                 <img class="icon" src="/img/icon-yt.svg" alt="youtube">
@@ -19,13 +22,18 @@
                 <img class="icon" src="/img/icon-fb.svg" alt="facebook">
             </a>
         </div>
+        <!-- EXTRAIT VIDEO -->
         <video controls src="">Vidéo extrait de l'artiste</video>
+        <!-- MAIL -->
         <div class="mail">
             <img class="icon" src="/img/icon-envelop.svg" alt="enveloppe">
             <p>Si une collaboration vous interesse, contactez-moi !</p>
         </div>
+        <h2> Son spectacle: </h2>
+        <!-- TODO: Mettre un NuxtLing pour diriger vers le [ShowTitle] -->
+        <Show />
         <h2> Vous pouvez le voir ici:</h2>
-        <Participation />
+        <Event />
         <h2> Ses recommandations: </h2>
         <Recommandation />
     </section>
@@ -47,15 +55,16 @@
         margin-right: 15px;
     }
 }
-p{
-    margin-top: 20px;
+
+.description{
+    margin: 20px 10px;
 }
+
 h2 {
-    margin-top: 20px;
-    margin-bottom: 15px;
+    margin: 25px 0;
 }
 .reseaux {
-    margin-top: 15px;
+    margin-top: 25px;
     margin-bottom: 15px;
     display: flex;
     justify-content: space-evenly;
@@ -70,8 +79,7 @@ h2 {
 .mail {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 25px 0;
     .icon {
         margin-right: 15px;
     }

@@ -1,5 +1,3 @@
-
-import { NuxtLink } from '#build/components';
 <template>
     <div>
         <header>
@@ -35,8 +33,18 @@ import { NuxtLink } from '#build/components';
 <!-- <script setup lang="ts">
 </script> -->
   
-<style scoped lang="scss">
-/* Mobile first */
+<style lang="scss">
+@import 'assets/base/colors';
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $beige;
+    padding: 0 10px 70px;
+}
+
 header {
     .logo {
         width: 80px;
@@ -44,15 +52,17 @@ header {
     }
 }
 
-main {
-    padding:20px 15px 50px 15px;
-}
-
-
 .footer {
     width: 100%;
     display: flex;
     justify-content: space-around;
+    margin-top: 50px;
+}
+
+// Footer : qu'il reste tt le temps en bas
+// calcul: 100vh-la hauteur du header - la hauteur du footer
+main {
+    min-height: calc(100vh - 80px - 70px);
 }
 
 /* Breakpoint */

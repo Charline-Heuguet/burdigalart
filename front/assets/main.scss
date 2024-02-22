@@ -1,3 +1,18 @@
 @import 'base/reset';
 @import 'base/font';
 @import 'base/colors';
+
+body {
+    font-family: $font-default;
+    line-height: 1.4em;
+  }
+
+// Taille des icones: 30px
+
+// Entre une icone et son texte: 15px
+
+// Entre 2 "sections": margin: 25px 0;
+
+// FONTS:
+//  h2: gras
+

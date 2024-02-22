@@ -1,0 +1,166 @@
+<template>
+    <div class="reservation-container">
+        <h1>Votre panier</h1>
+        <div class="items">
+            <div v-for="item in items" :key="item.id" class="item">
+                <div class="item-info">
+                    <span class="item-title">{{ item.artist }}</span>
+                    <span class="item-show">{{ item.show }}</span>
+                    <span class="item-price">{{ item.price }} €</span>
+                </div>
+                <div class="item-quantity">
+                    <button @click="decrement(item)">-</button>
+                    <span>{{ item.quantity }}</span>
+                    <button @click="increment(item)">+</button>
+                </div>
+                <span class="item-total">{{ calculateItemTotal(item) }} €</span>
+                <img src="/img/icon-trash.svg" alt="Supprimer" @click="removeItem(item)">
+            </div>
+        </div>
+        <div class="total">
+            Total:<span>{{ calculateTotal }} €</span>
+        </div>
+        <button class="validate-button" @click="validateOrder">Valider ma commande</button>
+        <p>Redirection vers Paypal</p>
+    </div>
+</template>
+  
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+
+const items = ref([
+    { id: 1, artist: 'Paul TAYLOR', show: 'BisouBye X', price: 40, quantity: 2},
+    { id: 2, artist: 'David VOINSON', show: 'La blonde', price: 20, quantity: 1}
+]);
+
+const calculateItemTotal = (item) => {
+    return item.quantity * item.price;
+};
+
+const calculateTotal = computed(() => {
+    return items.value.reduce((total, item) => total + calculateItemTotal(item), 0);
+});
+
+const increment = (item) => {
+    item.quantity++;
+};
+
+const decrement = (item) => {
+    if (item.quantity > 1) {
+        item.quantity--;
+    }
+};
+const removeItem = (itemToRemove) => {
+    items.value = items.value.filter(item => item.id !== itemToRemove.id);
+};
+
+const validateOrder = () => {
+    // Placeholder pour la logique de validation de la commande
+};
+</script>
+  
+  
+<style lang="scss" scoped>
+.reservation-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+    img{
+        width: 20px;
+        height: auto;
+        cursor: pointer;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .items {
+        margin-bottom: 2rem;
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #40403F;
+
+            &-info {
+                min-width: 150px;
+
+                .item-title,
+                .item-show {
+                    display: block;
+                    font-weight: bold;
+                }
+
+                .item-show {
+                    font-style: italic;
+                }
+            }
+
+            .item-quantity {
+
+                display: flex;
+                align-items: center;
+                min-width: 100px;
+
+                button {
+                    min-width: 20px;
+                    border: none;
+                    background-color: #f2f2f2;
+                    cursor: pointer;
+                    margin: 10px;
+                    border-radius: 4px;
+
+                    &:hover {
+                        background-color: #e2e2e2;
+                    }
+                }
+            }
+
+            .item-total {
+                padding-left: 1px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .total {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+    }
+
+    .validate-button {
+        width: 100%;
+        padding: 1rem;
+        background-color: #ff9000;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #e68900;
+        }
+    }
+
+    p {
+        text-align: center;
+        color: #777;
+        font-size: 0.875rem;
+    }
+}
+</style>
+  
