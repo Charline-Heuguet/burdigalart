@@ -2,37 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 
-#[ApiResource(
-    operations: [
-        new Post(),
-        new Get(
-            // Un utilisateur ne peut voir que son propre profil.
-            // Utilise 'is_granted("ROLE_USER") and object == user' pour vérifier que l'utilisateur est authentifié et accède à son propre profil.
-            //security: "is_granted('ROLE_USER') and object == user",
-        ),
-        new Put(
-            // Un utilisateur peut modifier son propre profil.
-            // Même vérification que pour le GET.
-            //security: "is_granted('ROLE_USER') and object == user",
-        ),
-        new Delete(
-            // Un utilisateur peut supprimer son propre profil.
-            //security: "is_granted('ROLE_USER') and object == user",
-        ),
-    ]
-)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements PasswordAuthenticatedUserInterface
 {
@@ -41,30 +18,39 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[Groups(['user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[Groups(['artist:read','artist:write'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
+    #[Groups(['artist:read', 'artist:write'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
     private Collection $scenes;
-
+    
+    #[Groups(['scene:read', 'scene:write'])]
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'users')]
     private Collection $scene;
 
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     private Collection $role;
 

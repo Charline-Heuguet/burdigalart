@@ -3,38 +3,14 @@
 namespace App\Entity;
 
 use App\Entity\Scene;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiFilter;
 use App\Repository\ArtistRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(
-    operations: [
-        new Get(), // Tout le monde peut voir la fiche.
-        new GetCollection(),
-        new Post(), //pour l'essai
-        // new Post(
-        //     security: 'is_granted("ROLE_ARTIST")',
-        //     securityMessage: 'Seuls les artistes peuvent créer leur fiche.'
-        // ),
-        new Put(
-            //security: 'object.getUser() == user', // L'artiste peut modifier sa fiche.
-        ),
-        new Delete(
-            //security: 'object.getUser() == user', // L'artiste peut supprimer sa fiche.
-        ),
-    ],
-)]
-#[ApiFilter(SearchFilter::class, properties: ['category' => 'exact'])]
+
 #[ORM\Entity(repositoryClass: ArtistRepository::class)]
 class Artist
 {
@@ -44,50 +20,65 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['public:read','artist:write'])]
     private ?string $artistName = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $officialPhoto = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $linkExcerpt = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $instagram = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $showPhoto = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $showTitle = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 
+    #[Groups(['public:read','artist:write','artist:read'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    #[Groups(['public:read','artist:write', 'artist:read'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Style $style = null;
 
+    #[Groups(['artist:write', 'artist:read'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
     private Collection $recommendedBy;
 
+    #[Groups(['public:read','artist:write'])]
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;
 
+    #[Groups(['public:read','artist:read','artist:write', 'scene:read', 'scene:write'])]
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'artists')]
     private Collection $scene;
 
+    #[Groups(['public:read','artist:read', 'artist:write'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 

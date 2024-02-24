@@ -1,71 +1,104 @@
 <template>
     <div>
-        <!-- <h1>Les nouveautés</h1>
-        <div>
+        <h1>Les nouveautés</h1>
+        <!-- TRI -->
+        <div class="category">
+            <button class="all">Tout</button>
+            <button class="music">Musique</button>
+            <button class="standup">Stand-Up</button>
+        </div>
+        <div class="card-artist">
             <ul>
-                <li>
-                    <NuxtLink to="/nouveautes">Tout</NuxtLink>
-                </li> -->
-                <!-- <li>
-                    <NuxtLink to="/nouveautes/musique">Musique</NuxtLink>
+                <li v-for="artist in artists" :key="artist.id">
+                    {{ artist.artistName }}
                 </li>
-                <li>
-                    <NuxtLink to="/nouveautes/stand-up">Stand-Up</NuxtLink>
-                </li> -->
-            <!-- </ul>
-        </div> -->
-        <!-- Liste des artistes -->
-        <!-- <section>
-            <div v-for="artist in artists" :key="artist.id">
-                <div class="card">
-                    <div class="card-content">
-                        <p>{{ artist.name }}</p>
-                        <p>{{ artist.style }}</p>
-                    </div>
+            </ul>
+            <!-- <div class="card">
+                <img src="/medias/artistPhotoOfficielle.jpg" alt="artist picture" />
+                <div class="card-content">
+                    <p>Thomas Angelvy</p>
+                    <button class="standup">Stand-Up</button>
                 </div>
-            </div>
-        </section> -->
+            </div> -->
+        </div>
     </div>
 </template>
 
-<!-- <script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue';
 
-const filteredArtists = ref([]);
-const route = useRoute();
-const category = route.params.category;
+const artists = ref([]);
 
-onMounted(async () => {
-  // appel à l'API pour récupérer les artistes en fonction de la catégorie
-  //filteredArtists.value = await fetchArtistsByCategory(category);
-});
-</script> -->
+// Méthode pour charger les artistes depuis l'API
+// async function fetchArtists() {
+//   try {
+//     const response = await $fetch('https://localhost:8000/api/artists');
+//     artists.value = response['hydra:member'];
+//   } catch (error) {
+//     console.error('Erreur lors du chargement des artistes:', error);
+//   }
+// }
+// Appel de la méthode au chargement du composant
+onMounted(fetchArtists);
+</script>
 
-<style>
+<style scoped lang="scss">
+@import 'assets/base/colors';
+
+h1 {
+    text-align: center;
+    margin: 5px 0 15px;
+}
+
+.category {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+button {
+    min-width: 110px;
+    margin: 10px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid transparent;
+    font-size: 15px;
+}
+
+.all {
+    background-color: $gold;
+}
+
+.music {
+    background-color: $mandarin;
+}
+
+.standup {
+    background-color: $turquoise;
+}
+
+.card-artist {
+    margin-top: 30px;
+
     .card {
-        border: 1px solid #000;
-        margin: 10px;
-        padding: 10px;
-    }
-    .card-content {
+        overflow: hidden;
         display: flex;
-        justify-content: space-between;
+        margin-bottom: 15px;
+        border: 1px solid black;
+        border-radius: 10px;
+
+        img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            display: flex;
+            margin: 0 auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+        }
     }
-    .card-content p {
-        margin: 0;
-    }
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-    ul li {
-        display: inline;
-        margin-right: 10px;
-    }
-    ul li a {
-        text-decoration: none;
-    }
-    ul li a:hover {
-        text-decoration: underline;
-    }
+}
 </style>

@@ -2,41 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SceneRepository;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            //security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", // Tout le monde peut voir la liste des scènes.
-        ),
-        new Get(
-            //security: "is_granted('IS_AUTHENTICATED_ANONYMOUSLY')", // Tout le monde peut voir une scène spécifique.
-        ),
-        new Post(
-            //security: "is_granted('ROLE_MANAGER')", // Seul un gérant peut créer une scène.
-            //securityMessage: "Seuls les gérants peuvent créer une scène.",
-        ),
-        new Put(
-            //security: "object.getUser() == user", // Seul le gérant associé peut modifier une scène.
-            //securityMessage: "Seul le gérant associé peut modifier cette scène.",
-        ),
-        new Delete(
-            //security: "object.getUser() == user", // Seul le gérant associé peut supprimer une scène.
-            // securityMessage: "Seul le gérant associé peut supprimer cette scène.",
-        ),
-    ],
-)]
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene
 {
@@ -46,63 +18,83 @@ class Scene
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     private ?int $siret = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read', 'scene:read'])]
     #[ORM\Column]
     private ?int $zipcode = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $town = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column]
     private ?int $phoneNumber = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column]
     private ?int $capacity = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $instagram = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $eventTitle = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $eventDescription = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $eventDateTime = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column(length: 255)]
     private ?string $eventPoster = null;
 
+    #[Groups(['public:read', 'scene:write', 'scene:read'])]
     #[ORM\Column]
     private ?float $eventPrice = null;
 
+    #[Groups(['user:read', 'user:write', 'scene:write', 'scene:read'])]
     #[ORM\ManyToOne(inversedBy: 'scenes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
+    
+    #[Groups(['public:read', 'scene:write', 'artist:read', 'artist:write'])]
     #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
     private Collection $artists;
 
+    #[Groups(['scene:read', 'scene:write', 'user:read', 'user:write'])]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'scene')]
     private Collection $users;
 
+    #[Groups(['scene:read', 'scene:write'])]
     #[ORM\Column]
     private ?bool $subscription = null;
 
+    #[Groups(['scene:read', 'scene:write'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 

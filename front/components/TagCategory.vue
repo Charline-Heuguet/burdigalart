@@ -1,6 +1,7 @@
 <template>
     <div>
         <p><span class="categorie">Catégorie</span></p>
+        
     </div>
 </template>
 

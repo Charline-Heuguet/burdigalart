@@ -150,6 +150,7 @@
     &:hover>img {
         filter: blur(20px);
         opacity: 0.5;
+        border-style: none;
     }
 
     &:hover p,

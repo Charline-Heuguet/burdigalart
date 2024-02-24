@@ -4,20 +4,12 @@ namespace App\Entity;
 
 use App\Entity\Style;
 use App\Entity\Artist;
-use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryRepository;
-use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
-#[ApiResource(
-    operations: [
-        new Get(),
-        new GetCollection(),
-    ]
-)]
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -28,11 +20,14 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['public:read','artist:write','artist:read'])]
     private ?string $categoryName = null;
 
+    //#[Groups(['public:read','artist:write','artist:read'])]
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Style::class)]
     private Collection $styles;
 
+    
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Artist::class)]
     private Collection $artists;
 
