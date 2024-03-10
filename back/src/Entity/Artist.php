@@ -39,15 +39,15 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show'])]
     #[ORM\Column(length: 255)]
     private ?string $showPhoto = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show'])]
     #[ORM\Column(length: 255)]
     private ?string $showTitle = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 

@@ -89,7 +89,7 @@ class Scene
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'scene_artist:show'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'scene_artist:show'])]
     #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
     private Collection $artists;
 
