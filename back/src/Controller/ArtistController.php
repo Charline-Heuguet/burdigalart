@@ -20,13 +20,13 @@ class ArtistController extends AbstractController
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ArtistRepository $artistRepository, SerializerInterface $serializer): JsonResponse
     {
-
         $artists = $artistRepository->findAll();
-        $jsonArtists = $serializer->serialize($artists, 'json', ['groups' => 'public:read']);
+        // Sérialiser les artistes pour la réponse, en utilisant le groupe de lecture
+        $jsonArtists = $serializer->serialize($artists, 'json', ['groups' => ['artist:index']]);
         return new JsonResponse($jsonArtists, Response::HTTP_OK, [], true);
     }
 
-    // READ - Pour AFFICHER un artiste
+    // READ - Pour montrer un artiste
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(ArtistRepository $artistRepository, SerializerInterface $serializer, $id): JsonResponse
     {
@@ -34,17 +34,17 @@ class ArtistController extends AbstractController
         if (!$artist) {
             return new JsonResponse(['error' => 'Artist not found'], Response::HTTP_NOT_FOUND);
         }
-        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['public:read']]);
+        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show']]);
         return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
-
+    
 
     // CREATE - Créer un artiste
     #[Route('/', name: 'create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer): JsonResponse
     {
         // Désérialiser le contenu JSON de la requête en une instance de l'entité Artist
-        $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json', ['groups' => 'user:write', 'artist:write']);
+        $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json', ['groups' => 'artist:create']);
 
         // Valider l'entité désérialisée
         $errors = $validator->validate($artist);
@@ -62,10 +62,9 @@ class ArtistController extends AbstractController
         $entityManager->flush();
 
         // Sérialiser l'artiste pour la réponse, en utilisant le groupe de lecture
-        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => 'artist:read']);
+        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => 'artist:show']);
         return new JsonResponse($jsonArtist, Response::HTTP_CREATED, [], true);
     }
-
 
     // UPDATE - modifier un artiste
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
@@ -79,7 +78,7 @@ class ArtistController extends AbstractController
         // Désérialiser le contenu JSON de la requête dans l'objet Artist existant
         $serializer->deserialize($request->getContent(), Artist::class, 'json', [
             'object_to_populate' => $artist,
-            'groups' => 'artist:write'
+            'groups' => 'artist:update'
         ]);
 
         // Valider l'entité désérialisée
@@ -97,7 +96,7 @@ class ArtistController extends AbstractController
         $entityManager->flush();
 
         // Sérialiser l'artiste pour la réponse, en utilisant le groupe de lecture
-        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => 'artist:read']);
+        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => 'artist:show']);
         return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
 

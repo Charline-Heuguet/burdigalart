@@ -18,19 +18,34 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
 
+    // Lister tous les utilisateurs
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(UserRepository $userRepository): JsonResponse
     {
         $users = $userRepository->findAll();
-        return $this->json($users, Response::HTTP_OK, [], ['groups' => 'user:read']);
+        return $this->json($users, Response::HTTP_OK, [], ['groups' => 'user:index']);
     }
+
+    // READ - Montrer un utilisateur
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(UserRepository $userRepository, int $id): JsonResponse
+    {
+        $user = $userRepository->find($id);
+        if (!$user) {
+            return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:show', 'role:index']);
+    }
+
 
     // CREATE - Créer un utilisateur
     #[Route('/', name: 'create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         // Désérialiser la requête en objet User
-        $user = $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:write']);
+        $user = $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:create']);
+        dump($user);
 
         // Hasher le mot de passe
         $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
@@ -46,20 +61,9 @@ class UserController extends AbstractController
         $entityManager->flush();
 
         // Retourner l'utilisateur créé
-        return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'user:read']);
+        return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'user:show']);
     }
 
-    // READ - Montrer un utilisateur
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(UserRepository $userRepository, int $id): JsonResponse
-    {
-        $user = $userRepository->find($id);
-        if (!$user) {
-            return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
-        }
-
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:read']);
-    }
 
     // UPDATE - Modifier un utilisateur
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
@@ -71,7 +75,7 @@ class UserController extends AbstractController
         }
 
         // Désérialiser la requête dans l'objet User existant
-        $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:write', 'object_to_populate' => $user]);
+        $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:update', 'object_to_populate' => $user]);
 
         // Si mdp envoyé avec la requete => hashage sinon on garde l'ancien
         $data = json_decode($request->getContent(), true);
@@ -88,9 +92,10 @@ class UserController extends AbstractController
         // Enregistrer les modifications
         $entityManager->flush();
 
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:read']);
+        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:show']);
     }
 
+    // DELETE - Supprimer un utilisateur
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $entityManager, UserRepository $userRepository, int $id): JsonResponse
     {

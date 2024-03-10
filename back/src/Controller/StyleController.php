@@ -15,18 +15,15 @@ class StyleController extends AbstractController
     public function index(StyleRepository $styleRepository, SerializerInterface $serializer): JsonResponse
     {
         $styles = $styleRepository->findAll();
-        $jsonStyles = $serializer->serialize($styles, 'json', ['groups' => 'public:read']);
+        $jsonStyles = $serializer->serialize($styles, 'json', ['groups' => 'style:index']);
         return new JsonResponse($jsonStyles, JsonResponse::HTTP_OK, [], true);
     }
 
     #[Route('/{id}', name: 'style_show', methods: ['GET'])]
-    public function show(StyleRepository $styleRepository, SerializerInterface $serializer, int $id): JsonResponse
+    public function show(int $id, StyleRepository $styleRepository, SerializerInterface $serializer): JsonResponse
     {
         $style = $styleRepository->find($id);
-        if (!$style) {
-            return new JsonResponse(['error' => 'Style not found'], JsonResponse::HTTP_NOT_FOUND);
-        }
-        $jsonStyle = $serializer->serialize($style, 'json', ['groups' => 'public:read']);
+        $jsonStyle = $serializer->serialize($style, 'json', ['groups' => 'style:show']);
         return new JsonResponse($jsonStyle, JsonResponse::HTTP_OK, [], true);
     }
 }

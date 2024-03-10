@@ -22,7 +22,7 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository, SerializerInterface $serializer): JsonResponse
     {
         $categories = $categoryRepository->findAll();
-        $jsonCategories = $serializer->serialize($categories, 'json', ['groups' => 'public:read','artist:write','artist:read']);
+        $jsonCategories = $serializer->serialize($categories, 'json', ['groups' => 'category:index']);
         return new JsonResponse($jsonCategories, Response::HTTP_OK, [], true);
     }
 }

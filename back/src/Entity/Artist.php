@@ -20,67 +20,68 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update'])]
     private ?string $artistName = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $officialPhoto = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $linkExcerpt = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $instagram = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showPhoto = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showTitle = null;
 
-    #[Groups(['public:read','artist:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 
-    #[Groups(['public:read','artist:write','artist:read'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','category:index'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[Groups(['public:read','artist:write', 'artist:read'])]
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Style $style = null;
 
-    #[Groups(['artist:write', 'artist:read'])]
+    #[Groups(['artist:create','artist:update'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[Groups(['public:read','artist:write'])]
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
-    private Collection $recommendedBy;
-
-    #[Groups(['public:read','artist:write'])]
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
-    private Collection $artistRecommended;
-
-    #[Groups(['public:read','artist:read','artist:write', 'scene:read', 'scene:write'])]
+    #[Groups(['artist:show', 'artist:create','artist:update'])]
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'artists')]
     private Collection $scene;
 
-    #[Groups(['public:read','artist:read', 'artist:write'])]
-    #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    // LES RECOMMANDATIONS - a voir plus tard...
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
+    private Collection $recommendedBy;
+    
+    // LES RECOMMANDATIONS - a voir plus tard...
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
+    private Collection $artistRecommended;
+
 
     public function __construct()
     {

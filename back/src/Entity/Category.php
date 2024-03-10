@@ -20,14 +20,12 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['public:read','artist:write','artist:read'])]
+    #[Groups(['category:index','artist:index','artist:show','artist:update','artist:create', 'style:index'])]
     private ?string $categoryName = null;
 
-    //#[Groups(['public:read','artist:write','artist:read'])]
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Style::class)]
     private Collection $styles;
 
-    
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Artist::class)]
     private Collection $artists;
 

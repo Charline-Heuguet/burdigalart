@@ -18,39 +18,37 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:index','user:show','user:create','user:update'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:index','user:show','user:create','user:update'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:show','user:create','user:update'])]
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:show','user:create','user:update'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[Groups(['user:write'])]
+    #[Groups(['user:create'])]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[Groups(['artist:read','artist:write'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
-    #[Groups(['artist:read', 'artist:write'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
     private Collection $scenes;
-    
-    #[Groups(['scene:read', 'scene:write'])]
+
+    #[Groups(['user:create','user:update','scene:show'])]
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'users')]
     private Collection $scene;
 
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:create','user:update','role:show'])]
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     private Collection $role;
 
@@ -165,27 +163,25 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->scenes;
     }
 
-    public function addScene(Scene $scene): static
+    public function addScene(Scene $scene): self
     {
-        if (!$this->scenes->contains($scene)) {
-            $this->scenes->add($scene);
-            $scene->setUser($this);
+        if (!$this->scene->contains($scene)) {
+            $this->scene[] = $scene;
+            $scene->addUser($this);
         }
-
+    
         return $this;
     }
-
-    public function removeScene(Scene $scene): static
+    
+    public function removeScene(Scene $scene): self
     {
-        if ($this->scenes->removeElement($scene)) {
-            // set the owning side to null (unless already changed)
-            if ($scene->getUser() === $this) {
-                $scene->setUser(null);
-            }
+        if ($this->scene->removeElement($scene)) {
+            $scene->removeUser($this);
         }
-
+    
         return $this;
     }
+    
 
     /**
      * @return Collection<int, Scene>

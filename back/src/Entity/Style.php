@@ -18,11 +18,10 @@ class Style
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['public:read','artist:write','artist:read'])]
+    #[Groups(['artist:index','artist:show','artist:update','style:index'])]
     #[ORM\Column(length: 255)]
     private ?string $styleName = null;
 
-    #[Groups(['public:read','artist:write','artist:read'])]
     #[ORM\ManyToOne(inversedBy: 'styles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;

@@ -17,11 +17,10 @@ class Role
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:read','user:write'])]
+    #[Groups(['role:index','role:show','user:index','user:show'])]
     #[ORM\Column(length: 255)]
     private ?string $roleName = null;
 
-    #[Groups(['user:read','user:write'])]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'role')]
     private Collection $users;
 
@@ -70,7 +69,6 @@ class Role
         if ($this->users->removeElement($user)) {
             $user->removeRole($this);
         }
-
         return $this;
     }
 }

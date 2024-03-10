@@ -18,85 +18,83 @@ class Scene
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update'])]
     private ?int $siret = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update'])]
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read', 'scene:read'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?int $zipcode = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $town = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
-    #[ORM\Column]
-    private ?int $phoneNumber = null;
+    #[Groups(['scene:show', 'scene:create', 'scene:update'])]
+    #[ORM\Column(length: 255)]
+    private ?string $phoneNumber = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update'])]
     #[ORM\Column]
     private ?int $capacity = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update'])]
     #[ORM\Column(length: 255)]
     private ?string $instagram = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update'])]
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $eventTitle = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $eventDescription = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $eventDateTime = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $eventPoster = null;
 
-    #[Groups(['public:read', 'scene:write', 'scene:read'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?float $eventPrice = null;
 
-    #[Groups(['user:read', 'user:write', 'scene:write', 'scene:read'])]
-    #[ORM\ManyToOne(inversedBy: 'scenes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-    
-    #[Groups(['public:read', 'scene:write', 'artist:read', 'artist:write'])]
-    #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
-    private Collection $artists;
-
-    #[Groups(['scene:read', 'scene:write', 'user:read', 'user:write'])]
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'scene')]
-    private Collection $users;
-
-    #[Groups(['scene:read', 'scene:write'])]
+    #[Groups(['scene:create', 'scene:update'])]
     #[ORM\Column]
     private ?bool $subscription = null;
 
-    #[Groups(['scene:read', 'scene:write'])]
+    #[Groups(['scene:create', 'scene:update'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\ManyToOne(inversedBy: 'scenes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[Groups(['scene:show', 'scene:create', 'scene:update'])]
+    #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
+    private Collection $artists;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'scene')]
+    private Collection $users;
 
     public function __construct()
     {
@@ -181,12 +179,12 @@ class Scene
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(int $phoneNumber): static
+    public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
 
