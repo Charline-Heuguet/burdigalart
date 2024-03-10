@@ -34,7 +34,7 @@ class ArtistController extends AbstractController
         if (!$artist) {
             return new JsonResponse(['error' => 'Artist not found'], Response::HTTP_NOT_FOUND);
         }
-        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show']]);
+        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show', 'artist_scene:show']]);
         return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
     

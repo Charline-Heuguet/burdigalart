@@ -33,7 +33,7 @@ class SceneController extends AbstractController
         if (!$scene) {
             return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
         }
-        $jsonScene = $serializer->serialize($scene, 'json', ['groups' => 'scene:show']);
+        $jsonScene = $serializer->serialize($scene, 'json', ['groups' => ['scene:show', 'scene_artist:show']]);
         return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
     }
 

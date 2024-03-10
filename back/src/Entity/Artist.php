@@ -20,10 +20,10 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update', 'scene_artist:show'])]
     private ?string $artistName = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update', 'scene_artist:show'])]
     #[ORM\Column(length: 255)]
     private ?string $officialPhoto = null;
 
