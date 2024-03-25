@@ -4,7 +4,7 @@
         <!-- Enola -->
         <div class="main">
             <div class="card">
-                <img src="/img/enola.jpeg" alt="">
+                <img src="/medias/enola.webp" alt="">
                 <h2>Enola Monai - Web Marketing</h2>
                 <a href="https://www.linkedin.com/in/enola-monai-b014621b8/" class="linkedin-icon">
                     <img src="/img/icon-lkdn.svg" alt="linkedin">
@@ -19,7 +19,7 @@
         <!-- Armand -->
         <div class="main">
             <div class="card">
-                <img src="/medias/armand.jpeg" alt="">
+                <img src="/medias/armand.webp" alt="">
                 <h2>Armand Pelletier - Web Marketing</h2>
                 <a href="https://www.linkedin.com/in/armand-pelletier-0b6796262/" class="linkedin-icon">
                     <img src="/img/icon-lkdn.svg" alt="linkedin">
@@ -35,36 +35,35 @@
         <div class="main">
             <div class="card">
                 <img src="/medias/charline.png" alt="">
-                <h2>Charline Heuguet - Web Développeuse</h2>
+                <h2>Charline Heuguet - Développeuse CDA </h2>
                 <a href="https://www.linkedin.com/in/charline-heuguet/" class="linkedin-icon">
                     <img src="/img/icon-lkdn.svg" alt="linkedin">
                 </a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita natus itaque quidem nobis fuga accusamus tenetur? Cumque, exercitationem. Vel, ipsum atque consequatur velit officiis nam facere natus voluptate autem eos!
+                <p>Passionnée de développement, je suis impatiente d'approfondir mes compétences dans le cadre de ce projet dédié à la promotion des artistes locaux. Mon objectif est de créer une plateforme technologique innovante qui mettra en lumière leur talent et les rendra accessibles à un public plus large.
                 </p>
             </div>
         </div>
         <!-- Anthony -->
         <div class="main">
             <div class="card">
-                <img src="/medias/anthony.png" alt="">
+                <img src="/medias/anthony.webp" alt="">
                 <h2>Anthony Labrit - Web Marketing</h2>
                 <a href="https://www.linkedin.com/in/anthony-l-a35072266/" class="linkedin-icon">
                     <img src="/img/icon-lkdn.svg" alt="linkedin">
                 </a>
-                <p>Sportif assidu, passionné d’entrepreneuriat et de création, je produis un Podcast qui vise à découvrir des personnes aussi passionnantes qu’inspirantes. Au Coin de ta Rue a pour objectif de mettre en avant les commerces de proximité et découvrir les histoires des personnes qui en sont à l’origine.
+                <p>Passionné, sportif et entrepreneur dans l’âme, mettre en avant des artistes émergents est un projet mobilisant des valeurs qui me sont chères.
+De l’humoriste qui s’ignore au rappeur discret enchaînant les proses, nous avons à coeur d’offrir visibilité et crédibilité à ces créateurs de l’ombre.
                 </p>
             </div>
         </div>
         <!-- Fanny -->
         <div class="main">
             <div class="card">
-                <img src="/medias/fanny.jpeg" alt="">
+                <img src="/medias/fanny.webp" alt="">
                 <h2>Fanny Razanadrasamy - <br> Web Marketing</h2>
                 <a href="https://www.linkedin.com/in/fanny-razanadrasamy-b34542196/" class="linkedin-icon">
                     <img src="/img/icon-lkdn.svg" alt="linkedin">
                 </a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis ipsa vitae laborum nesciunt excepturi molestias aspernatur architecto quae labore repellat commodi quisquam culpa, quo cumque veniam suscipit optio, dolorum expedita!
-                </p>
             </div>
         </div>
 

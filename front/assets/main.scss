@@ -1,11 +1,8 @@
 @import 'base/reset';
-@import 'base/font';
 @import 'base/colors';
+@import 'base/font';
 
-body {
-    font-family: $font-default;
-    line-height: 1.4em;
-  }
+
 
 // Taille des icones: 30px
 

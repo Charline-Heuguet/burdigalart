@@ -1,9 +1,13 @@
 <template>
     <div class="container">
         <header>
-            <NuxtLink to="/">
-                <img src="/img/logo-rond.png" alt="Logo" class="logo" />
-            </NuxtLink>
+            <div class="hero">
+                <NuxtLink to="/">
+                    <h1><span class="sr-only">Burdigal'Art</span>
+                        <img src="/img/logo-rond.png" alt="Logo" class="logo" />
+                    </h1>
+                </NuxtLink>
+            </div>
             <Navbar />
         </header>
         <main>
@@ -42,17 +46,31 @@
 
 body {
     background-color: $beige;
-    padding: 0 10px 70px;
 }
 
 .container {
     max-width: 1180px;
 
     header {
+        .hero {
+            background-image: url('/medias/hero.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+            height: 50vh;
+            padding: 20px 0;
+            text-align: center;
+        }
+
         .logo {
             width: 80px;
             margin: 0 auto;
         }
+    }
+
+    main {
+        padding: 0 10px;
     }
 
     .footer {
@@ -61,7 +79,6 @@ body {
         justify-content: space-around;
         margin-top: 50px;
     }
-
 }
 
 

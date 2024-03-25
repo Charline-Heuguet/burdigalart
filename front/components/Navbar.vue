@@ -39,6 +39,7 @@
   left: 0;
   background-color: $beige;
   border-top: 1px solid gray;
+  z-index: 999999999999999;
 
   .nav-list {
     list-style: none;

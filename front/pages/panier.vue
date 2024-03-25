@@ -6,7 +6,7 @@
                 <div class="item-info">
                     <span class="item-title">{{ item.artist }}</span>
                     <span class="item-show">{{ item.show }}</span>
-                    <span class="item-price">{{ item.price }} €</span>
+                    <span class="item-price">{{ item.price }} € la place</span>
                 </div>
                 <div class="item-quantity">
                     <button @click="decrement(item)">-</button>
@@ -14,14 +14,17 @@
                     <button @click="increment(item)">+</button>
                 </div>
                 <span class="item-total">{{ calculateItemTotal(item) }} €</span>
-                <img src="/img/icon-trash.svg" alt="Supprimer" @click="removeItem(item)">
+                <img src="/img/icon-trash2.svg" alt="Supprimer" @click="removeItem(item)">
             </div>
         </div>
         <div class="total">
             Total:<span>{{ calculateTotal }} €</span>
         </div>
-        <button class="validate-button" @click="validateOrder">Valider ma commande</button>
-        <p>Redirection vers Paypal</p>
+        <NuxtLink to="/paiement">
+            <button class="validate-button" @click="validateOrder">Valider ma commande</button>
+        </NuxtLink>
+       
+        <p class="info-redirection">Redirection vers la page de paiement</p>
     </div>
 </template>
   
@@ -62,11 +65,11 @@ const validateOrder = () => {
   
 <style lang="scss" scoped>
 .reservation-container {
-    max-width: 600px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    background-color: white;
 
     img{
         width: 20px;
@@ -77,6 +80,7 @@ const validateOrder = () => {
     h1 {
         text-align: center;
         margin-bottom: 2rem;
+        font-size: 40px;
     }
 
     .items {
@@ -91,24 +95,25 @@ const validateOrder = () => {
             border-bottom: 1px solid #40403F;
 
             &-info {
-                min-width: 150px;
+                min-width: 130px;
 
-                .item-title,
-                .item-show {
+                .item-title,.item-show {
                     display: block;
-                    font-weight: bold;
+                    margin: 5px 0;
                 }
 
                 .item-show {
                     font-style: italic;
                 }
+
+                .item-price {
+                    font-size: 0.875rem;
+                }                
             }
 
             .item-quantity {
-
                 display: flex;
                 align-items: center;
-                min-width: 100px;
 
                 button {
                     min-width: 20px;
@@ -125,11 +130,15 @@ const validateOrder = () => {
             }
 
             .item-total {
-                padding-left: 1px;
                 font-weight: bold;
             }
         }
     }
+
+    .info-redirection{
+            margin-top: 10px;
+            font-style: italic;
+        }
 
     .total {
         display: flex;
@@ -137,6 +146,10 @@ const validateOrder = () => {
         font-size: 1.25rem;
         font-weight: bold;
         margin-bottom: 2rem;
+
+        span{
+            padding-left: 15px;
+        }
     }
 
     .validate-button {

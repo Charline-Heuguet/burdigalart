@@ -2,7 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Abel&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -55,5 +55,37 @@ table {
 
 body {
   font-family: "Montserrat", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Abel", sans-serif;
+}
+
+h1 {
+  color: #0D0E0D;
+  font-weight: 600;
+  font-size: 48px;
+  text-transform: uppercase;
+  line-height: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+p {
+  font-size: 18px;
   line-height: 1.4em;
+  margin-bottom: 1em;
 }/*# sourceMappingURL=main.css.map */

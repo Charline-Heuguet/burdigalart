@@ -1,37 +1,58 @@
 <template>
     <section>
         <!-- PHOTO + NOM + CATEGORY -->
-        <div class="presentation">
-            <img src="/medias/artistPhotoOfficielle.jpg" alt="photo officielle de l'artiste">
-            <div>
-                <h1>Nom de l'artiste</h1>
-                <TagCategory />
-            </div>            
+        <div v-if="data && !error">
+            <div class="presentation">
+                <img :src="data.officialPhoto" :alt="`photo officielle de ${data.artistName}`">
+                <div>
+                    <h1>{{ data.artistName }}</h1>
+                    <TagCategory :category="data.category.categoryName" />
+                    <TagStyle :style="data.style.styleName" />
+                </div>
+            </div>
+        </div>
+        <div v-else-if="error">
+            <p>Erreur : Impossible de charger les données de l'artiste.</p>
         </div>
         <!-- Description -->
-        <p class="description"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aperiam aliquid aut maiores explicabo esse, consectetur nostrum earum excepturi aspernatur. Illo error ipsam nam pariatur corporis culpa nulla aspernatur magni. </p>
-        <!-- RESEAUX -->
-        <div class="reseaux">
-            <a href="https://www.youtube.com">
-                <img class="icon" src="/img/icon-yt.svg" alt="youtube">
-            </a>
-            <a href="">
-                <img class="icon" src="/img/icon-insta.svg" alt="instagram">
-            </a>
-            <a href="">
-                <img class="icon" src="/img/icon-fb.svg" alt="facebook">
-            </a>
-        </div>
+        <p class="description"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aperiam aliquid aut
+            maiores explicabo esse, consectetur nostrum earum excepturi aspernatur. Illo error ipsam nam pariatur
+            corporis culpa nulla aspernatur magni. </p>
+
         <!-- EXTRAIT VIDEO -->
         <video controls src="">Vidéo extrait de l'artiste</video>
+        <!-- RESEAUX -->
+        <div v-if="!error && !pending && data">
+            <div class="reseaux">
+                <NuxtLink :to="`https://www.instagram.com/${data.instagram}/`">
+                    <img class="icon" src="/img/icon-yt.svg" alt="youtube">
+                </NuxtLink>
+                <NuxtLink :to="`https://www.instagram.com/${data.instagram}/`">
+                    <img class="icon" src="/img/icon-insta.svg"
+                        alt="un appareil photo blanc sur un fond degradé de rose violet jaune">
+                </NuxtLink>
+                <NuxtLink :to="`https://www.facebook.com/${data.facebook}/`">
+                    <img class="icon" src="/img/icon-fb.svg" alt="un f minuscule de couleur bleue">
+                </NuxtLink>
+            </div>
+        </div>
+        <div v-else-if="pending">
+            Chargement...
+        </div>
+        <div v-else>
+            Une erreur est survenue.
+        </div>
         <!-- MAIL -->
         <div class="mail">
+            <!-- Mettre un NuxtLink pour diriger vers le formulaire de contact -->
             <img class="icon" src="/img/icon-envelop.svg" alt="enveloppe">
             <p>Si une collaboration vous interesse, contactez-moi !</p>
         </div>
         <h2> Son spectacle: </h2>
-        <!-- TODO: Mettre un NuxtLing pour diriger vers le [ShowTitle] -->
+        <!-- TODO: Mettre un NuxtLink pour diriger vers le [ShowTitle] -->
+        <!-- <NuxtLink :to="`/artiste/${showData.slug}/${showData.showTitle}`"> -->
         <Show />
+        <!-- </NuxtLink> -->
         <h2> Vous pouvez le voir ici:</h2>
         <Event />
         <h2> Ses recommandations: </h2>
@@ -40,46 +61,68 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from 'vue-router'
+import TagCategory from '~/components/ui/TagCategory.vue'
+import TagStyle from '~/components/ui/TagStyle.vue'
+
+// LES CONSTANTES
+const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
+const slug = route.params.slug; // On récupère le slug de l'URL
+const { data, error } = useFetch(`https://localhost:8000/api/artists/${slug}`);
+console.log(data.value);
+
+
+// Pour le titre de l'onglet
+const { toTitleCase } = useUtilities();
+useHead({
+    title: toTitleCase(route.params.slug)
+});
 </script>
 
 <style scoped lang="scss">
 .presentation {
     padding-top: 20px;
     display: flex;
-    h1{
+
+    h1 {
         font-size: 25px;
-    }    
-    img{
+    }
+
+    img {
         max-width: 130px;
         border-radius: 10px;
         margin-right: 15px;
     }
 }
 
-.description{
+.description {
     margin: 20px 10px;
 }
 
 h2 {
     margin: 25px 0;
 }
+
 .reseaux {
     margin-top: 25px;
     margin-bottom: 15px;
     display: flex;
-    justify-content: space-evenly;
-    .icon{
+    justify-content: space-around;
+
+    .icon {
         margin-right: 15px;
     }
 }
+
 .icon {
     width: 30px;
     height: 30px;
 }
+
 .mail {
     display: flex;
-    align-items: center;
     margin: 25px 0;
+
     .icon {
         margin-right: 15px;
     }

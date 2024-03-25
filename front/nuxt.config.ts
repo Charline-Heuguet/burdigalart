@@ -9,4 +9,10 @@ export default defineNuxtConfig({
   css: [
     '@/assets/main.scss'
   ],
+  ssr: false,
+  // runtimeConfig: {
+  //   public: {
+  //     apiUrl: process.env.NUXT_API_URL || 'https://localhost:8000/api/',
+  //   },
+  // },
 })

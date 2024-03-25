@@ -10,7 +10,15 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@vueuse/head": "^2.0.0",
+    "axios": "^1.6.8",
+    "dayjs": "^1.11.10",
+    "isotope-layout": "^3.0.6",
+    "isotope-packery": "^2.0.1",
     "nuxt": "^3.10.1",
+    "ofetch": "^1.3.4",
+    "qs": "^6.12.0",
+    "swiper": "^11.0.7",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },
