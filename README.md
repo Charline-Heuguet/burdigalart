@@ -1,15 +1,16 @@
 ## "My Digital Projet" avec My Digital School: Burdigal’art.
 
-## DOCKER:
-docker compose up
+## COMMANDES:
+A la racine du projet: docker compose up
+Dans le dossier front: npm run dev
+Dans le dossier back: symfony server:start
 
 
 ## TECHNOS utilisées:
-- Symfony 6 
+- Symfony 7 
 - NuxtJs - VueJs3
-- Api Platform
 - Docker : MySQL et PhpMyAdmin
-- WAMP et MAMP
+- MAMP
 
 
 
