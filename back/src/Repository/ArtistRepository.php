@@ -21,6 +21,15 @@ class ArtistRepository extends ServiceEntityRepository
         parent::__construct($registry, Artist::class);
     }
 
+    public function findOneBySlug(string $slug): ?Artist
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Artist[] Returns an array of Artist objects
 //     */

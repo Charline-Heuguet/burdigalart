@@ -26,17 +26,29 @@ class ArtistController extends AbstractController
         return new JsonResponse($jsonArtists, Response::HTTP_OK, [], true);
     }
 
-    // READ - Pour montrer un artiste
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(ArtistRepository $artistRepository, SerializerInterface $serializer, $id): JsonResponse
+    // READ - Pour montrer un artiste VIA son slug
+    #[Route('/{slug}', name: 'showSlug', methods: ['GET'])]
+    public function showSlug(ArtistRepository $artistRepository, SerializerInterface $serializer, $slug): JsonResponse
     {
-        $artist = $artistRepository->find($id);
+        $artist = $artistRepository->findOneBySlug($slug);
         if (!$artist) {
-            return new JsonResponse(['error' => 'Artist not found'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['error' => 'Artist not found, sorry !'], Response::HTTP_NOT_FOUND);
         }
         $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show', 'artist_scene:show']]);
         return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
+
+    // READ - Pour montrer un artiste
+    // #[Route('/{id<\d+>}', name: 'show', methods: ['GET'])]
+    // public function show(ArtistRepository $artistRepository, SerializerInterface $serializer, $id): JsonResponse
+    // {
+    //     $artist = $artistRepository->find($id);
+    //     if (!$artist) {
+    //         return new JsonResponse(['error' => 'Artist not found :('], Response::HTTP_NOT_FOUND);
+    //     }
+    //     $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show', 'artist_scene:show']]);
+    //     return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
+    // }
     
 
     // CREATE - Créer un artiste
