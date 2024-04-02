@@ -45,7 +45,7 @@ h2 {
     padding: 20px;
     margin-top: 50px;
     overflow: hidden;
-    background-color: #f7f1eb;
+    background-color: $beigeclair;
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 24px;

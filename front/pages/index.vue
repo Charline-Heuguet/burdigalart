@@ -1,27 +1,13 @@
 <template>
   <div>
     <h2>Découvrez et soutenez les artistes qui façonnent la scène musicale de demain.</h2>
-    <!-- LISTES D'ARTISTES -->
 
-    <!-- <div v-for="artist in artists" :key="artist.id" class="artist grid-item">
-      <img :src="artist.officialPhoto" alt="">
-      <p class="artist-name">{{ artist.artistName }} </p>
-      <TagStyle class="styletag " :style="artist.style.styleName" />
-    </div> -->
+    <h2>Les artistes à la une</h2>
+    <TopArtists />
 
-    <div>
-      <h2>Les artistes à la une</h2>
-      <swiper :slidesPerView="1.5" :spaceBetween="30" :loop="true" :modules="modules" class="mySwiper">
-        <swiper-slide v-for="artist in artists" :key="artist.id" class="slide">
-          <img :src="artist.officialPhoto" alt="" class="artist-photo">
-          <div class="text-content">
-            <p class="artist-name">{{ artist.artistName }}</p>
-            <TagStyle class="styletag" :style="artist.style.styleName" />
-          </div>
-        </swiper-slide>
-      </swiper>
-    </div>
-
+    <!-- Les prochains évènement -->
+    <h2>Les prochains évènements</h2>
+    <OnGoingEvent />
 
   </div>
 </template>
@@ -33,13 +19,17 @@ definePageMeta({
 });
 
 // IMPORTS
-import TagStyle from '~/components/ui/TagStyle.vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css'; // Importe les styles de base de Swiper
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import OnGoingEvent from '~/components/OnGoingEvent.vue';
+import TopArtists from '~/components/TopArtists.vue';
+import RolePill from '~/components/profiles/RolePill.vue';
+
+const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par défaut
 
 // Appel de l'API
+
+// USEFETCH marche avec le SSR à false
+//const { data: artists } = useFetch('https://localhost:8000/api/artists');
+// const { data: upcomingEvents } = useFetch('https://localhost:8000/api/scenes/allupcoming');
 
 // SSR à true
 // let artists = ref([]);
@@ -48,18 +38,9 @@ import 'swiper/css/navigation';
 // } catch (error) {
 //   error.value = error;
 // }
-
-// USEFETCH marche avec le SSR à false
-const { data: artists } = useFetch('https://localhost:8000/api/artists');
-console.log('artistes presents', artists);
 </script>
 
 <style scoped lang="scss">
-h1 {
-  margin-top: 30px;
-  text-align: center;
-}
-
 h2 {
   margin: 25px 0;
 }
@@ -81,32 +62,32 @@ h2 {
 }
 
 .mySwiper .swiper-slide {
-  position: relative; /* Établit un contexte de positionnement pour le texte absolument positionné */
-  height: 300px; /* Ou toute autre hauteur que tu souhaites pour tes slides */
-  
+  position: relative;
+  height: 200px;
+
   img {
     width: 100%;
-    height: 100%; /* Assure que l'image couvre tout le slide */
-    object-fit: cover; /* Garde le ratio de l'image tout en couvrant le slide */
+    height: 100%;
+    object-fit: cover;
   }
 
   .text-content {
-    position: absolute; /* Positionne le texte par-dessus l'image */
-    top: 0; /* Aligné en haut */
-    left: 0; /* Aligné à gauche */
-    padding: 10px; /* Un peu d'espace autour du texte */
-    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour améliorer la lisibilité */
-    color: white; /* Couleur du texte */
-    width: 100%; /* Assure que le conteneur du texte s'étend correctement */
-    box-sizing: border-box; /* S'assure que le padding est inclus dans la largeur définie */
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .artist-name, .styletag {
-    margin: 0; /* Élimine les marges par défaut pour un alignement serré */
-    white-space: nowrap; /* Empêche le texte de passer à la ligne si tu le souhaites */
-    overflow: hidden; /* Cache le texte qui dépasse la largeur du conteneur */
-    text-overflow: ellipsis; /* Ajoute des ellipses pour le texte débordant */
+  .artist-name,
+  .styletag {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
-
 </style>

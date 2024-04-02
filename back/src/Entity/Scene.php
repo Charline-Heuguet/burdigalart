@@ -25,19 +25,19 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?int $zipcode = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $town = null;
 
@@ -57,23 +57,23 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update', 'scene:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $eventTitle = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update', 'scene:upcoming'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $eventDescription = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $eventDateTime = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:upcoming', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $eventPoster = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?float $eventPrice = null;
 
@@ -81,7 +81,7 @@ class Scene
     #[ORM\Column]
     private ?bool $subscription = null;
 
-    #[Groups(['scene:create', 'scene:update'])]
+    #[Groups(['scene:create', 'scene:show', 'scene:update', 'scene:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 

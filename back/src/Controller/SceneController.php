@@ -25,16 +25,35 @@ class SceneController extends AbstractController
         return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
     }
 
-    // READ : scene:show
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(SceneRepository $sceneRepository, SerializerInterface $serializer, int $id): JsonResponse
+    // Listes de tous les évènements de toutes les scènes.
+    #[Route('/allupcoming', name: 'allUpcoming', methods: ['GET'])]
+    public function allUpcoming(SceneRepository $sceneRepository, SerializerInterface $serializer): JsonResponse
     {
-        $scene = $sceneRepository->find($id);
+        $scenes = $sceneRepository->findUpcomingAllScenes();
+        $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:upcoming']);
+        return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
+    }
+
+
+    // READ : lire une scene via son slug
+    #[Route('/{slug}', name: 'showSlug', methods: ['GET'])]
+    public function showSlug(SceneRepository $sceneRepository, SerializerInterface $serializer, string $slug): JsonResponse
+    {
+        $scene = $sceneRepository->findOneBySlug($slug);
         if (!$scene) {
             return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
         }
         $jsonScene = $serializer->serialize($scene, 'json', ['groups' => ['scene:show', 'scene_artist:show']]);
         return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
+    }
+
+    // Les évènements à venir d'une scène : scene:upcoming
+    #[Route('/{slug}/upcoming', name: 'upcoming', methods: ['GET'])]
+    public function upcoming($slug, SceneRepository $sceneRepository, SerializerInterface $serializer): JsonResponse
+    {
+        $scenes = $sceneRepository->sceneEvents($slug);
+        $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:upcoming']);
+        return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
     }
 
     // CREATE : scene:create
@@ -91,4 +110,18 @@ class SceneController extends AbstractController
 
         return new JsonResponse(['message' => 'Scene deleted'], Response::HTTP_NO_CONTENT);
     }
+
+
+    // READ : scene:show
+    // #[Route('/{id}', name: 'show', methods: ['GET'])]
+    // public function show(SceneRepository $sceneRepository, SerializerInterface $serializer, int $id): JsonResponse
+    // {
+    //     $scene = $sceneRepository->find($id);
+    //     if (!$scene) {
+    //         return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
+    //     }
+    //     $jsonScene = $serializer->serialize($scene, 'json', ['groups' => ['scene:show', 'scene_artist:show']]);
+    //     return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
+    // }
+
 }

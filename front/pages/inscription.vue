@@ -51,7 +51,7 @@ h2 {
 }
 
 .back {
-    background-color: #f7f1eb;
+    background-color: $beigeclair;
     position: relative;
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
     border-radius: 10px;

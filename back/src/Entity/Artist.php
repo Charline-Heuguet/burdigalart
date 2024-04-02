@@ -82,6 +82,12 @@ class Artist
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[ORM\Column]
+    private ?bool $subscription = null;
+
 
     public function __construct()
     {
@@ -330,5 +336,29 @@ class Artist
         $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
         $slug = strtolower(trim($slug, '-'));
         return $slug;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function isSubscription(): ?bool
+    {
+        return $this->subscription;
+    }
+
+    public function setSubscription(bool $subscription): static
+    {
+        $this->subscription = $subscription;
+
+        return $this;
     }
 }

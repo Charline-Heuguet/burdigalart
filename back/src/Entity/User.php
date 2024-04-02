@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements PasswordAuthenticatedUserInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,6 +38,9 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
@@ -48,16 +51,11 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'users')]
     private Collection $scene;
 
-    #[Groups(['user:create','user:update','role:show'])]
-    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
-    private Collection $role;
-
     public function __construct()
     {
         $this->artists = new ArrayCollection();
         $this->scenes = new ArrayCollection();
         $this->scene = new ArrayCollection();
-        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,6 +119,22 @@ class User implements PasswordAuthenticatedUserInterface
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }
@@ -191,27 +205,14 @@ class User implements PasswordAuthenticatedUserInterface
         return $this->scene;
     }
 
-    /**
-     * @return Collection<int, Role>
-     */
-    public function getRole(): Collection
+    public function eraseCredentials() :void
     {
-        return $this->role;
+        // TODO: Implement eraseCredentials() method.
     }
 
-    public function addRole(Role $role): static
+    public function getUserIdentifier(): string
     {
-        if (!$this->role->contains($role)) {
-            $this->role->add($role);
-        }
-
-        return $this;
+        return $this->email;
     }
 
-    public function removeRole(Role $role): static
-    {
-        $this->role->removeElement($role);
-
-        return $this;
-    }
 }
