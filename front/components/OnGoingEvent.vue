@@ -2,9 +2,9 @@
   <div>
     <swiper :slidesPerView="1.5" :spaceBetween="30" :loop="true" :modules="modules" class="mySwiper">
       <swiper-slide v-for="allEvent in upcomingEvents" :key="allEvent.id" class="slide">
-        <img :src="allEvent.eventPoster" alt="" class="affiche de l'évènement">
+        <img :src="allEvent.eventPoster" alt="affiche de l'évènement">
         <div class="text-content">
-          <p class="event-date">{{ allEvent.DateTime }}</p>
+          <p class="event-date">{{ formatDateTime(allEvent.eventDateTime) }}</p>
           <p class="event-name">{{ allEvent.eventTitle }}</p>
         </div>
       </swiper-slide>
@@ -13,17 +13,22 @@
 </template>
 <script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css'; // Importe les styles de base de Swiper
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import dayjs from 'dayjs';
 
+const formatDateTime = (dateTime) => {
+  return dayjs(dateTime).format('DD/MM/YY à HH:mm');
+};
 const baseURL = 'https://localhost:8000/api/';
 
 const { data: upcomingEvents } = useFetch(baseURL + 'scenes/allupcoming');
-
+console.log(upcomingEvents);
 </script>
 
 <style scoped lang="scss">
+@import 'assets/base/colors';
+
 .artist-name {
   font-size: 20px;
   text-align: center;
@@ -32,7 +37,6 @@ const { data: upcomingEvents } = useFetch(baseURL + 'scenes/allupcoming');
 .styletag {
   text-align: center;
 }
-
 
 .mySwiper .swiper-slide {
   position: relative;
@@ -52,7 +56,10 @@ const { data: upcomingEvents } = useFetch(baseURL + 'scenes/allupcoming');
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     width: 100%;
-    box-sizing: border-box;
+
+    .event-date, .event-name {
+      font-size: 15px;
+    }
   }
 
   .artist-name,
@@ -62,5 +69,9 @@ const { data: upcomingEvents } = useFetch(baseURL + 'scenes/allupcoming');
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.slide{
+  border: 1px solid $darkgray;
 }
 </style>

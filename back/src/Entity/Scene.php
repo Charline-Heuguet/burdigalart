@@ -25,19 +25,19 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update', 'event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column]
     private ?int $zipcode = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $town = null;
 
@@ -57,26 +57,6 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update', 'scene:upcoming'])]
-    #[ORM\Column(length: 255)]
-    private ?string $eventTitle = null;
-
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'artist:create','artist:update', 'scene:upcoming'])]
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $eventDescription = null;
-
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
-    #[ORM\Column]
-    private ?\DateTimeImmutable $eventDateTime = null;
-
-    #[Groups(['scene:show', 'scene:create', 'scene:upcoming', 'scene:update', 'artist_scene:show', 'artist:create','artist:update'])]
-    #[ORM\Column(length: 255)]
-    private ?string $eventPoster = null;
-
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update'])]
-    #[ORM\Column]
-    private ?float $eventPrice = null;
-
     #[Groups(['scene:create', 'scene:update'])]
     #[ORM\Column]
     private ?bool $subscription = null;
@@ -89,17 +69,12 @@ class Scene
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[Groups(['scene:show', 'scene:create', 'scene:update', 'scene_artist:show'])]
-    #[ORM\ManyToMany(targetEntity: Artist::class, mappedBy: 'scene')]
-    private Collection $artists;
-
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'scene')]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'scene', targetEntity: Event::class)]
+    private Collection $events;
 
     public function __construct()
     {
-        $this->artists = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,66 +202,6 @@ class Scene
         return $this;
     }
 
-    public function getEventTitle(): ?string
-    {
-        return $this->eventTitle;
-    }
-
-    public function setEventTitle(string $eventTitle): static
-    {
-        $this->eventTitle = $eventTitle;
-
-        return $this;
-    }
-
-    public function getEventDescription(): ?string
-    {
-        return $this->eventDescription;
-    }
-
-    public function setEventDescription(string $eventDescription): static
-    {
-        $this->eventDescription = $eventDescription;
-
-        return $this;
-    }
-
-    public function getEventDateTime(): ?\DateTimeImmutable
-    {
-        return $this->eventDateTime;
-    }
-
-    public function setEventDateTime(\DateTimeImmutable $eventDateTime): static
-    {
-        $this->eventDateTime = $eventDateTime;
-
-        return $this;
-    }
-
-    public function getEventPoster(): ?string
-    {
-        return $this->eventPoster;
-    }
-
-    public function setEventPoster(string $eventPoster): static
-    {
-        $this->eventPoster = $eventPoster;
-
-        return $this;
-    }
-
-    public function getEventPrice(): ?float
-    {
-        return $this->eventPrice;
-    }
-
-    public function setEventPrice(float $eventPrice): static
-    {
-        $this->eventPrice = $eventPrice;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -295,60 +210,6 @@ class Scene
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Artist>
-     */
-    public function getArtists(): Collection
-    {
-        return $this->artists;
-    }
-
-    public function addArtist(Artist $artist): static
-    {
-        if (!$this->artists->contains($artist)) {
-            $this->artists->add($artist);
-            $artist->addScene($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArtist(Artist $artist): static
-    {
-        if ($this->artists->removeElement($artist)) {
-            $artist->removeScene($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): static
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addScene($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeScene($this);
-        }
 
         return $this;
     }
@@ -394,5 +255,35 @@ class Scene
         $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
         $slug = strtolower(trim($slug, '-'));
         return $slug;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setScene($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getScene() === $this) {
+                $event->setScene(null);
+            }
+        }
+
+        return $this;
     }
 }

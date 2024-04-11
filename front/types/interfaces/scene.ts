@@ -5,6 +5,7 @@ export interface Scene {
     siret: number,
     banner: string,
     name: string,
+    slug: string,
     address: string,
     zipcode: number,
     town: string,
@@ -12,10 +13,5 @@ export interface Scene {
     capacity: number,
     instagram: number,
     facebook: number,
-    eventTitle: string,
-    eventDescription: string,
-    eventDateTime: Date,
-    eventPoster: string,
-    eventPrice: number,
     userId: User,
 }

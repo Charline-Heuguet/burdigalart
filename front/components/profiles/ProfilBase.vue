@@ -9,10 +9,12 @@
         <input type="text" name="firstname" id="firstname" placeholder="Prénom">
         <input type="text" v-model="email" name="email" id="email" placeholder="Email">
         
-        <div class="setting">
-            <img src="/img/icon-settings.svg" alt="">
-            <p> Paramètres de votre compte.</p>
-        </div>
+        <NuxtLink to="/profil/parametres">
+            <div class="setting">
+                <img src="/img/icon-settings.svg" alt="">
+                <p> Paramètres de votre compte.</p>
+            </div>
+        </NuxtLink>
     </div>
 </template>
 <script setup>

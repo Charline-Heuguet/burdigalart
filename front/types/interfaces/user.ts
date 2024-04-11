@@ -4,5 +4,6 @@ export interface User {
     firstName: string,
     picture: string,    
     email: string,
-    password: string,  
+    password: string,
+    role: string | [],  
 }

@@ -42,7 +42,9 @@
 
 body {
     background-color: $beige;
-    padding: 0 10px 70px;
+    main{
+        padding: 0 10px 70px;
+    }
 }
 
 .container {

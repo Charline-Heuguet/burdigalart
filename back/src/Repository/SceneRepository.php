@@ -21,29 +21,39 @@ class SceneRepository extends ServiceEntityRepository
         parent::__construct($registry, Scene::class);
     }
 
-    // Fonction pour récupérer les évènements à venir d'UNE scène
-    public function sceneEvents($slug)
+    // Fonction pour récupérer UNE scène via son slug
+    public function findOneBySlug(string $slug): ?Scene
     {
-        $qb = $this->createQueryBuilder('s')
-            ->where('s.eventDateTime > :now')
-            ->andWhere('s.slug = :slug')
-            ->orderBy('s.eventDateTime', 'ASC')
-            ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+        return $this->createQueryBuilder('s')
+            ->where('s.slug = :slug')
             ->setParameter('slug', $slug)
-            ->getQuery();
-
-        return $qb->getResult();
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
-    public function findUpcomingAllScenes()
-    {
-        $qb = $this->createQueryBuilder('s')
-            ->where('s.eventDateTime > :now')
-            ->orderBy('s.eventDateTime', 'ASC')
-            ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
-            ->getQuery();
-        return $qb->getResult();
-    }
+    // Fonction pour récupérer les évènements à venir d'UNE scène
+    // public function sceneEvents($slug)
+    // {
+    //     $qb = $this->createQueryBuilder('s')
+    //         ->where('s.eventDateTime > :now')
+    //         ->andWhere('s.slug = :slug')
+    //         ->orderBy('s.eventDateTime', 'ASC')
+    //         ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+    //         ->setParameter('slug', $slug)
+    //         ->getQuery();
+
+    //     return $qb->getResult();
+    // }
+
+    // public function findUpcomingAllScenes()
+    // {
+    //     $qb = $this->createQueryBuilder('s')
+    //         ->where('s.eventDateTime > :now')
+    //         ->orderBy('s.eventDateTime', 'ASC')
+    //         ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+    //         ->getQuery();
+    //     return $qb->getResult();
+    // }
 
     //    /**
     //     * @return Scene[] Returns an array of Scene objects

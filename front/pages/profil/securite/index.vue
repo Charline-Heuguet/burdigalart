@@ -1,13 +1,16 @@
 <template>
+
     <div class="security">
         <img src="/img/icon-padlock.svg" alt="cadenas fermé">
         <h2>Espace sécurité</h2>
     </div>
+
     <section class="password">
         <h3>Vous désirez changer votre mot de passe ?</h3>
         <p>Une fois votre mot de passe changé, vous devrez vous reconnecter</p>
         <NuxtLink>Changer mon mot de passe</NuxtLink>
     </section>
+
     <section class="delete-account">
         <h3>Vous désirez supprimer votre compte ?</h3>
         <p>Attention, cette action est irréversible</p>
@@ -34,12 +37,15 @@
 
 .delete-account {
     margin-top: 50px;
+
     h3 {
         margin-bottom: 0;
     }
+    
     p {
         margin-top: 0;
     }
+    
     button {
         background-color: red;
         color: white;
@@ -51,3 +57,5 @@
 }
 
 </style>
+
+<script></script>

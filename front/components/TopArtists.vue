@@ -2,7 +2,7 @@
   <div>
     <swiper :slidesPerView="1.5" :spaceBetween="30" :loop="true" :modules="modules" class="mySwiper">
       <swiper-slide v-for="artist in artists" :key="artist.id" class="slide">
-        <NuxtLink :to="'/artist/' + artist.id">
+        <NuxtLink :to="'/artiste/' + artist.slug">
         <img :src="artist.officialPhoto" alt="" class="artist-photo">
         <div class="text-content">
           <p class="artist-name">{{ artist.artistName }}</p>
@@ -27,6 +27,7 @@ const baseURL = 'https://localhost:8000/api/';
 
 // Appel de l'API
 const { data: artists } = useFetch(baseURL + 'artists');
+console.log(artists);
 
 </script>
 

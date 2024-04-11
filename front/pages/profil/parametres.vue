@@ -9,7 +9,7 @@
         </NuxtLink>
         <div class="logout">
             <img src="/img/icon-logout.svg" alt="une fleche qui sort d'un rectangle">
-            <p>Déconnexion</p>
+            <p>Se déconnecter</p>
         </div>
         <NuxtLink to="/profil/supprimer-compte">
             <div class="delete">

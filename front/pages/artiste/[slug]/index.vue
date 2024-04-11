@@ -1,13 +1,13 @@
 <template>
     <section>
         <!-- PHOTO + NOM + CATEGORY -->
-        <div v-if="data && !error">
+        <div v-if="artiste && !error">
             <div class="presentation">
-                <img :src="data.officialPhoto" :alt="`photo officielle de ${data.artistName}`">
+                <img :src="artiste.officialPhoto" :alt="`photo officielle de ${artiste.artistName}`">
                 <div>
-                    <h1>{{ data.artistName }}</h1>
-                    <TagCategory :category="data.category.categoryName" />
-                    <TagStyle :style="data.style.styleName" />
+                    <h1>{{ artiste.artistName }}</h1>
+                    <TagCategory :category="artiste.category.categoryName" />
+                    <TagStyle :style="artiste.style.styleName" />
                 </div>
             </div>
         </div>
@@ -22,26 +22,20 @@
         <!-- EXTRAIT VIDEO -->
         <video controls src="">Vidéo extrait de l'artiste</video>
         <!-- RESEAUX -->
-        <div v-if="!error && !pending && data">
+        <!-- <div>
             <div class="reseaux">
-                <NuxtLink :to="`https://www.instagram.com/${data.instagram}/`">
+                <NuxtLink :to="`https://www.instagram.com/${artiste.instagram}/`">
                     <img class="icon" src="/img/icon-yt.svg" alt="youtube">
                 </NuxtLink>
-                <NuxtLink :to="`https://www.instagram.com/${data.instagram}/`">
+                <NuxtLink :to="`https://www.instagram.com/${artiste.instagram}/`">
                     <img class="icon" src="/img/icon-insta.svg"
                         alt="un appareil photo blanc sur un fond degradé de rose violet jaune">
                 </NuxtLink>
-                <NuxtLink :to="`https://www.facebook.com/${data.facebook}/`">
+                <NuxtLink :to="`https://www.facebook.com/${artiste.facebook}/`">
                     <img class="icon" src="/img/icon-fb.svg" alt="un f minuscule de couleur bleue">
                 </NuxtLink>
             </div>
-        </div>
-        <div v-else-if="pending">
-            Chargement...
-        </div>
-        <div v-else>
-            Une erreur est survenue.
-        </div>
+        </div> -->
         <!-- MAIL -->
         <div class="mail">
             <!-- Mettre un NuxtLink pour diriger vers le formulaire de contact -->
@@ -53,10 +47,10 @@
         <!-- <NuxtLink :to="`/artiste/${showData.slug}/${showData.showTitle}`"> -->
         <Show />
         <!-- </NuxtLink> -->
-        <h2> Vous pouvez le voir ici:</h2>
+        <h2> Vous pouvez voir cet.te artiste ici:</h2>
         <Event />
-        <h2> Ses recommandations: </h2>
-        <Recommandation />
+        <!-- <h3> Ses recommandations: </h3>
+        <Recommandation /> -->
     </section>
 </template>
 
@@ -64,12 +58,15 @@
 import { useRoute } from 'vue-router'
 import TagCategory from '~/components/ui/TagCategory.vue'
 import TagStyle from '~/components/ui/TagStyle.vue'
+import type { Artist } from '~/types/interfaces/artist';
+
+const baseURL = 'https://localhost:8000/api/';
 
 // LES CONSTANTES
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
-const { data, error } = useFetch(`https://localhost:8000/api/artists/${slug}`);
-console.log(data.value);
+const { data: artiste, error } = useFetch<Artist>(baseURL + 'artists/' + slug);
+//console.log(artiste);
 
 
 // Pour le titre de l'onglet
@@ -89,9 +86,11 @@ useHead({
     }
 
     img {
-        max-width: 130px;
+        width: 185px;
+        height: auto;
         border-radius: 10px;
         margin-right: 15px;
+        object-fit: cover;
     }
 }
 

@@ -20,10 +20,14 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update', 'scene_artist:show'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
     private ?string $artistName = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update', 'scene_artist:show'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $officialPhoto = null;
 
@@ -39,21 +43,24 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showPhoto = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showTitle = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','event:show'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\Column]
+    private ?bool $subscription = null;
 
     #[Groups(['artist:index','artist:show', 'artist:create','artist:update','category:index'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
@@ -71,8 +78,8 @@ class Artist
     private ?User $user = null;
 
     #[Groups(['artist:show', 'artist:create','artist:update'])]
-    #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'artists')]
-    private Collection $scene;
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'Artist')]
+    private Collection $events;
 
     // LES RECOMMANDATIONS - a voir plus tard...
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
@@ -82,18 +89,11 @@ class Artist
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
-
-    #[ORM\Column]
-    private ?bool $subscription = null;
-
-
     public function __construct()
     {
         $this->recommendedBy = new ArrayCollection();
         $this->artistRecommended = new ArrayCollection();
-        $this->scene = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -284,30 +284,6 @@ class Artist
         return $this;
     }
 
-    /**
-     * @return Collection<int, Scene>
-     */
-    public function getScene(): Collection
-    {
-        return $this->scene;
-    }
-
-    public function addScene(Scene $scene): static
-    {
-        if (!$this->scene->contains($scene)) {
-            $this->scene->add($scene);
-        }
-
-        return $this;
-    }
-
-    public function removeScene(Scene $scene): static
-    {
-        $this->scene->removeElement($scene);
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -358,6 +334,33 @@ class Artist
     public function setSubscription(bool $subscription): static
     {
         $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->addArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeArtist($this);
+        }
 
         return $this;
     }

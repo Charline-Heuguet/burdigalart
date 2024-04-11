@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h2>Découvrez et soutenez les artistes qui façonnent la scène musicale de demain.</h2>
-
-    <h2>Les artistes à la une</h2>
-    <TopArtists />
-
+    <h2>Burdigal'Art</h2>
     <!-- Les prochains évènement -->
-    <h2>Les prochains évènements</h2>
+    <h3>Les prochains évènements</h3>
     <OnGoingEvent />
+    <!-- Les artistes à la une -->
+    <h3>Les artistes à la une</h3>
+    <TopArtists />
 
   </div>
 </template>
@@ -21,9 +20,6 @@ definePageMeta({
 // IMPORTS
 import OnGoingEvent from '~/components/OnGoingEvent.vue';
 import TopArtists from '~/components/TopArtists.vue';
-import RolePill from '~/components/profiles/RolePill.vue';
-
-const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par défaut
 
 // Appel de l'API
 
@@ -42,7 +38,11 @@ const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par dé
 
 <style scoped lang="scss">
 h2 {
-  margin: 25px 0;
+  text-align: center;
+  margin: 15px 0 25px 0;
+}
+h3 {
+  margin: 25px 0 15px 0;
 }
 
 .artist {

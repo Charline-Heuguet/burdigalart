@@ -16,7 +16,7 @@ class ArtistFixtures extends Fixture implements FixtureGroupInterface, Dependent
 {
     public static function getGroups(): array
     {
-        return ['group_artist', 'group_category', 'group_style', 'group_user'];
+        return ['group_artist', 'group_category', 'group_style'];
     }
 
     public function load(ObjectManager $manager): void

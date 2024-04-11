@@ -19,6 +19,7 @@
   @import 'assets/base/colors';
 
   .role-pill {
+    font-size: 14px;
     margin-right: 10px;
     margin-bottom: 10px;
     min-width: 120px;

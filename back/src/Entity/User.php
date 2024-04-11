@@ -13,6 +13,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
+    // Définition des rôles comme constantes
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ARTISTE = 'ROLE_ARTISTE';
+    public const ROLE_SCENE = 'ROLE_SCENE';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -44,18 +49,19 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
+    // un utilisateur peut avoir 0 à plusieurs scènes
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
     private Collection $scenes;
 
-    #[Groups(['user:create','user:update','scene:show'])]
-    #[ORM\ManyToMany(targetEntity: Scene::class, inversedBy: 'users')]
-    private Collection $scene;
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user')]
+    private Collection $events;
 
     public function __construct()
     {
         $this->artists = new ArrayCollection();
         $this->scenes = new ArrayCollection();
-        $this->scene = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];// Assure une valeur par défaut non-null
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,34 +183,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->scenes;
     }
 
-    public function addScene(Scene $scene): self
-    {
-        if (!$this->scene->contains($scene)) {
-            $this->scene[] = $scene;
-            $scene->addUser($this);
-        }
-    
-        return $this;
-    }
-    
-    public function removeScene(Scene $scene): self
-    {
-        if ($this->scene->removeElement($scene)) {
-            $scene->removeUser($this);
-        }
-    
-        return $this;
-    }
-    
-
-    /**
-     * @return Collection<int, Scene>
-     */
-    public function getScene(): Collection
-    {
-        return $this->scene;
-    }
-
     public function eraseCredentials() :void
     {
         // TODO: Implement eraseCredentials() method.
@@ -213,6 +191,33 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function getUserIdentifier(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeUser($this);
+        }
+
+        return $this;
     }
 
 }

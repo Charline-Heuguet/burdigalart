@@ -39,12 +39,6 @@ class ScenesFixtures extends Fixture implements FixtureGroupInterface, Dependent
             $scene->setCapacity($faker->numberBetween(50, 1000));
             $scene->setInstagram($faker->userName);
             $scene->setFacebook($faker->userName);
-            $scene->setEventTitle($faker->sentence);
-            $scene->setEventDescription($faker->paragraph);
-            // ne pas utiliser faker pour la date
-            $scene->setEventDateTime(new \DateTimeImmutable());
-            $scene->setEventPoster($faker->imageUrl());
-            $scene->setEventPrice($faker->randomFloat(2, 0, 100));
             $scene->setSubscription($faker->boolean);
             $scene->setSlug($faker->slug);
 

@@ -79,10 +79,10 @@ class ArtistController extends AbstractController
     }
 
     // UPDATE - modifier un artiste
-    #[Route('/{id}', name: 'update', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, ArtistRepository $artistRepository, ValidatorInterface $validator, SerializerInterface $serializer, $id): JsonResponse
+    #[Route('/{slug}', name: 'update', methods: ['PUT'])]
+    public function update(Request $request, EntityManagerInterface $entityManager, ArtistRepository $artistRepository, ValidatorInterface $validator, SerializerInterface $serializer, $slug): JsonResponse
     {
-        $artist = $artistRepository->find($id);
+        $artist = $artistRepository->findOneBySlug($slug);
         if (!$artist) {
             return new JsonResponse(['error' => 'Artist not found'], Response::HTTP_NOT_FOUND);
         }
@@ -113,11 +113,11 @@ class ArtistController extends AbstractController
     }
 
 
-    // DELETE - Pour SUPPRIMER un artiste
-    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $entityManager, ArtistRepository $artistRepository, $id): JsonResponse
+    // DELETE - Pour SUPPRIMER un artiste par son slug
+    #[Route('/{slug}', name: 'delete', methods: ['DELETE'])]
+    public function delete(EntityManagerInterface $entityManager, ArtistRepository $artistRepository, $slug): JsonResponse
     {
-        $artist = $artistRepository->find($id);
+        $artist = $artistRepository->find($slug);
         if (!$artist) {
             return new JsonResponse(['error' => 'Artist not found with this id'], Response::HTTP_NOT_FOUND);
         }
@@ -126,4 +126,19 @@ class ArtistController extends AbstractController
 
         return new JsonResponse(['status' => 'Artist deleted']);
     }
+
+    // DELETE - Pour SUPPRIMER un artiste par son id
+    // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    // public function delete(EntityManagerInterface $entityManager, ArtistRepository $artistRepository, $id): JsonResponse
+    // {
+    //     $artist = $artistRepository->find($id);
+    //     if (!$artist) {
+    //         return new JsonResponse(['error' => 'Artist not found with this id'], Response::HTTP_NOT_FOUND);
+    //     }
+    //     $entityManager->remove($artist);
+    //     $entityManager->flush();
+
+    //     return new JsonResponse(['status' => 'Artist deleted']);
+    // }
+
 }
