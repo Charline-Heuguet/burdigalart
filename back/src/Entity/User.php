@@ -23,11 +23,11 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update'])]
+    #[Groups(['user:index','user:show','user:create','user:update', 'message:read'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update'])]
+    #[Groups(['user:index','user:show','user:create','user:update', 'message:read'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
@@ -35,7 +35,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-    #[Groups(['user:show','user:create','user:update'])]
+    #[Groups(['user:show','user:create','user:update', 'message:read'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -56,12 +56,16 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user')]
     private Collection $events;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->artists = new ArrayCollection();
         $this->scenes = new ArrayCollection();
         $this->roles = ['ROLE_USER'];// Assure une valeur par défaut non-null
         $this->events = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +219,36 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         if ($this->events->removeElement($event)) {
             $event->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
         }
 
         return $this;

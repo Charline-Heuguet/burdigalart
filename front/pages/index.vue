@@ -42,7 +42,7 @@ h2 {
   margin: 15px 0 25px 0;
 }
 h3 {
-  margin: 25px 0 15px 0;
+  margin: 40px 0 15px 0;
 }
 
 .artist {

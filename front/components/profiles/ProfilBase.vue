@@ -38,7 +38,7 @@ input{
     width: 40%;
     margin: 10px ;
     padding: 5px 5px 5px 10px;
-    border: 1px solid black;
+    border: 1px solid $darkgray;
     border-radius: 10px;
     background-color: rgba(216, 215, 215, 0.458);
 }

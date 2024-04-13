@@ -5,7 +5,8 @@
         <img :src="allEvent.poster" alt="affiche de l'évènement">
         <div class="text-content">
           <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}</p>
-          <p class="event-name">{{ allEvent.title }} à {{ allEvent.scene.name }}</p>
+          <p class="event-name">{{ allEvent.title }}</p>
+          <p class="event-name">Au {{ allEvent.scene.name }}</p>
         </div>
       </swiper-slide>
     </swiper>
@@ -18,7 +19,7 @@ import 'swiper/css/navigation';
 import dayjs from 'dayjs';
 
 const formatDateTime = (dateTime) => {
-  return dayjs(dateTime).format('DD/MM/YY à HH:mm');
+  return dayjs(dateTime).format('DD/MM à HH:mm');
 };
 const baseURL = 'https://localhost:8000/api/';
 
@@ -56,9 +57,14 @@ const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
     color: white;
     width: 100%;
 
+    .event-name {
+      font-size: 10px;
+    }
+
     .event-date, .event-name {
       font-size: 15px;
     }
+    
   }
 
   .artist-name,

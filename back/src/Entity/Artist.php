@@ -89,11 +89,15 @@ class Artist
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;
 
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->recommendedBy = new ArrayCollection();
         $this->artistRecommended = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -360,6 +364,36 @@ class Artist
     {
         if ($this->events->removeElement($event)) {
             $event->removeArtist($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setArtist($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getArtist() === $this) {
+                $message->setArtist(null);
+            }
         }
 
         return $this;

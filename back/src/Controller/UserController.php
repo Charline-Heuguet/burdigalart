@@ -26,19 +26,6 @@ class UserController extends AbstractController
         return $this->json($users, Response::HTTP_OK, [], ['groups' => 'user:index']);
     }
 
-        // Lister tous les utilisateurs
-        // #[Route('/teub', name: 'index_teub', methods: ['GET'])]
-        // public function teub(UserRepository $userRepository): JsonResponse
-        // {
-        //     for(i = 100; i < 1000000; i++){
-        //         $user = new User();
-        //         $user->setName('name'.$i);
-        //         $user->setFirstName('firstName'.$i);
-        //         $user->setEmail('name
-        //     }
-        //     return $this->json($users, Response::HTTP_OK, [], ['groups' => 'user:index']);
-        // }
-
     // READ - Montrer un utilisateur
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(UserRepository $userRepository, int $id): JsonResponse

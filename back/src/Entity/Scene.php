@@ -73,9 +73,13 @@ class Scene
     #[ORM\OneToMany(mappedBy: 'scene', targetEntity: Event::class)]
     private Collection $events;
 
+    #[ORM\OneToMany(mappedBy: 'scene', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -282,6 +286,36 @@ class Scene
             // set the owning side to null (unless already changed)
             if ($event->getScene() === $this) {
                 $event->setScene(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setScene($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getScene() === $this) {
+                $message->setScene(null);
             }
         }
 
