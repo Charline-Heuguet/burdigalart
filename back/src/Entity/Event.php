@@ -19,7 +19,7 @@ class Event
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
@@ -27,26 +27,26 @@ class Event
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $dateTime = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update'])]
-    #[ORM\Column(length: 255)]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming'])]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $poster = null;
 
     #[Groups(['event:index', 'event:show', 'event:create','event:update'])]
     #[ORM\Column]
     private ?float $price = null;
     
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $slug = null;
 
-    #[Groups(['event:show', 'event:create','event:update'])]
+    #[Groups(['event:show','event:update'])]
     #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'events')]
     private Collection $Artist;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['event:index', 'event.create', 'event:show', 'event:update', 'event:upcoming'])]
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?Scene $scene = null;
 
@@ -178,19 +178,23 @@ class Event
      * @ORM\PreUpdate
      */
     public function updateSlug(): void
-    {
-        if ($this->title) {
-            $this->slug = $this->createSlug($this->title);
-        }
+{
+    if ($this->title) {
+        dump('Title before slug generation:', $this->title); // Afficher le titre utilisé pour le slug
+        $this->slug = $this->createSlug($this->title);
+        dump('Generated slug:', $this->slug); // Afficher le slug généré
+    } else {
+        dump('Title is null, slug not generated');
     }
+}
 
-    private function createSlug(string $name): string
-    {
-        $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
-        $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
-        $slug = strtolower(trim($slug, '-'));
-        return $slug;
-    }
+private function createSlug(string $name): string
+{
+    $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+    $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
+    $slug = strtolower(trim($slug, '-'));
+    return $slug;
+}
 
     /**
      * @return Collection<int, User>
@@ -215,4 +219,5 @@ class Event
 
         return $this;
     }
+
 }

@@ -22,16 +22,30 @@ class EventRepository extends ServiceEntityRepository
     }
 
     // Fonction pour trouver les FUTURS évènements par rapport à la date actuelle
-    public function EventsOnGoing($slug)
+    // public function EventsUpComing($slug)
+    // {
+    //     $qb = $this->createQueryBuilder('e')
+    //         ->where('e.dateTime > :now')
+    //         ->andWhere('e.slug = :slug')
+    //         ->orderBy('e.dateTime', 'ASC')
+    //         ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+    //         ->setParameter('slug', $slug)
+    //         ->getQuery();
+
+    //     return $qb->getResult();
+    // }
+
+    // fonction pour lire tous les évènements à venir en fonction de la date actuelle
+    public function EventsUpComingAll()
     {
         $qb = $this->createQueryBuilder('e')
+            ->join('e.scene', 's') // Assure-toi que 'scene' est le bon nom de la propriété dans l'entité Event
+            ->addSelect('s') // Ajoute ceci pour inclure les données de Scene dans le résultat
             ->where('e.dateTime > :now')
-            ->andWhere('e.slug = :slug')
             ->orderBy('e.dateTime', 'ASC')
             ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
-            ->setParameter('slug', $slug)
             ->getQuery();
-
+    
         return $qb->getResult();
     }
 

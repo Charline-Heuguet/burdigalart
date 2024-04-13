@@ -36,7 +36,7 @@ class SceneController extends AbstractController
 
 
     // READ : lire une scene via son slug
-    #[Route('/{slug}', name: 'showSlug', methods: ['GET'])]
+    #[Route('/{slug}', name: 'showSlug', methods: ['GET'], requirements: ['slug' => '[a-zA-Z0-9\-_]+'])]
     public function showSlug(SceneRepository $sceneRepository, SerializerInterface $serializer, string $slug): JsonResponse
     {
         $scene = $sceneRepository->findOneBySlug($slug);
@@ -44,6 +44,18 @@ class SceneController extends AbstractController
             return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
         }
         $jsonScene = $serializer->serialize($scene, 'json', ['groups' => ['scene:show', 'scene_artist:show']]);
+        return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
+    }
+
+    // // READ : lire une scene via son id
+    #[Route('/id/{id}', name: 'showId', methods: ['GET'])]
+    public function showId(SceneRepository $sceneRepository, SerializerInterface $serializer, int $id): JsonResponse
+    {
+        $scene = $sceneRepository->find($id);
+        if (!$scene) {
+            return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
+        }
+        $jsonScene = $serializer->serialize($scene, 'json', ['groups' => 'scene:show']);
         return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
     }
 

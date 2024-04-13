@@ -20,14 +20,14 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
     private ?string $artistName = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $officialPhoto = null;
 
@@ -43,15 +43,15 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:index', 'event:show','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showPhoto = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show','event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showTitle = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show','event:update'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 

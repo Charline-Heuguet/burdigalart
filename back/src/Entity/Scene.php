@@ -15,6 +15,7 @@ class Scene
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['event:create'])]
     private ?int $id = null;
 
     #[ORM\Column]
@@ -25,19 +26,19 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update','artist_scene:show','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update', 'event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'event:index', 'event:show', 'event:upcoming' ])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show','event:upcoming' ])]
     #[ORM\Column]
     private ?int $zipcode = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'scene:upcoming', 'artist_scene:show', 'artist:create','artist:update','event:index', 'event:show', 'event:create','event:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $town = null;
 
@@ -61,7 +62,7 @@ class Scene
     #[ORM\Column]
     private ?bool $subscription = null;
 
-    #[Groups(['scene:create', 'scene:show', 'scene:update', 'scene:upcoming'])]
+    #[Groups(['scene:create', 'scene:show', 'scene:update', 'scene:upcoming', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 

@@ -2,10 +2,10 @@
   <div>
     <swiper :slidesPerView="1.5" :spaceBetween="30" :loop="true" :modules="modules" class="mySwiper">
       <swiper-slide v-for="allEvent in upcomingEvents" :key="allEvent.id" class="slide">
-        <img :src="allEvent.eventPoster" alt="affiche de l'évènement">
+        <img :src="allEvent.poster" alt="affiche de l'évènement">
         <div class="text-content">
-          <p class="event-date">{{ formatDateTime(allEvent.eventDateTime) }}</p>
-          <p class="event-name">{{ allEvent.eventTitle }}</p>
+          <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}</p>
+          <p class="event-name">{{ allEvent.title }} à {{ allEvent.scene.name }}</p>
         </div>
       </swiper-slide>
     </swiper>
@@ -22,8 +22,7 @@ const formatDateTime = (dateTime) => {
 };
 const baseURL = 'https://localhost:8000/api/';
 
-const { data: upcomingEvents } = useFetch(baseURL + 'scenes/allupcoming');
-console.log(upcomingEvents);
+const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
 </script>
 
 <style scoped lang="scss">
