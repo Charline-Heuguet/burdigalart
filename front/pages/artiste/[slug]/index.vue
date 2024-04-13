@@ -1,6 +1,6 @@
 <template>
     <section>
-        <!-- PHOTO + NOM + CATEGORY -->
+        <!-- Page d'un artiste-->
         <div v-if="artiste && !error">
             <div class="presentation">
                 <img :src="artiste.officialPhoto" :alt="`photo officielle de ${artiste.artistName}`">
@@ -15,9 +15,7 @@
             <p>Erreur : Impossible de charger les données de l'artiste.</p>
         </div>
         <!-- Description -->
-        <p class="description"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita aperiam aliquid aut
-            maiores explicabo esse, consectetur nostrum earum excepturi aspernatur. Illo error ipsam nam pariatur
-            corporis culpa nulla aspernatur magni. </p>
+        <!-- <p class="description"> {{ artiste.value.description }}</p> -->
 
         <!-- EXTRAIT VIDEO -->
         <video controls src="">Vidéo extrait de l'artiste</video>
@@ -38,9 +36,10 @@
         </div> -->
         <!-- MAIL -->
         <div class="mail">
-            <!-- Mettre un NuxtLink pour diriger vers le formulaire de contact -->
+            <NuxtLink to="/contact">
             <img class="icon" src="/img/icon-envelop.svg" alt="enveloppe">
             <p>Si une collaboration vous interesse, contactez-moi !</p>
+            </NuxtLink>
         </div>
         <h2> Son spectacle: </h2>
         <!-- TODO: Mettre un NuxtLink pour diriger vers le [ShowTitle] -->
@@ -66,7 +65,7 @@ const baseURL = 'https://localhost:8000/api/';
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
 const { data: artiste, error } = useFetch<Artist>(baseURL + 'artists/' + slug);
-//console.log(artiste);
+console.log(artiste);
 
 
 // Pour le titre de l'onglet

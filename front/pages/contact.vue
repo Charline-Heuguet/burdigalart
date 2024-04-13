@@ -127,9 +127,6 @@ h1 {
 
     .form-group {
         margin-bottom: 20px;
-        option{
-            font-size: ;
-        }
 
         label {
             display: block;

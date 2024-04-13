@@ -1,21 +1,17 @@
 <template>
     <div v-if="showData" class="show">
         <img :src="showData.showPhoto" alt="affiche du spectacle">
-        <div class="nom-show">
+        <div class="showContent">
             <h1>{{ showData.artistName }}</h1>
-            <p>Titre du show</p>
-        </div>
-        <div class="description">
-            <NuxtLink class="line-clamp-3 " to="/">
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae, non deleniti. Quae, quos! Nobis
-                    alias, rerum sed ipsam incidunt earum facere, nam cupiditate quae blanditiis id aspernatur, necessitatibus
-                    eum quo?</p>
-            </NuxtLink>
-        </div>
+            <p class="title">{{ showData.showTitle }}</p>
+            <div class="description">
+                <p class="line-clamp-3">{{ showData.showDescription }}</p>
+            </div>
+       </div>
     </div>
     <div v-else>
-    Chargement...
-  </div>
+        Chargement...
+    </div>
 </template>
 <script setup>
 import { useRoute } from 'vue-router';
@@ -27,22 +23,27 @@ const baseURL = 'https://localhost:8000/api/';
 
 // Appel de l'API
 const { data: showData } = useFetch(baseURL + 'artists/' + slug);
-console.log(showData);
 
 </script>
 <style scoped lang="scss">
+h1 {
+    font-size: 45px;
+}
+
 .show {
     border: 1px solid black;
 
-    .nom-show {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
+    .showContent {
+        padding: 8px;
 
-    .description {
-        margin: 20px 0;
-        padding: 0 20px;
+        .title{
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .description {
+            margin: 20px 10px;
+            font-style: italic ;
+        }
     }
 
 }
