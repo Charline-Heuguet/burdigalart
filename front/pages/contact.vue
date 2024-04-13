@@ -1,4 +1,5 @@
 <template>
+    <h1> Formulaire de contact</h1>
     <div class="form-container">
         <form @submit.prevent="submitForm">
             <!-- Sélection du rôle de l'utilisateur -->
@@ -6,31 +7,27 @@
                 <label for="role">Je suis:</label>
                 <select id="role" v-model="form.role" @change="roleChanged">
                     <option value="">Sélectionnez votre rôle</option>
-                    <option>Spectateur</option>
+                    <option>Spectateur.trice</option>
                     <option>Artiste</option>
-                    <option>Gérant de scène</option>
+                    <option>Gérant.e de scène</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="firstname">Prénom:</label>
+                <label for="firstname">Votre prénom et nom:</label>
                 <input type="text" id="firstname" v-model="form.firstname" required>
             </div>
             <div class="form-group">
-                <label for="lastname">Nom:</label>
-                <input type="text" id="lastname" v-model="form.lastname" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email">Votre email:</label>
                 <input type="email" id="email" v-model="form.email" required>
             </div>
 
             <!-- Choix de l'entité à qui envoyer un message -->
             <div class="form-group">
-                <label for="targetType">Je veux envoyer un mail à:</label>
+                <label for="targetType">Je veux envoyer un message à:</label>
                 <select id="targetType" v-model="form.targetType" @change="fetchTargets">
                     <option value="">Choisir un destinataire</option>
-                    <option>Artiste</option>
-                    <option>Scène</option>
+                    <option>Un.e artiste</option>
+                    <option>Un.e gérant de scène</option>
                 </select>
             </div>
 
@@ -44,7 +41,7 @@
 
             <div class="form-group">
                 <label for="message">Message:</label>
-                <textarea id="message" v-model="form.message"></textarea>
+                <textarea id="message" v-model="form.message" required></textarea>
             </div>
             <button type="submit" class="submit-btn">Envoyer</button>
         </form>
@@ -115,26 +112,34 @@ const submitForm = async () => {
 <style scoped lang="scss">
 @import 'assets/base/colors';
 
+h1 {
+    font-size: 28px;
+    text-align: center;
+    margin: 20px 0;
+}
 .form-container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    background: #fff;
+    background: $beigeclair;
     border-radius: 8px;
 
     .form-group {
         margin-bottom: 20px;
+        option{
+            font-size: ;
+        }
 
         label {
             display: block;
             margin-bottom: 5px;
-            color: #333;
+            color: $black;
         }
         input{
             width: 100%;
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid $darkgray;
             border-radius: 4px;
         }
 
@@ -142,7 +147,7 @@ const submitForm = async () => {
         textarea {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid $darkgray;
             border-radius: 4px;
         }
 
@@ -152,6 +157,7 @@ const submitForm = async () => {
     }
 
     .submit-btn {
+        width: 100%;
         background-color: $mandarin;
         color: white;
         border: none;
