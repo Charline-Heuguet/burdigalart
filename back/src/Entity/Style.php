@@ -18,7 +18,7 @@ class Style
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['artist:index','artist:show','artist:update','style:index'])]
+    #[Groups(['artist:index','artist:show','artist:update','style:index', 'event:show'])]
     #[ORM\Column(length: 255)]
     private ?string $styleName = null;
 

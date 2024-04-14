@@ -118,8 +118,6 @@ h3 {
   }
 
 }
-
-
 .pastille {
   background-color: $black;
   color: $beigeclair;

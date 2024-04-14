@@ -2,7 +2,7 @@
     <div>
         <h1>Les évènements à venir</h1>
         <div v-for="allEvent in upcomingEvents" :key="allEvent.id" class="event">
-            <NuxtLink to="/">
+            <NuxtLink :to="'/evenement/' + allEvent.slug" >
                 <img :src="allEvent.poster" alt="affiche de l'évènement">
                 <div class="text-content">
                     <p class="event-name">{{ allEvent.title }} au {{ allEvent.scene.name }}</p>
@@ -22,6 +22,7 @@ const formatDateTime = (dateTime) => {
 const baseURL = 'https://localhost:8000/api/';
 
 const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
+console.log(upcomingEvents);
 </script>
 
 <style scoped lang="scss">

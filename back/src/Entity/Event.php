@@ -39,10 +39,11 @@ class Event
     #[ORM\Column]
     private ?float $price = null;
     
+    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming'])]
     #[ORM\Column(length: 255,nullable: true)]
     private ?string $slug = null;
 
-    #[Groups(['event:show','event:update'])]
+    #[Groups(['event:show','event:update', 'event:upcoming'])]
     #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'events')]
     private Collection $Artist;
 
@@ -178,15 +179,11 @@ class Event
      * @ORM\PreUpdate
      */
     public function updateSlug(): void
-{
-    if ($this->title) {
-        dump('Title before slug generation:', $this->title); // Afficher le titre utilisé pour le slug
-        $this->slug = $this->createSlug($this->title);
-        dump('Generated slug:', $this->slug); // Afficher le slug généré
-    } else {
-        dump('Title is null, slug not generated');
+    {
+        if ($this->title) {
+            $this->slug = $this->createSlug($this->title);
+        }
     }
-}
 
 private function createSlug(string $name): string
 {

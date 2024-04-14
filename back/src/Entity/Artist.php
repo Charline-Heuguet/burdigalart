@@ -67,7 +67,7 @@ class Artist
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','event:show'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Style $style = null;
