@@ -9,7 +9,7 @@
       </li>
       <li class="nav-item">
         <NuxtLink to="/scenes" class="nav-link">
-          <img src="/img/icon-scene.svg" alt="Scenes" class="nav-icon" />
+          <img src="/img/icon-scene4.svg" alt="Scenes" class="nav-icon" />
           <span class="nav-text">Scènes</span>
         </NuxtLink>
       </li>
@@ -33,12 +33,13 @@
 @import 'assets/base/colors';
 
 .navbar {
+  padding: 4px 0;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
   position: fixed;
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: $beige;
-  border-top: 1px solid gray;
+  background-color: $black;
   z-index: 999999999999999;
 
   .nav-list {
@@ -58,11 +59,14 @@
         padding: 5px;
 
         .nav-icon {
-          width: 24px;
-          height: auto;
+          width: auto;
+          height: 20px;
         }
 
         .nav-text {
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: rgb(223, 201, 201);
           font-size: 0.75rem;
           margin-top: 8px;
         }

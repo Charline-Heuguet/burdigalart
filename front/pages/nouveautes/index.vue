@@ -1,18 +1,13 @@
 <template>
     <div>
         <h1>Les nouveautés</h1>
-        <!-- TRI -->
-        <div class="category">
-            <button class="all">Tout</button>
-            <button class="music">Musique</button>
-            <button class="standup">Stand-Up</button>
-        </div>
-        <div class="card-artist">
+        
+        <!-- <div class="card-artist">
             <ul>
                 <li v-for="artist in artists" :key="artist.id">
                     {{ artist.artistName }}
                 </li>
-            </ul>
+            </ul> -->
             <!-- <div class="card">
                 <img src="/medias/artistPhotoOfficielle.jpg" alt="artist picture" />
                 <div class="card-content">
@@ -21,9 +16,8 @@
                 </div>
             </div> -->
         </div>
-    </div>
 </template>
-
+<!-- 
 <script setup>
 import { ref, onMounted } from 'vue';
 
@@ -40,7 +34,7 @@ const artists = ref([]);
 // }
 // Appel de la méthode au chargement du composant
 onMounted(fetchArtists);
-</script>
+</script> -->
 
 <style scoped lang="scss">
 @import 'assets/base/colors';

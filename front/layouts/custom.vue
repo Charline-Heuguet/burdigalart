@@ -85,7 +85,7 @@ body {
 // Footer : qu'il reste tt le temps en bas
 // calcul: 100vh-la hauteur du header - la hauteur du footer
 main {
-    min-height: calc(100vh - 80px - 70px);
+    min-height: calc(100vh - 80px - 70px - 40vh);
 }
 
 /* Breakpoint */

@@ -6,8 +6,8 @@
                 <img :src="artiste.officialPhoto" :alt="`photo officielle de ${artiste.artistName}`">
                 <div>
                     <h1>{{ artiste.artistName }}</h1>
-                    <TagCategory :category="artiste.category.categoryName" />
-                    <TagStyle :style="artiste.style.styleName" />
+                    <TagCategory v-if="artiste.category" :category="artiste.category.categoryName" />
+                    <TagStyle v-if="artiste.style" :style="artiste.style.styleName" />
                 </div>
             </div>
         </div>

@@ -1,11 +1,22 @@
 <template>
   <div>
     <h2>Burdigal'Art</h2>
+    <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, illum. </h3>
     <!-- Les prochains évènement -->
-    <h3>Les prochains évènements</h3>
-    <OnGoingEvent />
+    <div class="headings">
+      <h3>Les prochains évènements</h3>
+      <NuxtLink to="/evenement">
+        <Pastille>Voir plus</Pastille>
+      </NuxtLink>
+    </div>
+    <UpComingEvent />
     <!-- Les artistes à la une -->
-    <h3>Les artistes à la une</h3>
+    <div class="headings">
+      <h3>Les artistes à la une</h3>
+      <NuxtLink to="/nouveautes">
+        <Pastille>Voir plus</Pastille>
+      </NuxtLink>
+    </div>
     <TopArtists />
 
   </div>
@@ -18,8 +29,9 @@ definePageMeta({
 });
 
 // IMPORTS
-import OnGoingEvent from '~/components/OnGoingEvent.vue';
+import UpComingEvent from '~/components/UpComingEvent.vue';
 import TopArtists from '~/components/TopArtists.vue';
+import Pastille from '~/components/ui/pastille.vue';
 
 // Appel de l'API
 
@@ -37,10 +49,25 @@ import TopArtists from '~/components/TopArtists.vue';
 </script>
 
 <style scoped lang="scss">
+@import 'assets/base/colors';
+
+.headings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 0;
+
+  h3 {
+    flex: 1;
+    margin: 0;
+  }
+}
+
 h2 {
   text-align: center;
   margin: 15px 0 25px 0;
 }
+
 h3 {
   margin: 40px 0 15px 0;
 }
@@ -89,5 +116,12 @@ h3 {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+}
+
+
+.pastille {
+  background-color: $black;
+  color: $beigeclair;
 }
 </style>

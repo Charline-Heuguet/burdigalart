@@ -1,13 +1,13 @@
 <template>
   <div>
-    <swiper :slidesPerView="1.5" :spaceBetween="30" :loop="true" :modules="modules" class="mySwiper">
+    <swiper :slidesPerView="1.5" :spaceBetween="30" :breakpoints="breakpoints" :loop="false" :modules="modules" class="mySwiper">
       <swiper-slide v-for="artist in artists" :key="artist.id" class="slide">
         <NuxtLink :to="'/artiste/' + artist.slug">
-        <img :src="artist.officialPhoto" alt="" class="artist-photo">
-        <div class="text-content">
-          <p class="artist-name">{{ artist.artistName }}</p>
-          <TagStyle class="styletag" :style="artist.style.styleName" />
-        </div>
+          <img :src="artist.officialPhoto" alt="" class="artist-photo">
+          <div class="text-content">
+            <p class="artist-name">{{ artist.artistName }}</p>
+            <TagStyle class="styletag" :style="artist.style.styleName" />
+          </div>
         </NuxtLink>
       </swiper-slide>
     </swiper>
@@ -27,17 +27,27 @@ const baseURL = 'https://localhost:8000/api/';
 
 // Appel de l'API
 const { data: artists } = useFetch(baseURL + 'artists');
-console.log(artists);
 
+// Breakpoints pour Swiper
+const breakpoints = {
+  500: {  // à partir de 640px
+    slidesPerView: 2,
+    spaceBetween: 20
+  },
+  768: {  // à partir de 768px
+    slidesPerView: 3,
+    spaceBetween: 30
+  },
+  1024: {  // à partir de 1024px
+    slidesPerView: 4,
+    spaceBetween: 40
+  },
+};
 </script>
 
 <style scoped lang="scss">
-h2 {
-  margin: 25px 0;
-}
-
 .artist-name {
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
 }
 
@@ -57,11 +67,13 @@ h2 {
   }
 
   .text-content {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     position: absolute;
     bottom: 0;
     left: 0;
     padding: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
     color: white;
     width: 100%;
     box-sizing: border-box;
