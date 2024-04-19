@@ -10,7 +10,7 @@
             </div>
             <Navbar />
         </header>
-        <main>
+        <main class="maincontainer">
             <slot />
         </main>
 
@@ -88,6 +88,6 @@ main {
     min-height: calc(100vh - 80px - 70px - 40vh);
 }
 
-/* Breakpoint */
-@media (min-width: 768px) {}
+// BREAKPOINTS
+
 </style>

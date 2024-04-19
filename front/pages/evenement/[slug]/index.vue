@@ -14,13 +14,15 @@
                     <p>Le {{ formatDateTime(events.dateTime) }}</p>
                 </div>
             </div>
-            <h2>Vous les verrez sur scène :</h2>
-            <div v-for="artist in events.Artist" :key="artist.slug" class="show">
-                <div class="photo">
-                    <img :src="artist.officialPhoto" alt="">
-                    <div class="namestyle">
-                        <p>{{ artist.artistName }}</p>
-                        <p class="style">{{artist.style.styleName}}</p>
+            <div v-if="events.Artist.length > 0">
+                <h2>Vous les verrez sur scène :</h2>
+                <div v-for="artist in events.Artist" :key="artist.slug" class="show">
+                    <div class="photo">
+                        <img :src="artist.officialPhoto" alt="">
+                        <div class="namestyle">
+                            <p>{{ artist.artistName }}</p>
+                            <p class="style">{{artist.style.styleName}}</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -11,14 +11,7 @@
     </div>
     <UpComingEvent />
     <!-- Les artistes à la une -->
-    <div class="headings">
-      <h3>Les artistes à la une</h3>
-      <NuxtLink to="/nouveautes">
-        <Pastille>Voir plus</Pastille>
-      </NuxtLink>
-    </div>
     <TopArtists />
-
   </div>
 </template>
 
@@ -62,6 +55,13 @@ import Pastille from '~/components/ui/pastille.vue';
     margin: 0;
   }
 }
+
+.top-artist {
+  background-color: #A0522D;
+  width: 100%;
+}
+
+
 
 h2 {
   text-align: center;
@@ -118,8 +118,11 @@ h3 {
   }
 
 }
+
 .pastille {
   background-color: $black;
+  font-weight: 600;
   color: $beigeclair;
+  letter-spacing: .03em;
 }
 </style>

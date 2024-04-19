@@ -59,6 +59,7 @@ class Artist
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update'])]
     #[ORM\Column]
     private ?bool $subscription = null;
 
@@ -81,6 +82,9 @@ class Artist
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'Artist')]
     private Collection $events;
 
+    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Message::class)]
+    private Collection $messages;
+
     // LES RECOMMANDATIONS - a voir plus tard...
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
     private Collection $recommendedBy;
@@ -88,9 +92,6 @@ class Artist
     // LES RECOMMANDATIONS - a voir plus tard...
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;
-
-    #[ORM\OneToMany(mappedBy: 'artist', targetEntity: Message::class)]
-    private Collection $messages;
 
     public function __construct()
     {
