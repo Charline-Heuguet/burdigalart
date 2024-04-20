@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>Page de toutes les scenes</p>
-        <!-- Appeler le composant SceneCard -->
+        <h1>Explorez les scènes</h1>
     </div>
 </template>

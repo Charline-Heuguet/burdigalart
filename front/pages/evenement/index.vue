@@ -1,14 +1,16 @@
 <template>
     <div>
         <h1>Les évènements à venir</h1>
-        <div v-for="allEvent in upcomingEvents" :key="allEvent.id" class="event">
-            <NuxtLink :to="'/evenement/' + allEvent.slug" >
-                <img :src="allEvent.poster" alt="affiche de l'évènement">
-                <div class="text-content">
-                    <p class="event-name">{{ allEvent.title }} au {{ allEvent.scene.name }}</p>
-                    <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}</p>
-                </div>
-            </NuxtLink>
+        <div class="container-events">
+            <div v-for="allEvent in upcomingEvents" :key="allEvent.id" class="event">
+                <NuxtLink :to="'/evenement/' + allEvent.slug" >
+                    <img :src="allEvent.poster" alt="affiche de l'évènement">
+                    <div class="text-content">
+                        <p class="event-name">"{{ allEvent.title }}" au {{ allEvent.scene.name }}</p>
+                        <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}h</p>
+                    </div>
+                </NuxtLink>
+            </div>
         </div>
     </div>
 </template>
@@ -30,13 +32,20 @@ console.log(upcomingEvents);
 
 h1 {
     font-size: 35px;
-    margin-bottom: 30px;
+    //margin: 40px 0;
+    text-align: center;
 }
 
 .event {
-    border: 1px solid $darkgray;
+    border-radius: 10px;
+    overflow: hidden;
     margin-bottom: 20px;
     position: relative;
+
+    img{
+        width: 100%;
+        height: auto;
+    }
 
     .text-content {
         position: absolute;
@@ -51,5 +60,23 @@ h1 {
         color: white;
         letter-spacing: 1px;
     }
+}
+
+
+@media (min-width: 700px) {
+  .container-events{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; // Cette propriété répartit les .event sur la ligne
+  }
+
+  .event {
+    width: calc(50% - 10px); // Calcule la largeur pour 2 éléments par ligne en tenant compte de la marge
+    margin-bottom: 20px;
+
+    &:nth-child(odd) {
+      margin-right: 20px; // Ajoute une marge à droite pour l'élément de gauche
+    }
+  }
 }
 </style>

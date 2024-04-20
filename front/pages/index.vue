@@ -1,14 +1,8 @@
 <template>
-  <div>
+  <div class="parent">
     <h2>Burdigal'Art</h2>
-    <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, illum. </h3>
+    <h3>Lorem ipsum dolor sit amet consectetur adipis icing elit. Reiciendis, illum. </h3>
     <!-- Les prochains évènement -->
-    <div class="headings">
-      <h3>Les prochains évènements</h3>
-      <NuxtLink to="/evenement">
-        <Pastille>Voir plus</Pastille>
-      </NuxtLink>
-    </div>
     <UpComingEvent />
     <!-- Les artistes à la une -->
     <TopArtists />
@@ -24,7 +18,6 @@ definePageMeta({
 // IMPORTS
 import UpComingEvent from '~/components/UpComingEvent.vue';
 import TopArtists from '~/components/TopArtists.vue';
-import Pastille from '~/components/ui/pastille.vue';
 
 // Appel de l'API
 
@@ -42,87 +35,19 @@ import Pastille from '~/components/ui/pastille.vue';
 </script>
 
 <style scoped lang="scss">
-@import 'assets/base/colors';
-
-.headings {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 0;
-
-  h3 {
-    flex: 1;
-    margin: 0;
-  }
-}
-
-.top-artist {
-  background-color: #A0522D;
-  width: 100%;
-}
-
-
-
 h2 {
   text-align: center;
   margin: 15px 0 25px 0;
 }
 
 h3 {
+  font-size: 23px;
   margin: 40px 0 15px 0;
 }
 
-.artist {
-  border: 1px solid black;
-  border-radius: 10px;
-  margin: 20px 0;
-  overflow: hidden;
-
-  .artist-name {
-    font-size: 20px;
-    text-align: center;
-  }
-
-  .styletag {
-    text-align: center;
-  }
-}
-
-.mySwiper .swiper-slide {
+.parent {
   position: relative;
-  height: 200px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .text-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .artist-name,
-  .styletag {
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
 }
 
-.pastille {
-  background-color: $black;
-  font-weight: 600;
-  color: $beigeclair;
-  letter-spacing: .03em;
-}
+
 </style>

@@ -1,9 +1,12 @@
 <template>
     <div class="container">
         <header>
-            <NuxtLink to="/">
-                <img src="/img/logo-rond.png" alt="Logo" class="logo" />
-            </NuxtLink>
+            <div class="logo-title">
+                <NuxtLink to="/">
+                    <img src="/img/logo-rond.png" alt="Logo" class="logo" />
+                </NuxtLink>
+                <p>Burdigal'Art</p>
+            </div>
             <Navbar />
         </header>
         <main>
@@ -35,6 +38,7 @@
 
 <style lang="scss">
 @import 'assets/base/colors';
+@import 'assets/base/font';
 
 * {
     box-sizing: border-box;
@@ -51,9 +55,18 @@ body {
     max-width: 1180px;
 
     header {
+        .logo-title{
+            display: flex;
+            align-items: center;
+        }
         .logo {
             width: 80px;
-            margin: 0 auto;
+            margin: 0 5px 30px;
+        }
+        p{
+            font-family: $font-burdi;
+            font-size: 20px;
+            margin-bottom: 20px;
         }
     }
 

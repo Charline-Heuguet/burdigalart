@@ -66,11 +66,53 @@
         .nav-text {
           text-transform: uppercase;
           letter-spacing: 1px;
-          color: rgb(223, 201, 201);
-          font-size: 0.75rem;
+          color: $beigeclair;
+          font-size: 15px;
           margin-top: 8px;
         }
       }
+    }
+  }
+}
+
+@media (min-width:993px) {
+  .navbar {
+    position: relative;
+    background-color: $beige;
+    box-shadow: 15px 5px 15px rgba(100, 100, 100, 0.5);
+    margin-bottom: 50px;
+
+    .nav-list {
+      margin: 20px;
+
+      .nav-item {
+        .nav-link {
+          .nav-icon {
+            display: none;
+          }
+
+          .nav-text {
+            color: $black;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 0;
+          }
+
+        }
+      }
+    }
+  }
+}
+
+
+@media (min-width: 1030px) {
+  .navbar {
+    width: 100%; // La navbar elle-même ne dépassera pas les 1030px mais restera centrée
+    position: relative;
+    background-color: inherit;
+
+    .nav-list{
+      justify-content: space-between;
     }
   }
 }

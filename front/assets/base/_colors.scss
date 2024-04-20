@@ -13,7 +13,11 @@ $mandarin: #EE8419;
 
 // Couleurs customs:
 $beigeclair:#f7f1eb;
-$bordeaux: #800020;
-$cobalt: #0047AB;
-$olive: #808000;
-$moutarde: #FFDB58;
+$canard: #367F86;
+$bleupastel: #438498;
+
+
+body {
+    background-color: $beige;
+    color: $black;
+}
