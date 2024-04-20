@@ -18,7 +18,7 @@ export interface Artist {
     showPhoto: string,
     showTitle: string,
     showDescription: string,
-    category?: Category,
-    style?: Style,
-    user?: User,
+    category: Category,
+    style: Style,
+    user: User,
 }

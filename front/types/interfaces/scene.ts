@@ -6,6 +6,7 @@ export interface Scene {
     banner: string,
     name: string,
     slug: string,
+    subscription: boolean,
     address: string,
     zipcode: number,
     town: string,

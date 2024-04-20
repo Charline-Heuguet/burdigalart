@@ -58,6 +58,7 @@ body {
         .logo-title{
             display: flex;
             align-items: center;
+            justify-content: center;
         }
         .logo {
             width: 80px;

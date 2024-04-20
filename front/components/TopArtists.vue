@@ -6,10 +6,9 @@
         <Pastille>Voir plus</Pastille>
       </NuxtLink>
     </div>
-    <swiper :slidesPerView="1.5" :spaceBetween="30" :breakpoints="breakpoints" :loop="true" :modules="modules"
-      class="mySwiper">
+    <swiper :slidesPerView="1.5" :spaceBetween="30" :breakpoints="breakpoints" :loop="true" class="mySwiper">
       <swiper-slide v-for="artist in artists" :key="artist.id" class="slide">
-        <div v-if="artist.subscription===true">
+        <div v-if="artist.subscription === true">
           <NuxtLink :to="'/artiste/' + artist.slug">
             <img :src="artist.officialPhoto" alt="" class="artist-photo">
             <div class="text-content">
@@ -41,7 +40,7 @@ const { data: artistsData } = useAsyncData<Artist>(() => {
   return $fetch(`${baseURL}artists`);
 });
 
-const artists = ref([]);
+const artists = ref<Artist[]>([]);
 
 // Réaction aux changements de artistsData pour filtrer les artistes
 // watchEffect est utilisé pour surveiller les changements dans les données récupérées (artistsData). Dès que ces données changent, le code à l'intérieur de watchEffect est exécuté.
@@ -72,13 +71,14 @@ const breakpoints = {
 @import 'assets/base/colors';
 
 
-/** For mobile devices **/
-@media (max-width: 767px) {
-    .custom-shape-divider-bottom-1713567663 svg {
-        width: calc(186% + 1.3px);
-        height: 100px;
-    }
-}
+/** waves container **/
+// @media (max-width: 767px) {
+//   .custom-shape-divider-bottom-1713567663 svg {
+//     width: calc(186% + 1.3px);
+//     height: 100px;
+//   }
+// }
+
 .headings {
   display: flex;
   justify-content: space-between;
@@ -100,23 +100,17 @@ const breakpoints = {
   text-align: center;
 }
 
-
 .mySwiper .swiper-slide {
   position: relative;
   height: 200px;
   border-radius: 10px;
   overflow: hidden;
-  //box-shadow: 4px 2px 5px rgba(0, 0, 0, 0.5);
-
-
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
-  
 
   .text-content {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -131,8 +125,7 @@ const breakpoints = {
     box-sizing: border-box;
   }
 
-  .artist-name,
-  .styletag {
+  .artist-name, .styletag {
     margin: 0;
     white-space: nowrap;
     overflow: hidden;

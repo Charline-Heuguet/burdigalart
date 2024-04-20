@@ -58,11 +58,11 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['scene:create', 'scene:update'])]
+    #[Groups(['scene:index','scene:show','scene:create', 'scene:update'])]
     #[ORM\Column]
     private ?bool $subscription = null;
 
-    #[Groups(['scene:create', 'scene:show', 'scene:update', 'scene:upcoming', 'event:upcoming'])]
+    #[Groups(['scene:index','scene:create', 'scene:show', 'scene:update', 'scene:upcoming', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 

@@ -45,6 +45,7 @@ h3 {
   margin: 40px 0 15px 0;
 }
 
+//pour le wave
 .parent {
   position: relative;
 }

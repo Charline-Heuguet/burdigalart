@@ -24,7 +24,7 @@ const formatDateTime = (dateTime) => {
 const baseURL = 'https://localhost:8000/api/';
 
 const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
-console.log(upcomingEvents);
+//console.log(upcomingEvents);
 </script>
 
 <style scoped lang="scss">
