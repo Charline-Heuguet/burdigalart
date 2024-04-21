@@ -2,22 +2,29 @@
     <div>
         <h1>Explorez les scènes</h1>
         <!-- Div où les scènes ont souscrit à l'abonnement -->
-        <div v-for="scene in scenes" :key="scene.id" class="scene-item">
-            <div v-if="scene.subscription === true">
-                <NuxtLink :to="`/scenes/${scene.slug}`">
-                    <img :src="scene.banner" :alt="scene.name" class="scene-image">
-                    <div class="info">
-                        <h2>{{ scene.name }}</h2>
-                        <p>{{ scene.address }} à {{ scene.town }}</p>
-                    </div>
-                </NuxtLink>
-            </div>
-            <div v-if="scene.subscription === false">
-                <img :src="scene.banner" :alt="scene.name" class="scene-image">
-                <div class="info">
-                    <h2>{{ scene.name }}</h2>
-                    <p>{{ scene.address }} à {{ scene.town }}</p>
-                    <p></p>
+        <div class="container-scene">
+            <div v-for="scene in scenes" :key="scene.id" class="scene-item">
+                <div v-if="scene.subscription === true">
+                    <NuxtLink :to="`/scenes/${scene.slug}`">
+                        <div class="img-scene">
+                            <img :src="scene.banner" :alt="scene.name" class="scene-image">
+                        </div>
+                        <div class="text-content">
+                            <h2>{{ scene.name }}</h2>
+                            <p>{{ scene.address }} à {{ scene.town }}</p>
+                        </div>
+                    </NuxtLink>
+                </div>
+                <div v-if="scene.subscription === false">
+                    <NuxtLink :to="`/scenes/${scene.slug}`">
+                        <div class="img-scene">
+                            <img :src="scene.banner" :alt="scene.name" class="scene-image">
+                        </div>
+                        <div class="text-content">
+                            <h2>{{ scene.name }}</h2>
+                            <p>{{ scene.address }} à {{ scene.town }}</p>
+                        </div>
+                    </NuxtLink>
                 </div>
             </div>
         </div>
@@ -35,35 +42,69 @@ const { data: scenes } = useAsyncData<Scene[]>(() => {
 </script>
 
 <style scoped lang="scss">
-h1{
+@import 'assets/base/colors';
+
+h1 {
     margin-top: 30px;
     margin-bottom: 50px;
     text-align: center;
 }
+
 .scene-item {
     position: relative;
     margin-right: 10px;
     margin-bottom: 50px;
-    width: 100%; 
-    height: auto; 
-    overflow: hidden; 
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .img-scene {
+        width: 100%;
+        height: 300px;
+    }
+
+    h2 {
+        margin-bottom: 0;
+    }
 }
 
 .scene-image {
-    width: 100%;
-    height: 300px;
     object-fit: cover;
+    max-width: none;
+    object-position: 50% 50%;
+    width: 100%;
+    height: 100%;
 }
 
-.info {
+.text-content {
     position: absolute;
     bottom: 0;
+    left: 0;
+    padding: 10px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(5px);
-    background-color: rgba(0, 0, 0, 0.5);
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     color: white;
-    width: 100%;
-    padding: 10px;
+    letter-spacing: 1px;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
+@media (min-width: 680px) {
+    .container-scene {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .scene-item {
+        width: calc(50% - 20px);
+        margin-bottom: 20px;
+    }
+}
 </style>

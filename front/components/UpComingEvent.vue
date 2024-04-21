@@ -10,7 +10,7 @@
       <swiper-slide v-for="allEvent in upcomingEvents" :key="allEvent.id" class="slide">
         <img :src="allEvent.poster" alt="affiche de l'évènement">
         <div class="text-content">
-          <p class="event-name">"{{ allEvent.title }}" au {{ allEvent.scene.name }}</p>
+          <p class="event-name">"{{ allEvent.title }}" à {{ allEvent.scene.name }}</p>
           <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}</p>
         </div>
       </swiper-slide>

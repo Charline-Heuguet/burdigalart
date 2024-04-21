@@ -19,11 +19,10 @@
   @import 'assets/base/colors';
 
   .role-pill {
-    font-size: 14px;
     margin-right: 10px;
     margin-bottom: 10px;
     min-width: 120px;
-    padding: 1px;
+    padding: 8px;
     border-radius: 30px;
     background-color: #f0f0f0;
     cursor: pointer;

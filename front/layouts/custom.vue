@@ -8,7 +8,7 @@
             </NuxtLink>
         </div>
         <div class="navbar-outer">
-            <div class="gutter">
+            <div class="">
                 <Navbar />
             </div>
         </div>
@@ -94,17 +94,5 @@ main {
     }
 }
 
-// @media (min-width: 1030px) {
-//     .navbar-outer {
-//         width: 100%; // Prend toute la largeur de l'écran
-//         box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
-//         position: relative;
-//         z-index: 999999999999999;
 
-//         .gutter {
-//             max-width: 1030px;
-//             margin: 0 auto; // Centre le contenu
-//         }
-//     }
-// }
 </style>

@@ -107,13 +107,13 @@
 
 @media (min-width: 1030px) {
   .navbar {
-    width: 100%; // La navbar elle-même ne dépassera pas les 1030px mais restera centrée
-    position: relative;
-    background-color: inherit;
-
+    position: static;
+    box-shadow: 0 0 20px rgba(100, 100, 100, 0.5);
     .nav-list{
-      justify-content: space-between;
+      justify-content: space-around;
     }
   }
 }
+
+
 </style>

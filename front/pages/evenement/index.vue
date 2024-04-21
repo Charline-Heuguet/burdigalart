@@ -6,7 +6,7 @@
                 <NuxtLink :to="'/evenement/' + allEvent.slug" >
                     <img :src="allEvent.poster" alt="affiche de l'évènement">
                     <div class="text-content">
-                        <p class="event-name">"{{ allEvent.title }}" au {{ allEvent.scene.name }}</p>
+                        <p class="event-name">"{{ allEvent.title }}" à {{ allEvent.scene.name }}</p>
                         <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}h</p>
                     </div>
                 </NuxtLink>
@@ -53,7 +53,6 @@ h1 {
         left: 0;
         padding: 10px;
         width: 100%;
-        border-top: 1px solid $darkgray;
         background-color: rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(5px);
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
@@ -67,7 +66,7 @@ h1 {
   .container-events{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; // Cette propriété répartit les .event sur la ligne
+    justify-content: space-between; 
   }
 
   .event {
@@ -75,7 +74,7 @@ h1 {
     margin-bottom: 20px;
 
     &:nth-child(odd) {
-      margin-right: 20px; // Ajoute une marge à droite pour l'élément de gauche
+      margin-right: 20px; 
     }
   }
 }
