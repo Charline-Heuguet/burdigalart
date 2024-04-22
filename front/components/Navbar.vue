@@ -110,7 +110,10 @@
     position: static;
     box-shadow: 0 0 20px rgba(100, 100, 100, 0.5);
     .nav-list{
-      justify-content: space-around;
+      justify-content: space-between;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 20px
     }
   }
 }

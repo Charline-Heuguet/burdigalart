@@ -35,16 +35,20 @@ const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
 // Breakpoints pour Swiper
 const breakpoints = {
   500: {  // à partir de 640px
-    slidesPerView: 2,
+    slidesPerView: 2.1,
     spaceBetween: 20
   },
   768: {  // à partir de 768px
-    slidesPerView: 3,
+    slidesPerView: 3.3,
     spaceBetween: 30
   },
-  1020: {  // à partir de 1024px
-    slidesPerView: 4,
+  1024: {  // à partir de 1024px
+    slidesPerView: 3,
     spaceBetween: 40
+  },
+  1280: {  // à partir de 1280px
+    slidesPerView: 3.2,
+    spaceBetween: 20
   },
 };
 </script>

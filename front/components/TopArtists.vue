@@ -61,8 +61,12 @@ const breakpoints = {
     spaceBetween: 30
   },
   1024: {  // à partir de 1024px
-    slidesPerView: 4,
+    slidesPerView: 3,
     spaceBetween: 40
+  },
+  1280: {  // à partir de 1280px
+    slidesPerView: 3.5,
+    spaceBetween: 20
   },
 };
 </script>

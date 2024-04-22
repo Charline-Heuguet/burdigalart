@@ -10,10 +10,7 @@
 </template>
 
 <script setup>
-// Définition de la meta de la page
-definePageMeta({
-  layout: 'custom'
-});
+
 
 // IMPORTS
 import UpComingEvent from '~/components/UpComingEvent.vue';
