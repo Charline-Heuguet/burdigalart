@@ -77,10 +77,14 @@
 
 @media (min-width:993px) {
   .navbar {
-    position: relative;
-    background-color: $beige;
+    position: absolute;
+    top: 414px;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
     box-shadow: 15px 5px 15px rgba(100, 100, 100, 0.5);
-    margin-bottom: 50px;
 
     .nav-list {
       margin: 20px;
@@ -92,12 +96,11 @@
           }
 
           .nav-text {
-            color: $black;
+            color: $beigeclair;
             font-size: 20px;
             font-weight: 600;
             margin-top: 0;
           }
-
         }
       }
     }
@@ -107,8 +110,6 @@
 
 @media (min-width: 1030px) {
   .navbar {
-    position: static;
-    box-shadow: 0 0 20px rgba(100, 100, 100, 0.5);
     .nav-list{
       justify-content: space-between;
       max-width: 1140px;

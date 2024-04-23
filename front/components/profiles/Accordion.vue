@@ -34,12 +34,12 @@ const toggle = () => {
   overflow: hidden;
 
   &-title {
+    
     padding: 10px 15px;
-    background-color: #f9f9f9;
     cursor: pointer;
-    display: flex; // Ceci est crucial
-    align-items: center; // Aligner verticalement
-    justify-content: space-between; // Répartit l'espace entre les éléments
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
 
     p {
       margin: 0;
@@ -58,7 +58,6 @@ const toggle = () => {
   .icon {
     width: 20px;
     transition: transform 0.3s ease;
-    // L'alignement à droite est géré par justify-content: space-between; dans .accordion-title
   }
 
   .icon.open {

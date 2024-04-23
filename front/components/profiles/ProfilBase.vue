@@ -1,37 +1,56 @@
-
 <template>
-    <div>
+    <div v-if="user">
         <div class="avatar">
-            <img src="/img/icon-avatar.svg" alt="avatar">
-            <p> Bonjour {{Prénom}}</p>
+            <img :src="user.picture" alt="avatar de l'utilisateur">
+            <p> Bonjour {{ user.firstName }} !</p>
         </div>
-        <input type="text" name="name" id="name" placeholder="Nom">
-        <input type="text" name="firstname" id="firstname" placeholder="Prénom">
-        <input type="text" v-model="email" name="email" id="email" placeholder="Email">
-        
-        <NuxtLink to="/profil/parametres">
+        <!-- <input type="text" v-model="user.name" placeholder="Nom">
+        <input type="text" v-model="user.firstName" placeholder="Prénom">
+        <input type="text" v-model="user.email" placeholder="Email">
+         -->
+         <!-- PARAMETRES -->
+        <!-- <NuxtLink to="/profil/parametres">
             <div class="setting">
-                <img src="/img/icon-settings.svg" alt="">
+                <img src="/img/icon-settings.svg" alt="Paramètres">
                 <p> Paramètres de votre compte.</p>
             </div>
-        </NuxtLink>
+        </NuxtLink> -->
+    </div>
+    <div v-else>
+        <p>Chargement...</p>
     </div>
 </template>
+
 <script setup>
+import { useAsyncData } from 'nuxt/app';
+
+const baseURL = 'https://localhost:8000/api/';
+
+// ATTENTION : L'ID de l'utilisateur est fixé à 1 pour le moment !!! A CHANGER
+const { data: user, error } = await useAsyncData('user', () => fetch(baseURL + 'users/1').then(res => res.json()));
+
+if (error.value) {
+    console.error('Erreur lors de la récupération des données:', error.value);
+}
+
+const email = ref('');
 
 </script>
+
 <style scoped lang="scss">
 @import 'assets/base/colors';
 
 .avatar{
     display: flex;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px 0 40px 0;
     
     img{
-        width: 80px;
+        width: 150px;
         height: auto;
         margin-right: 10px;
+        border-radius: 20px;
+        margin-right: 30px;
     }
 }
 input{

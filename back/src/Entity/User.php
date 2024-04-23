@@ -23,19 +23,19 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update', 'message:read'])]
+    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update', 'message:read'])]
+    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[Groups(['user:show','user:create','user:update'])]
+    #[Groups(['user:index','user:show','user:create','user:update','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
-    #[Groups(['user:show','user:create','user:update', 'message:read'])]
+    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -53,6 +53,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
     private Collection $scenes;
 
+    #[Groups(['user:show','user:create','user:update'])]
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user')]
     private Collection $events;
 
