@@ -19,23 +19,23 @@ class Event
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $dateTime = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $poster = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column]
     private ?float $price = null;
     
@@ -47,7 +47,7 @@ class Event
     #[ORM\ManyToMany(targetEntity: Artist::class, inversedBy: 'events')]
     private Collection $Artist;
 
-    #[Groups(['event:index', 'event.create', 'event:show', 'event:update', 'event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event.create', 'event:show', 'event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?Scene $scene = null;
 

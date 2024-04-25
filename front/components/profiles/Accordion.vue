@@ -34,16 +34,17 @@ const toggle = () => {
   overflow: hidden;
 
   &-title {
-    
+    font-size: 18px;
+    border-bottom: 1px solid $darkgray;
     padding: 10px 15px;
     cursor: pointer;
     display: flex; 
     align-items: center;
     justify-content: space-between;
+    background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
 
     p {
       margin: 0;
-      font-size: 16px;
       color: $black;
       flex: 1; // Permet au titre de prendre l'espace nécessaire mais pas plus
     }

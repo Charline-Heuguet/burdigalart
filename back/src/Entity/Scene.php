@@ -26,19 +26,19 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update','artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update','artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update' ])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show', 'event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show' ])]
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show','event:upcoming','user:show','user:create','user:update' ])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show' ])]
     #[ORM\Column]
     private ?int $zipcode = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column(length: 255)]
     private ?string $town = null;
 

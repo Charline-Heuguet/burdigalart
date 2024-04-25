@@ -72,7 +72,7 @@ const breakpoints = {
     margin: 0;
   }
   .pastille {
-    background-color: $canard;
+    background-color: $turquoise;
     font-weight: 600;
     color: $beigeclair;
     letter-spacing: .03em;

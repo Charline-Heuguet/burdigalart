@@ -50,6 +50,7 @@ watchEffect(() => {
   }
 });
 
+
 // Breakpoints pour Swiper
 const breakpoints = {
   500: {  // à partir de 640px
@@ -73,16 +74,9 @@ const breakpoints = {
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
-
-
-/** waves container **/
-// @media (max-width: 767px) {
-//   .custom-shape-divider-bottom-1713567663 svg {
-//     width: calc(186% + 1.3px);
-//     height: 100px;
-//   }
-// }
-
+.top-artists{
+  position: relative;
+}
 .headings {
   display: flex;
   justify-content: space-between;
@@ -92,6 +86,8 @@ const breakpoints = {
   h3 {
     flex: 1;
     margin: 0;
+    position: absolute;
+    z-index: 999;
   }
 }
 
@@ -138,9 +134,13 @@ const breakpoints = {
 }
 
 .pastille {
-  background-color: $canard;
+  background-color: $pink;
   font-weight: 600;
   color: $beigeclair;
   letter-spacing: .03em;
+  position: absolute;
+  z-index: 999;
+  top: 5%;
+  right: 0%;
 }
 </style>

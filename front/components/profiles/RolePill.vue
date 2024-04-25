@@ -19,17 +19,18 @@ const props = defineProps({
   min-width: 106px;
   padding: 5px;
   border-radius: 30px;
-  border: 1px solid $darkgray;
-  background-color: #f0f0f0;
+  
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s;
   color: $darkgray;
-  background-color: $beigeclair;
+  background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
+  border: none;
 }
 
 .role-pill.active {
   background-color: $bleupastel;
   color: $black;
-  border: none;
+  border: 1px solid $darkgray;
+  
 }
 </style>

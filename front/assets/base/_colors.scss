@@ -15,9 +15,11 @@ $mandarin: #EE8419;
 $beigeclair:#f7f1eb;
 $canard: #367F86;
 $bleupastel: #438498;
+$blanc:#f7f1eb;
 
 
 body {
-    background-color: $beigeclair;
+    //background-color: #f7f1ebd3;
+    background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
     color: $black;
 }

@@ -27,7 +27,7 @@ import { useAsyncData } from 'nuxt/app';
 const baseURL = 'https://localhost:8000/api/';
 
 // ATTENTION : L'ID de l'utilisateur est fixé à 1 pour le moment !!! A CHANGER
-const { data: user, error } = await useAsyncData('user', () => fetch(baseURL + 'users/1').then(res => res.json()));
+const { data: user, error } = await useAsyncData('user', () => fetch(baseURL + 'users/3').then(res => res.json()));
 
 if (error.value) {
     console.error('Erreur lors de la récupération des données:', error.value);

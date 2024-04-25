@@ -78,7 +78,8 @@
 @media (min-width:993px) {
   .navbar {
     position: absolute;
-    top: 414px;
+    top: 400px;
+    transform: translateY(-100%);
     left: 0;
     right: 0;
     height: fit-content;
@@ -110,7 +111,7 @@
 
 @media (min-width: 1030px) {
   .navbar {
-    .nav-list{
+    .nav-list {
       justify-content: space-between;
       max-width: 1140px;
       margin: 0 auto;
@@ -118,6 +119,4 @@
     }
   }
 }
-
-
 </style>

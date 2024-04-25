@@ -78,7 +78,7 @@ class Artist
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update'])]
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'Artist')]
     private Collection $events;
 

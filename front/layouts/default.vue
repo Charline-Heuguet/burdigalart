@@ -49,7 +49,7 @@ header {
         background-repeat: no-repeat;
         background-position: center;
         width: 100%;
-        height: 40vh;
+        height: 400px;
         padding: 20px 0;
         text-align: center;
     }
