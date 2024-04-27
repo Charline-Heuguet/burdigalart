@@ -4,7 +4,7 @@
         <NuxtLink to="/profil/modifier-informations">
             <div class="update">
                 <img src="/img/icon-pencil.svg" alt="un crayon à papier">
-                <p>Modifier vos informations</p>
+                <p>Modifier vos informations personnelles</p>
             </div>
         </NuxtLink>
         <div class="logout">

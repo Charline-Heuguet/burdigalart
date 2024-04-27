@@ -26,7 +26,7 @@
 
   <!-- Accordeon pour les gérants de scène -->
   <div v-if="currentRole === 'Gérant de scène'">
-    
+    <AccordionManager />
   </div>
 
   <NuxtLink to="/profil/parametres">
@@ -41,7 +41,7 @@
 <script setup>
 import RolePill from '~/components/profiles/RolePill.vue';
 import ProfilBase from '~/components/profiles/ProfilBase.vue';
-import Accordion from '~/components/profiles/Accordion.vue';
+import AccordionManager from '~/components/profiles/AccordionManager.vue';
 import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
 import AccordionArtist from '~/components/profiles/AccordionArtist.vue';
 import DateIcon from '~/components/ui/DateIcon.vue';

@@ -7,9 +7,11 @@
           <h3>{{ event.title }}</h3>
           <p>{{ event.scene.name }} - {{ event.scene.address }}</p>
         </div>
-        <img src="/img/icon-arrow-next.svg" alt="flèche vers la droite" />
+        <NuxtLink :to="'/evenement/' + event.slug">
+          <img src="/img/icon-arrow-next.svg" alt="flèche vers la droite" />        
+        </NuxtLink>
       </div>
-      <p v-if="upcomingEvents.length === 0">Aucun événement à venir.</p>
+      <p class="nothing" v-if="upcomingEvents.length === 0">Aucun événement à venir.</p>
     </Accordion>
     <Accordion :item="{title: 'Historique', content: ''}" v-slot:content>
       <div v-for="event in pastEvents" :key="event.slug" class="event">
@@ -18,9 +20,11 @@
           <h3>{{ event.title }}</h3>
           <p>{{ event.scene.name }} - {{ event.scene.address }}</p>
         </div>
-        <img src="/img/icon-arrow-next.svg" alt="flèche vers la droite" />
+        <NuxtLink :to="'/evenement/' + event.slug">
+          <img src="/img/icon-arrow-next.svg" alt="flèche vers la droite" />
+        </NuxtLink>
       </div>
-      <p v-if="pastEvents.length === 0">Aucun événement passé.</p>
+      <p class="nothing" v-if="pastEvents.length === 0">Aucun événement passé.</p>
     </Accordion>
   </div>
 </template>
@@ -32,7 +36,7 @@ import { ref, computed } from 'vue';
 import { useAsyncData } from 'nuxt/app';
 
 const baseURL = 'https://localhost:8000/api';
-const userId = 3; // Utilisateur pour les tests en dur
+const userId = 1; // Utilisateur pour les tests en dur
 
 const { data, error, pending } = useAsyncData('userEvents', () => {
   return $fetch(`${baseURL}/users/${userId}`);
@@ -41,6 +45,7 @@ const { data, error, pending } = useAsyncData('userEvents', () => {
 const upcomingEvents = computed(() => {
   return data.value ? data.value.events.filter(event => new Date(event.dateTime) > new Date()) : [];
 });
+//console.log(upcomingEvents);
 
 const pastEvents = computed(() => {
   return data.value ? data.value.events.filter(event => new Date(event.dateTime) <= new Date()) : [];
@@ -61,5 +66,9 @@ const pastEvents = computed(() => {
     width: 1.5rem;
   }
 }
+
+  .nothing{
+    padding: 12px;
+  }
   
 </style>

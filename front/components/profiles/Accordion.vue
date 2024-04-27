@@ -41,7 +41,7 @@ const toggle = () => {
     display: flex; 
     align-items: center;
     justify-content: space-between;
-    background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
+    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
 
     p {
       margin: 0;

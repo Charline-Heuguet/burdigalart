@@ -19,27 +19,27 @@ class Event
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column]
     private ?\DateTimeImmutable $dateTime = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $poster = null;
 
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column]
     private ?float $price = null;
     
-    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column(length: 255,nullable: true)]
     private ?string $slug = null;
 

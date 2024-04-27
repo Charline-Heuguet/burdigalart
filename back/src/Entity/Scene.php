@@ -70,6 +70,7 @@ class Scene
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[Groups(['scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\OneToMany(mappedBy: 'scene', targetEntity: Event::class)]
     private Collection $events;
 

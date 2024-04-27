@@ -11,7 +11,11 @@
                 </div>
                 <div class="info-event">
                     <img src="/img/icon-calendar.svg" alt="">
-                    <p>Le {{ formatDateTime(events.dateTime) }}</p>
+                    <p>Le {{ formatDateTime(events.dateTime) }}h</p>
+                </div>
+                <div class="info-event">
+                    <img src="/img/icon-euro2.svg" alt="symbole de la monnaie euro">
+                    <p>{{ events.price.toFixed(2) }} euros</p>
                 </div>
             </div>
             <div v-if="events.Artist.length > 0">
@@ -21,7 +25,7 @@
                         <img :src="artist.officialPhoto" alt="">
                         <div class="namestyle">
                             <p>{{ artist.artistName }}</p>
-                            <p class="style">{{artist.style.styleName}}</p>
+                            <p class="style">{{ artist.style.styleName }}</p>
                         </div>
                     </div>
                 </div>
@@ -38,7 +42,7 @@
 
 <script setup>
 import dayjs from 'dayjs';
-import TagStyle from '~/components/ui/TagStyle.vue';
+
 // LES CONSTANTES
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
@@ -94,10 +98,22 @@ img {
     }
 }
 
-.photo{
+.photo {
     position: relative;
-    .namestyle{
-        position:absolute;
+    width: 100%;
+    height: 300px; 
+    margin-bottom: 30px;
+    
+
+    img {
+        width: 100%; // prend la largeur totale du parent
+        height: 100%; // prend la hauteur totale du parent
+        object-fit: cover; // assure que l'image couvre la dimension du parent sans perdre son ratio
+        object-position: center; // centre l'image dans le cadre
+    }
+
+    .namestyle {
+        position: absolute;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -110,13 +126,13 @@ img {
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
         color: white;
 
-        .style{
+        .style {
             border: 1px solid $orange;
             background-color: $orange;
             border-radius: 100px;
             margin-left: 20px;
             padding: 2px 5px;
-            min-width:100px;
+            min-width: 100px;
             text-align: center;
         }
     }

@@ -28,6 +28,7 @@
                     <option value="">Choisir un destinataire</option>
                     <option>Un.e artiste</option>
                     <option>Un.e gérant de scène</option>
+                    <option>Aux administrateurs du site</option>
                 </select>
             </div>
 

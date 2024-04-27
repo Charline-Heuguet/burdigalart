@@ -37,9 +37,9 @@
 
                 <form @submit.prevent="saveShow">
                     <div class="form-group">
-                        <label for="showPhoto">Photo du spectacle</label>
-                        <input type="file" id="showPhoto" @change="updateShowPhoto">
+                        <label for="showPhoto">Photo de votre spectacle</label>
                         <img :src="artist.showPhoto" alt="Photo du spectacle" class="show-photo">
+                        <input type="file" id="showPhoto" @change="updateShowPhoto">
                     </div>
                     <div class="form-group">
                         <label for="showTitle">Titre du spectacle</label>
@@ -147,6 +147,10 @@ const subscribe = () => {
         line-height: 1.5;
         border: 1px solid #ccc;
         border-radius: .25rem;
+    }
+
+    #showPhoto {
+        margin-top: 12px;
     }
 
 }
