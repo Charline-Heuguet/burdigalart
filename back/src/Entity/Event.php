@@ -39,7 +39,7 @@ class Event
     #[ORM\Column]
     private ?float $price = null;
     
-    #[Groups(['event:index', 'event:show', 'event:create','event:update','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     #[ORM\Column(length: 255,nullable: true)]
     private ?string $slug = null;
 

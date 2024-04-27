@@ -39,7 +39,7 @@
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: $black;
+  background-color: $darkgray;
   z-index: 999999999999999;
 
   .nav-list {
@@ -92,8 +92,11 @@
 
       .nav-item {
         .nav-link {
+          display: flex;
+          flex-direction: row;
+          justify-items: center;
           .nav-icon {
-            display: none;
+            padding-right: 10px;
           }
 
           .nav-text {

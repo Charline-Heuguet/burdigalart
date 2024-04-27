@@ -16,3 +16,17 @@ h2{
 h3{
     margin-bottom: 0.5em;
 }
+
+.ar16-9{
+    position: relative;
+    padding-top: 56.25%;
+    overflow: hidden;
+    img{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+}

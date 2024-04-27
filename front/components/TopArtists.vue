@@ -106,6 +106,10 @@ const breakpoints = {
   border-radius: 10px;
   overflow: hidden;
 
+  &>div{
+    height: 100%;
+  }
+
   img {
     width: 100%;
     height: 100%;

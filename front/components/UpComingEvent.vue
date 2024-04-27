@@ -8,11 +8,13 @@
     </div>
     <swiper :slidesPerView="1.5" :spaceBetween="30" :breakpoints="breakpoints" :loop="true" :modules="modules" class="mySwiper">
       <swiper-slide v-for="allEvent in upcomingEvents" :key="allEvent.id" class="slide">
-        <img :src="allEvent.poster" alt="affiche de l'évènement">
-        <div class="text-content">
-          <p class="event-name">"{{ allEvent.title }}" à {{ allEvent.scene.name }}</p>
-          <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}</p>
-        </div>
+        <NuxtLink :to="'/evenement/' + allEvent.slug">
+          <img :src="allEvent.poster" alt="affiche de l'évènement">
+          <div class="text-content">
+            <p class="event-name">"{{ allEvent.title }}" à {{ allEvent.scene.name }}</p>
+            <p class="event-date">Le {{ formatDateTime(allEvent.dateTime) }}</p>
+          </div>
+        </NuxtLink>
       </swiper-slide>
     </swiper>
   </div>
