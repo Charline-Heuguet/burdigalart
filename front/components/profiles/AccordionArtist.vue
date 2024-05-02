@@ -26,7 +26,7 @@
                         <label for="linkExcerpt">Un lien d'un extrait où on pourrait vous voir</label>
                         <input type="text" id="linkExcerpt" v-model="artist.linkExcerpt">
                     </div>
-                    <Button />
+                    <ButtonSubmit>Valider</ButtonSubmit>
                 </form>
             </template>
         </Accordion>
@@ -49,7 +49,7 @@
                         <label for="showDescription">Description du spectacle</label>
                         <textarea id="showDescription" v-model="artist.showDescription"></textarea>
                     </div>
-                    <Button />
+                    <ButtonSubmit>Valider</ButtonSubmit>
                 </form>
 
             </template>
@@ -94,7 +94,7 @@
 import { ref, computed } from 'vue';
 import Accordion from './Accordion.vue';
 import DateIcon from '../ui/DateIcon.vue';
-import Button from '../ui/Button.vue';
+import ButtonSubmit from '../ui/ButtonSubmit.vue';
 import { useAsyncData } from 'nuxt/app';
 
 const baseUrl = 'https://localhost:8000/api';

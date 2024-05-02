@@ -1,6 +1,8 @@
 <template>
 
-    <button type="submit">Valider</button>
+    <button type="submit">
+        <slot></slot>
+    </button>
 
 </template>
 

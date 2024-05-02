@@ -7,44 +7,46 @@
                 <img :src="events.poster" alt="">
             </div>
             <!-- Bouton "Réserver" qui amène au panier -->
-            <Booking />
+            <NuxtLink to="/panier">
+                <OrangeButton>Reserver</OrangeButton>
+            </NuxtLink>
             <div class="infos">
                 <div class="info-event">
                     <img src="/img/icon-calendar.svg" alt="">
                     <p>Le {{ formatDateTime(events.dateTime) }}h</p>
                 </div>
-                <div class="info-event">
-                    <img src="/img/icon-euro2.svg" alt="symbole de la monnaie euro">
-                    <p>{{ events.price.toFixed(2) }} euros</p>
+                <div class="info-event price">
+                    <!-- <img src="/img/icon-euro2.svg" alt="symbole de la monnaie euro"> -->
+                    <p>{{ events.price.toFixed(2) }}€</p>
                 </div>
                 <div class="info-event">
                     <img src="/img/icon-marker.svg" alt="">
                     <p>{{ events.scene.address }} <br> {{ events.scene.zipcode }} {{ events.scene.town }}</p>
                 </div>
             </div>
-            
-                <div v-if="events.Artist.length > 0">
-                    <h2>Vous les verrez sur scène :</h2>
-                    <div class="container-artist">
-                        <div v-for="artist in events.Artist" :key="artist.slug" class="show">
-                            <div class="photo ar16-9">
-                                <img :src="artist.officialPhoto" alt="">
-                                <div class="namestyle">
-                                    <p>{{ artist.artistName }}</p>
-                                    <p class="style">{{ artist.style.styleName }}</p>
-                                </div>
+
+            <div v-if="events.Artist.length > 0">
+                <h2>Vous les verrez sur scène :</h2>
+                <div class="container-artist">
+                    <div v-for="artist in events.Artist" :key="artist.slug" class="show">
+                        <div class="photo ar16-9">
+                            <img :src="artist.officialPhoto" alt="">
+                            <div class="namestyle">
+                                <p>{{ artist.artistName }}</p>
+                                <p class="style">{{ artist.style.styleName }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
         </div>
     </div>
 </template>
 
 <script setup>
 import dayjs from 'dayjs';
-import Booking from '~/components/ui/Booking.vue';
+import OrangeButton from '~/components/ui/OrangeButton.vue';
 
 // LES CONSTANTES
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
@@ -77,7 +79,7 @@ img {
     height: auto;
 }
 
-.desc{
+.desc {
     margin-bottom: 20px;
 }
 
@@ -93,7 +95,6 @@ img {
         display: flex;
         align-items: center;
         padding: 10px 0;
-        flex: 0 0 calc(50% - 12px);
 
         &:last-child {
             flex: 0 0 100%;
@@ -109,6 +110,20 @@ img {
             height: auto;
             margin-right: 10px;
         }
+    }
+    .price{
+        background-color: $canard;
+        text-align: center;
+        border-radius: 100px;
+        color: $beigeclair;
+        width: 60px;
+        height: 60px;
+        padding: 3px;
+        p{
+            margin: 0 auto;
+            font-size: 16px;
+        }
+    
     }
 }
 
@@ -164,30 +179,28 @@ img {
             flex: 0 0 calc(50% - 10px);
         }
     }
-}
-
     .infos {
         flex-wrap: nowrap;
-
+    
         .info-event {
             flex: 0 0 calc(33% - 12px);
-
+    
             &:last-child {
                 flex: 0 0 calc(33% - 12px);
             }
-
+    
             img {
                 width: 30px;
                 height: auto;
                 margin-right: 10px;
             }
-
+    
             p {
                 font-size: 16px;
             }
         }
     }
-
+    
     .photo {
         .namestyle {
             p {
@@ -197,5 +210,6 @@ img {
             }
         }
     }
+}
 
 </style>

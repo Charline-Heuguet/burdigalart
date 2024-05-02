@@ -86,7 +86,7 @@ const breakpoints = {
   h3 {
     flex: 1;
     margin: 0;
-    position: absolute;
+    position: relative;
     z-index: 999;
   }
 }
@@ -142,9 +142,7 @@ const breakpoints = {
   font-weight: 600;
   color: $beigeclair;
   letter-spacing: .03em;
-  position: absolute;
+  position: relative;
   z-index: 999;
-  top: 5%;
-  right: 0%;
 }
 </style>

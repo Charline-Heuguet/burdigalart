@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <NuxtLink to="/panier">Réserver</NuxtLink>  
+    <div class="button-link">
+        <slot></slot>
     </div>
 </template>
-
 <style scoped lang="scss">
 @import 'assets/base/colors';
-a {
+
+.button-link {
     background-color: $mandarin;
     color: white;
     border: none;
@@ -21,8 +21,7 @@ a {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 2px solid darken($mandarin,5%);
-    text-shadow: 2px 2px 0px darken($mandarin,15%);
+    border: 2px solid darken($mandarin, 5%);
+    text-shadow: 2px 2px 0px darken($mandarin, 15%);
 }
-
 </style>

@@ -9,6 +9,7 @@ import type { User } from "./user";
 export interface Artist {
     id?: number,
     artistName : string,
+    description : string,
     subscription: boolean,
     slug: string,
     officialPhoto : string,

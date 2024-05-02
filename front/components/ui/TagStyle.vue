@@ -23,8 +23,6 @@ div {
     border-radius: 50px;
     padding: 3px 7px;
     min-width: 55px;
-    font-size: 11px;
-    background: $darkgray;
     color: white;
     text-transform: uppercase;
   }
