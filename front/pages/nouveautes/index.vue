@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <h1>Ils nous ont rejoints</h1>
+        <h2>Plongez dans notre galerie des derniers arrivés : découvrez les artistes et leurs différents univers. </h2>
         <div v-if="pending">Chargement...</div>
         <div v-else-if="error">Erreur : {{ error }}</div>
         <div v-else-if="!artists || artists.length === 0">Aucun artiste à afficher</div>
@@ -88,6 +89,7 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .card {
@@ -154,7 +156,7 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
             z-index: 1;
             position: absolute;
             top: 0;
-            padding: 40px;
+            padding: 3%;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -164,8 +166,9 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
                 padding: 10px;
                 background-color: $mandarin;
                 border-radius: 100px;
-                color: #fff;
-                font-size: 12px;
+                color: $black;
+                font-size: 14px;
+                font-weight: bold;
                 width: max-content;
                 letter-spacing: 0.6px;
                 text-align: center;
@@ -173,7 +176,7 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
 
             .card-title {
                 font-size: 24px;
-                color: #fff;
+                color: $beigeclair;
                 font-weight: bold;
                 line-height: 1.4;
             }
@@ -183,12 +186,12 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
                 align-items: center;
                 column-gap: 20px;
                 font-size: 14px;
-                color: #fff;
+                color: $beigeclair;
 
                 .card-user {
                     display: flex;
                     align-items: center;
-                    column-gap: 8px;
+                    column-gap: 16px;
 
                     .card-user-name {
                         line-height: 1.4em;
@@ -237,9 +240,6 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
 
                 .card-tags {
                     padding: 5px;
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
                 }
 
                 .card-footer {
@@ -253,6 +253,58 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
                         }
                     }
                 }
+            }
+        }
+
+    }
+}
+
+@media (min-width: 805px) {
+    .container-artist {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .card {
+            width: calc(50% - 20px);
+            margin-bottom: 20px;
+
+            .card-item{
+                .card-content {
+                    padding: 20px 30px;
+    
+                    .card-title {
+                        font-size: 24px;
+                    }
+    
+                    .infos-card {
+                        position: relative;
+                        margin-bottom: 20px;
+                        align-items: center;
+                        h2{
+                            margin-bottom: 0;
+                        }
+                        .card-tags {
+                            padding: 10px;
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                        }
+                    }
+    
+                    .card-footer {
+                        .card-user {
+                            .card-user-name {
+                                line-height: 1.4em;
+                                overflow: hidden;
+                                display: -webkit-box;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 3;
+                            }
+                        }
+                    }
+                }
+
             }
         }
 

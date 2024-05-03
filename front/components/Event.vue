@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <div v-if="pending">Chargement...</div>
-        <div v-else-if="error">Erreur : {{ error }}</div>
-        <div v-else>
+    <div v-if="pending">Chargement...</div>
+    <div v-else-if="error">Erreur : {{ error }}</div>
+    <div v-else>
+        <div class="container-artist">
             <div v-for="event in sceneData.events" :key="event.id" class="event">
                 <NuxtLink :to="`/evenement/${event.slug}`">
                     <div class="ar16-9">
@@ -17,11 +17,11 @@
                         </div>
                         <div class="price">
                             <!-- <img src="/img/icon-euro.svg" alt="euro" /> -->
-                            <p>{{ event.price.toFixed(2)  }}€</p>
+                            <p>{{ event.price.toFixed(2) }}€</p>
                         </div>
                     </div>
                 </NuxtLink>
-                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -36,11 +36,11 @@ const slugScene = 'le-petit-grain';
 
 // Utiliser useAsyncData pour récupérer les données de manière asynchrone
 const { data: sceneData, pending, error } = useAsyncData('scene-events', () => {
-  return $fetch(`${baseURL}scenes/${slugScene}`);
+    return $fetch(`${baseURL}scenes/${slugScene}`);
 });
 
 const formatDateTime = (dateTime) => {
-  return dayjs(dateTime).format('DD/MM à HH:mm');
+    return dayjs(dateTime).format('DD/MM à HH:mm');
 };
 </script>
 
@@ -49,19 +49,20 @@ const formatDateTime = (dateTime) => {
 @import 'assets/base/colors';
 
 .event {
-    border: 1px solid black;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 25px;
+    background-color: $beigeclair;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
 
-    h3{
+    h3 {
         text-align: center;
         margin-top: 12px;
     }
-    
-    
+
+
     p {
-        padding:4px;
+        padding: 4px;
     }
 
     .infos {
@@ -69,18 +70,20 @@ const formatDateTime = (dateTime) => {
         justify-content: space-between;
         padding: 5px;
     }
-    .date, .price{
+
+    .date,
+    .price {
         display: flex;
         align-items: center;
 
-        img{
+        img {
             width: 20px;
             height: auto;
             margin-right: 10px;
         }
     }
 
-    .price{
+    .price {
         background-color: $canard;
         text-align: center;
         border-radius: 100px;
@@ -88,11 +91,24 @@ const formatDateTime = (dateTime) => {
         width: 60px;
         height: 60px;
         padding: 3px;
-        p{
+
+        p {
             margin: 0 auto;
             font-size: 16px;
         }
 
+    }
+}
+
+@media (min-width: 680px) {
+    .container-artist {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .event {
+            width: calc(50% - 20px);
+        }
     }
 }
 </style>

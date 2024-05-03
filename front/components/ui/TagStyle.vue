@@ -23,7 +23,6 @@ div {
     border-radius: 50px;
     padding: 3px 7px;
     min-width: 55px;
-    color: white;
     text-transform: uppercase;
   }
 }

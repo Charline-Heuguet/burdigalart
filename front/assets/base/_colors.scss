@@ -15,11 +15,12 @@ $mandarin: #EE8419;
 $beigeclair:#f7f1eb;
 $canard: #367F86;
 $bleupastel: #438498;
-$blanc:#f7f1eb;
 
 
 body {
     //background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
-    background-color: $beigeclair;
+    //background-color: $beigeclair;
+    background: url('/bg/2.webp');
+    background-size: cover;
     color: $black;
 }

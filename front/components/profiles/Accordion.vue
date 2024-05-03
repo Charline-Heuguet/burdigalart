@@ -2,7 +2,8 @@
   <div class="accordion">
     <div class="accordion-title" @click="toggle">
       <slot name="title">{{ item.title }}</slot>
-      <img src="/img/icon-arrow-next.svg" alt="une fleche qui se dirige à droite" class="icon" :class="{ 'open': isOpen }">
+      <img src="/img/icon-arrow-next.svg" alt="une fleche qui se dirige à droite" class="icon"
+        :class="{ 'open': isOpen }">
     </div>
     <div v-show="isOpen" class="accordion-content" :class="{ 'open': isOpen }">
       <slot name="content">{{ item.content }}</slot>
@@ -32,16 +33,18 @@ const toggle = () => {
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
+  background-color: rgba(247, 241, 235, 0.7);
 
   &-title {
     font-size: 18px;
     border-bottom: 1px solid $darkgray;
     padding: 10px 15px;
     cursor: pointer;
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    //background: rgb(67, 132, 152);
+    background: linear-gradient(180deg, rgba(67, 132, 152, 1) 0%, rgba(67, 132, 152, 0.6558998599439776) 50%);
 
     p {
       margin: 0;
@@ -65,5 +68,4 @@ const toggle = () => {
     transform: rotate(90deg);
   }
 }
-
 </style>
