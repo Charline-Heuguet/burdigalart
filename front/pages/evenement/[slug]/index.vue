@@ -52,8 +52,6 @@ import { useCartStore } from '~/stores/useCartStore';
 
 // LES CONSTANTES
 const baseURL = 'https://localhost:8000/api/';
-// Store
-const cartStore = useCartStore();
 
 // Pour récupérer le slug de l'URL
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
@@ -66,6 +64,8 @@ const formatDateTime = (dateTime) => {
 // Appel API
 const { data: events, error } = useFetch(baseURL + 'events/' + slug);
 
+// Store
+const cartStore = useCartStore();
 
 const addToCart = () => {
   console.log("Adding to cart", {
