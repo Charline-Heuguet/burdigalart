@@ -20,7 +20,8 @@
     "qs": "^6.12.0",
     "swiper": "^11.0.7",
     "vue": "^3.4.15",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "@pinia/nuxt": "^0.5.1"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.3",

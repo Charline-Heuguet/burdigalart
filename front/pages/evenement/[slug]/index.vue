@@ -10,6 +10,7 @@
             <NuxtLink to="/panier" @click="addToCart">
                 <OrangeButton>Reserver</OrangeButton>
             </NuxtLink>
+
             <div class="infos">
                 <div class="info-event">
                     <img src="/img/icon-calendar.svg" alt="">
@@ -47,33 +48,39 @@
 <script setup>
 import dayjs from 'dayjs';
 import OrangeButton from '~/components/ui/OrangeButton.vue';
+import { useCartStore } from '~/stores/useCartStore';
 
 // LES CONSTANTES
+const baseURL = 'https://localhost:8000/api/';
+// Store
+const cartStore = useCartStore();
+
+// Pour récupérer le slug de l'URL
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
-const baseURL = 'https://localhost:8000/api/';
 
 const formatDateTime = (dateTime) => {
     return dayjs(dateTime).format('DD/MM à HH:mm');
 };
 
+// Appel API
 const { data: events, error } = useFetch(baseURL + 'events/' + slug);
-// const store = useStore();
-// const addToCart = () => {
-//     const eventForCart = {
-//         id: events.value.id, // Assure-toi que chaque événement a un identifiant unique
-//         artist: events.value.Artist.map(a => a.artistName).join(', '),
-//         show: events.value.title,
-//         price: parseFloat(events.value.price.toFixed(2)),
-//         quantity: 1
-//     };
-//     store.dispatch('addToCart', eventForCart);
-// };
 
-// COPILOT
-// const addToCart = (event) => {
-//     store.addToCart(event);
-// };
+
+const addToCart = () => {
+  console.log("Adding to cart", {
+    id: events.value.id,
+    artist: events.value.Artist.map(a => a.artistName).join(', '),
+    show: events.value.title,
+    price: parseFloat(events.value.price.toFixed(2))
+  });
+  cartStore.addItem({
+    id: events.value.id,
+    artist: events.value.Artist.map(a => a.artistName).join(', '),
+    show: events.value.title,
+    price: parseFloat(events.value.price.toFixed(2))
+  });
+};
 </script>
 
 <style scoped lang="scss">

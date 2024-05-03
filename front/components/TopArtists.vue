@@ -54,11 +54,11 @@ watchEffect(() => {
 // Breakpoints pour Swiper
 const breakpoints = {
   500: {  // à partir de 640px
-    slidesPerView: 2,
+    slidesPerView: 2.6,
     spaceBetween: 20
   },
   768: {  // à partir de 768px
-    slidesPerView: 3,
+    slidesPerView: 3.3,
     spaceBetween: 30
   },
   1024: {  // à partir de 1024px

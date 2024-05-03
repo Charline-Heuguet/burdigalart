@@ -17,6 +17,7 @@ class Artist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

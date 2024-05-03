@@ -21,7 +21,8 @@
             Total:<span>{{ calculateTotal }} €</span>
         </div>
         <NuxtLink to="/paiement">
-            <button class="validate-button" @click="validateOrder">Valider ma commande</button>
+            <OrangeButton class="validate-button" @click="validateOrder">Valider ma commande</OrangeButton>
+            <!-- <button >Valider ma commande</button> -->
         </NuxtLink>
        
         <p class="info-redirection">Redirection vers la page de paiement</p>
@@ -30,33 +31,29 @@
   
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import type OrangeButton from '~/components/ui/OrangeButton.vue';
+import { useCartStore } from '~/stores/useCartStore';
 
-const items = ref([
-    { id: 1, artist: 'Paul TAYLOR', show: 'BisouBye X', price: 40, quantity: 2},
-    { id: 2, artist: 'David VOINSON', show: 'La blonde', price: 20, quantity: 1}
-]);
+const cartStore = useCartStore();
+
+const items = computed(() => cartStore.items);
+const calculateTotal = computed(() => cartStore.calculateTotal());
 
 const calculateItemTotal = (item) => {
-    return item.quantity * item.price;
+  return item.quantity * item.price;
 };
 
-const calculateTotal = computed(() => {
-    return items.value.reduce((total, item) => total + calculateItemTotal(item), 0);
-});
-
-const increment = (item) => {
-    item.quantity++;
+const increment = (id) => {
+  cartStore.increment(id);
 };
 
-const decrement = (item) => {
-    if (item.quantity > 1) {
-        item.quantity--;
-    }
-};
-const removeItem = (itemToRemove) => {
-    items.value = items.value.filter(item => item.id !== itemToRemove.id);
+const decrement = (id) => {
+  cartStore.decrement(id);
 };
 
+const removeItem = (id) => {
+  cartStore.removeItem(id);
+};
 const validateOrder = () => {
     // Placeholder pour la logique de validation de la commande
 };

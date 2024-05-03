@@ -75,7 +75,6 @@ import TagStyle from '~/components/ui/TagStyle.vue';
 
 const baseURL = 'https://localhost:8000/api/';
 
-// Utilisation de useAsyncData pour récupérer les données des artistes de manière asynchrone
 const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
     return $fetch(`${baseURL}artists`);
 });

@@ -17,6 +17,7 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
     private ?int $id = null;
 
     #[Groups(['event:index', 'event:show', 'event:create','event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
