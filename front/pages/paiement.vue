@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <form class="form">
-      <h2>Paiement</h2>
+      <h1>Paiement</h1>
       <div class="credit-card-info--form">
         <div class="input_container">
           <label for="password_field" class="input_label">Nom du propriétaire de la carte</label>

@@ -2,7 +2,7 @@
     <!-- Contenu de la page d'inscription -->
     <div class="back">
         <div class="content">
-            <h2>Créez votre compte</h2>
+            <h1>Créez votre compte</h1>
             <form>
                 <label for="username" class="sr-only">Nom</label>
                 <input type="text" id="username" name="username" placeholder="Nom">

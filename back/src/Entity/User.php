@@ -47,10 +47,11 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
+    #[Groups(['user:index','user:show','user:create','user:update','artist:index','artist:show','artist:create','artist:update','scene:index','scene:show','scene:create','scene:update'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 
-    // un utilisateur peut avoir 0 à plusieurs scènes
+    #[Groups(['user:index','user:show','user:create','user:update','scene:index','scene:show','scene:create','scene:update'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Scene::class)]
     private Collection $scenes;
 

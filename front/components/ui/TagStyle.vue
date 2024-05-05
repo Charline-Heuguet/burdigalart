@@ -16,14 +16,13 @@ const props = defineProps({
 @import 'assets/base/colors';
 
 div {
-  margin-bottom: 20px;
 
   .style {
     display: inline-block;
     border-radius: 50px;
-    padding: 3px 7px;
     min-width: 55px;
     text-transform: uppercase;
+    font-size: 12px;
   }
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>Explorez les scènes</h1>
+        <p class="h2">Découvrez des nouveaux endroits, allez à leurs évènements et trouvez votre nouvel artiste préféré</p>
         <!-- Div où les scènes ont souscrit à l'abonnement -->
         <div class="container-scene">
             <div v-for="scene in scenes" :key="scene.id" class="scene-item">

@@ -21,10 +21,10 @@ class Artist
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update','user:index','user:show','user:create','user:update',])]
     private ?string $artistName = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update',])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -56,11 +56,11 @@ class Artist
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','event:show'])]
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','event:show','user:index','user:show','user:create','user:update',])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','user:index','user:show','user:create','user:update' ])]
     #[ORM\Column]
     private ?bool $subscription = null;
 

@@ -33,7 +33,6 @@ const toggle = () => {
   border-radius: 5px;
   margin-bottom: 10px;
   overflow: hidden;
-  background-color: rgba(247, 241, 235, 0.7);
 
   &-title {
     font-size: 18px;

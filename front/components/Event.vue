@@ -9,7 +9,7 @@
                         <img :src="event.poster" :alt="event.title" />
                     </div>
                     <h3>{{ event.title }}</h3>
-                    <p class="line-clamp-2">{{ event.description }}</p>
+                    <p class="description-event">{{ event.description }}</p>
                     <div class="infos">
                         <div class="date">
                             <img src="/img/icon-calendar.svg" alt="calendrier" />
@@ -61,14 +61,19 @@ const formatDateTime = (dateTime) => {
     }
 
 
-    p {
-        padding: 4px;
-    }
 
     .infos {
         display: flex;
         justify-content: space-between;
         padding: 5px;
+    }
+
+    .description-event {
+        padding: 0 8px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
     }
 
     .date,

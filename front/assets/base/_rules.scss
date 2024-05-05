@@ -10,18 +10,18 @@ h1{
 }
 
 h2{
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 
 h3{
     margin-bottom: 0.5em;
 }
 
-.ar16-9{
+div.ar16-9{
     position: relative;
     padding-top: 56.25%;
     overflow: hidden;
-    img{
+    img, iframe{
         position: absolute;
         top: 0;
         width: 100%;
@@ -29,4 +29,21 @@ h3{
         object-fit: cover;
         object-position: center;
     }
+}
+
+.card-tags {
+    padding: 10px;
+    background-color: $mandarin;
+    border-radius: 100px;
+    color: $black;
+    font-size: 14px;
+    font-weight: bold;
+    width: max-content;
+    letter-spacing: 0.6px;
+    text-align: center;
+    text-shadow: none;
+}
+
+div.container{
+    max-width: none;
 }

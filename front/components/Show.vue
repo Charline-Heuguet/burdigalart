@@ -2,12 +2,11 @@
     <div v-if="showData" class="show">
         <img :src="showData.showPhoto" alt="affiche du spectacle">
         <div class="showContent">
-            <h1>{{ showData.artistName }}</h1>
             <p class="title">{{ showData.showTitle }}</p>
             <div class="description">
-                <p class="line-clamp-3">{{ showData.showDescription }}</p>
+                <p>{{ showData.showDescription }}</p>
             </div>
-       </div>
+        </div>
     </div>
     <div v-else>
         Chargement...
@@ -26,25 +25,49 @@ const { data: showData } = useFetch(baseURL + 'artists/' + slug);
 
 </script>
 <style scoped lang="scss">
+@import 'assets/base/colors';
+
 h1 {
     font-size: 45px;
 }
 
 .show {
-    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+    background-color: $beigeclair;
+    margin-bottom: 50px;
 
     .showContent {
         padding: 8px;
 
-        .title{
+        .title {
             font-size: 20px;
             font-weight: 500;
         }
+
         .description {
             margin: 20px 10px;
-            font-style: italic ;
+            font-style: italic;
         }
     }
 
+}
+
+@media (min-width: 679px){
+    .show {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .showContent{
+            margin-left: 15px;
+        }
+
+        img {
+            width: 300px;
+        }
+    }
+    
 }
 </style>

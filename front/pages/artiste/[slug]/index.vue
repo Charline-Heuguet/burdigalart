@@ -4,10 +4,10 @@
         <div v-if="artiste && !error">
             <div class="presentation">
                 <img :src="artiste.officialPhoto" :alt="`photo officielle de ${artiste.artistName}`">
-                <div>
+                <div class="artist-info">
                     <h1>{{ artiste.artistName }}</h1>
-                    <TagCategory v-if="artiste.category" :category="artiste.category.categoryName" />
-                    <TagStyle v-if="artiste.style" :style="artiste.style.styleName" />
+                    <!-- <TagCategory v-if="artiste.category" :category="artiste.category.categoryName" /> -->
+                    <TagStyle v-if="artiste.style" :style="artiste.style.styleName" class="card-tags" />
                 </div>
             </div>
         </div>
@@ -15,41 +15,31 @@
             <p>Erreur : Impossible de charger les données de l'artiste.</p>
         </div>
         <!-- Description -->
-        <!-- <p class="description"> {{ artiste.value.description }}</p> -->
+        <h2 class="description" v-if="artiste"> {{ artiste.description }}</h2>
 
         <!-- EXTRAIT VIDEO -->
-        <video controls src="">Vidéo extrait de l'artiste</video>
-        <!-- RESEAUX -->
-        <!-- <div>
-            <div class="reseaux">
-                <NuxtLink :to="`https://www.instagram.com/${artiste.instagram}/`">
-                    <img class="icon" src="/img/icon-yt.svg" alt="youtube">
-                </NuxtLink>
-                <NuxtLink :to="`https://www.instagram.com/${artiste.instagram}/`">
-                    <img class="icon" src="/img/icon-insta.svg"
-                        alt="un appareil photo blanc sur un fond degradé de rose violet jaune">
-                </NuxtLink>
-                <NuxtLink :to="`https://www.facebook.com/${artiste.facebook}/`">
-                    <img class="icon" src="/img/icon-fb.svg" alt="un f minuscule de couleur bleue">
-                </NuxtLink>
-            </div>
-        </div> -->
-        <!-- MAIL -->
-        <div class="mail">
-            <NuxtLink to="/contact">
-            <img class="icon" src="/img/icon-envelop.svg" alt="enveloppe">
-            <p>Si une collaboration vous interesse, contactez-moi !</p>
-            </NuxtLink>
+        <div class="ar16-9">
+            <iframe class="video-wrapper" v-if="artiste && artiste.linkExcerpt"
+                :src="`https://www.youtube.com/embed/${getYoutubeID(artiste.linkExcerpt)}`" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
         </div>
+
+        <!-- MAIL -->
+        <NuxtLink to="/contact">
+            <div class="mail">
+                <img class="icon" src="/img/icon-envelop.svg" alt="enveloppe">
+                <p>Des encouragements? Une collab' ? Contactez-moi !</p>
+            </div>
+        </NuxtLink>
+
+        <!-- SPECTACLE DE L'ARTISTE -->
         <h2> Son spectacle: </h2>
-        <!-- TODO: Mettre un NuxtLink pour diriger vers le [ShowTitle] -->
-        <!-- <NuxtLink :to="`/artiste/${showData.slug}/${showData.showTitle}`"> -->
         <Show />
-        <!-- </NuxtLink> -->
-        <h2> Vous pouvez voir cet.te artiste ici:</h2>
+
+        <h2>Vous pouvez voir cet.te artiste ici:</h2>
         <Event />
-        <!-- <h3> Ses recommandations: </h3>
-        <Recommandation /> -->
     </section>
 </template>
 
@@ -67,6 +57,11 @@ const slug = route.params.slug; // On récupère le slug de l'URL
 const { data: artiste, error } = useFetch<Artist>(baseURL + 'artists/' + slug);
 console.log(artiste);
 
+function getYoutubeID(url) {
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[7].length == 11) ? match[7] : null;
+}
 
 // Pour le titre de l'onglet
 const { toTitleCase } = useUtilities();
@@ -76,9 +71,17 @@ useHead({
 </script>
 
 <style scoped lang="scss">
+@import 'assets/base/colors';
+
 .presentation {
     padding-top: 20px;
     display: flex;
+
+    .artist-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
     h1 {
         font-size: 25px;
@@ -94,22 +97,14 @@ useHead({
 }
 
 .description {
-    margin: 20px 10px;
+    margin: 50px 10px;
+    letter-spacing: 0.02em;
+    font-size: 18px;
+    font-weight: 400;
 }
 
 h2 {
     margin: 25px 0;
-}
-
-.reseaux {
-    margin-top: 25px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-around;
-
-    .icon {
-        margin-right: 15px;
-    }
 }
 
 .icon {
@@ -119,17 +114,16 @@ h2 {
 
 .mail {
     display: flex;
-    margin: 25px 0;
+    margin: 55px 0;
+    align-items: center;
 
     .icon {
         margin-right: 15px;
     }
 }
 
-video {
-    display: block;
-    margin: 0 auto;
-    border: 1px solid black;
-    border-radius: 10px;
+.video-wrapper {
+    border: 1px solid $darkgray;
+    box-shadow: 0 0 10px $darkgray;
 }
 </style>

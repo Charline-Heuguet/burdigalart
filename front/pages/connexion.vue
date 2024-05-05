@@ -1,7 +1,7 @@
 <template>
   <div class="connexion">
     <div class="content">
-      <h2>Connexion</h2>
+      <h1>Connexion</h1>
       <form @submit.prevent="login">
         <label for="signup-email" class="sr-only">Email</label>
         <input type="email" id="signup-email" placeholder="Email" v-model="email" required>

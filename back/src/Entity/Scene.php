@@ -26,7 +26,7 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $banner = null;
 
-    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update','artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
+    #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update','artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','user:index','user:show','user:create','user:update'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -58,7 +58,7 @@ class Scene
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['scene:index','scene:show','scene:create', 'scene:update'])]
+    #[Groups(['scene:index','scene:show','scene:create', 'scene:update','user:index','user:show','user:create','user:update'])]
     #[ORM\Column]
     private ?bool $subscription = null;
 

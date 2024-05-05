@@ -13,7 +13,7 @@
             <img :src="artist.officialPhoto" alt="" class="artist-photo">
             <div class="text-content">
               <p class="artist-name">{{ artist.artistName }}</p>
-              <TagStyle class="styletag" :style="artist.style.styleName" />
+              <TagStyle class="card-tags" :style="artist.style.styleName" />
             </div>
           </NuxtLink>
         </div>
@@ -40,6 +40,7 @@ const { data: artistsData } = useAsyncData<Artist>(() => {
   return $fetch(`${baseURL}artists`);
 });
 
+// Création d'une référence reactive pour les artistes, initialisée à un tableau vide
 const artists = ref<Artist[]>([]);
 
 // Réaction aux changements de artistsData pour filtrer les artistes
@@ -96,8 +97,9 @@ const breakpoints = {
   text-align: center;
 }
 
-.styletag {
+.card-tags {
   text-align: center;
+  padding: 0;
 }
 
 .mySwiper .swiper-slide {
@@ -127,9 +129,12 @@ const breakpoints = {
     color: white;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .artist-name, .styletag {
+  .artist-name {
     margin: 0;
     white-space: nowrap;
     overflow: hidden;

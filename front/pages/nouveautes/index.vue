@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1>Ils nous ont rejoints</h1>
-        <h2>Plongez dans notre galerie des derniers arrivés : découvrez les artistes et leurs différents univers. </h2>
+        <p class="h2 mb-12">Plongez dans notre galerie des derniers arrivés : découvrez les artistes et leurs différents univers. </p>
         <div v-if="pending">Chargement...</div>
         <div v-else-if="error">Erreur : {{ error }}</div>
         <div v-else-if="!artists || artists.length === 0">Aucun artiste à afficher</div>
@@ -20,7 +20,7 @@
 
                             <NuxtLink :to="'/artiste/' + artist.slug" class="card-content">
                                 <div class="infos-card">
-                                    <h2 class="card-title">{{ artist.artistName }}</h2>
+                                    <p class="card-title h3">{{ artist.artistName }}</p>
                                     <TagStyle class="card-tags" :style="artist.style.styleName" />
                                 </div>
                                 <footer class="card-footer">
@@ -38,6 +38,7 @@
                 </div>
             </div>
             <!-- Section pour les artistes non abonnés -->
+            <h2>Section des artistes non abonnés (trouvez un titre :) )</h2>
             <div class="container-artist">
                 <div v-for="artist in artists.filter(a => !a.subscription)" :key="artist.id" class="card">
                     <div class="card-wrapper">
@@ -47,7 +48,7 @@
                             </figure>
                             <NuxtLink :to="'/artiste/' + artist.slug" class="card-content">
                                 <div class="infos-card">
-                                    <h2 class="card-title">{{ artist.artistName }}</h2>
+                                    <p class="card-title h3">{{ artist.artistName }}</p>
                                     <TagStyle class="card-tags" :style="artist.style.styleName" />
                                 </div>
                                 <footer class="card-footer">
@@ -99,6 +100,7 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
         }
     }
 
@@ -177,7 +179,8 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
                 font-size: 24px;
                 color: $beigeclair;
                 font-weight: bold;
-                line-height: 1.4;
+                line-height: 1.2em;
+                margin-bottom: 0;
             }
 
             .card-footer {
@@ -237,10 +240,6 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
                     font-size: 20px;
                 }
 
-                .card-tags {
-                    padding: 5px;
-                }
-
                 .card-footer {
                     .card-user {
                         .card-user-name {
@@ -270,24 +269,22 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
 
             .card-item{
                 .card-content {
-                    padding: 20px 30px;
+                    padding: 20px;
     
                     .card-title {
+                        max-width: 237px;
                         font-size: 24px;
                     }
     
                     .infos-card {
                         position: relative;
-                        margin-bottom: 20px;
+                        margin-bottom: 10px;
                         align-items: center;
                         h2{
                             margin-bottom: 0;
                         }
                         .card-tags {
-                            padding: 10px;
-                            position: absolute;
-                            top: 0;
-                            right: 0;
+                            padding: 7px;
                         }
                     }
     
@@ -309,4 +306,16 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
 
     }
 }
+
+
+@media (min-width: 1024px) {
+    .container-artist {
+
+        .card {
+            width: calc(33% - 20px);
+            margin-bottom: 20px;
+        }
+    }
+}
+
 </style>

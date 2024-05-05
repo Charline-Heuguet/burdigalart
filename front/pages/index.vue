@@ -37,6 +37,9 @@ import TopArtists from '~/components/TopArtists.vue';
 // } catch (error) {
 //   error.value = error;
 // }
+definePageMeta({
+  layout: "home",
+});
 </script>
 
 <style scoped lang="scss">

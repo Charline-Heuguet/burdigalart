@@ -2,7 +2,9 @@
     <header>
         <div class="hero">
             <NuxtLink to="/">
+                <h1><span class="sr-only">Burdigal'Art</span>
                     <img src="/img/logo-rond.png" alt="Logo" class="logo" />
+                </h1>
             </NuxtLink>
         </div>
         <div class="navbar-outer">

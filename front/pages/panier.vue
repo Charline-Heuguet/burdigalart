@@ -4,7 +4,7 @@
         <div class="items">
             <div v-for="item in items" :key="item.id" class="item">
                 <div class="item-info">
-                    <span class="item-title">{{ item.artist }}</span>
+                    <!-- <span class="item-title">{{ item.artist }}</span> -->
                     <span class="item-show">{{ item.show }}</span>
                     <span class="item-price">{{ item.price }} € la place</span>
                 </div>
@@ -21,8 +21,7 @@
             Total:<span>{{ calculateTotal }} €</span>
         </div>
         <NuxtLink to="/paiement">
-            <OrangeButton class="validate-button" @click="validateOrder">Valider ma commande</OrangeButton>
-            <!-- <button >Valider ma commande</button> -->
+            <OrangeButton @click="validateOrder">Valider ma commande</OrangeButton>
         </NuxtLink>
        
         <p class="info-redirection">Redirection vers la page de paiement</p>
@@ -31,12 +30,13 @@
   
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import type OrangeButton from '~/components/ui/OrangeButton.vue';
+import OrangeButton from '~/components/ui/OrangeButton.vue';
 import { useCartStore } from '~/stores/useCartStore';
+import type { Item } from '~/types/interfaces/item';
 
 const cartStore = useCartStore();
 
-const items = computed(() => cartStore.items);
+const items = computed<Item[]>(() => cartStore.items);
 const calculateTotal = computed(() => cartStore.calculateTotal());
 
 const calculateItemTotal = (item) => {
@@ -61,6 +61,8 @@ const validateOrder = () => {
   
   
 <style lang="scss" scoped>
+@import 'assets/base/colors';
+
 .reservation-container {
     margin: 2rem auto;
     padding: 15px;
@@ -76,8 +78,6 @@ const validateOrder = () => {
 
     h1 {
         text-align: center;
-        margin-bottom: 2rem;
-        font-size: 40px;
     }
 
     .items {
