@@ -4,32 +4,31 @@
         <div class="items">
             <div v-for="item in items" :key="item.id" class="item">
                 <div class="item-info">
-                    <!-- <span class="item-title">{{ item.artist }}</span> -->
                     <span class="item-show">{{ item.show }}</span>
-                    <span class="item-price">{{ item.price }} € la place</span>
+                    <span class="item-price">{{ item.price.toFixed(2) }} € la place</span>
                 </div>
                 <div class="item-quantity">
-                    <button @click="decrement(item)">-</button>
+                    <button @click="decrement(item.id)">-</button> 
                     <span>{{ item.quantity }}</span>
-                    <button @click="increment(item)">+</button>
+                    <button @click="increment(item.id)">+</button> 
                 </div>
-                <span class="item-total">{{ calculateItemTotal(item) }} €</span>
-                <img src="/img/icon-trash2.svg" alt="Supprimer" @click="removeItem(item)">
+                <span class="item-total">{{ calculateItemTotal(item).toFixed(2) }} €</span>
+                <img src="/img/icon-trash2.svg" alt="Supprimer" @click="removeItem(item.id)"> 
             </div>
         </div>
         <div class="total">
-            Total:<span>{{ calculateTotal }} €</span>
+            Total:<span>{{ calculateTotal.toFixed(2) }} €</span>
         </div>
         <NuxtLink to="/paiement">
             <OrangeButton @click="validateOrder">Valider ma commande</OrangeButton>
         </NuxtLink>
-       
         <p class="info-redirection">Redirection vers la page de paiement</p>
     </div>
 </template>
+
   
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import OrangeButton from '~/components/ui/OrangeButton.vue';
 import { useCartStore } from '~/stores/useCartStore';
 import type { Item } from '~/types/interfaces/item';
@@ -37,7 +36,7 @@ import type { Item } from '~/types/interfaces/item';
 const cartStore = useCartStore();
 
 const items = computed<Item[]>(() => cartStore.items);
-const calculateTotal = computed(() => cartStore.calculateTotal());
+const calculateTotal = computed(() => cartStore.calculateTotal); // Retirer les parenthèses
 
 const calculateItemTotal = (item) => {
   return item.quantity * item.price;
@@ -54,10 +53,12 @@ const decrement = (id) => {
 const removeItem = (id) => {
   cartStore.removeItem(id);
 };
+
 const validateOrder = () => {
     // Placeholder pour la logique de validation de la commande
 };
 </script>
+
   
   
 <style lang="scss" scoped>

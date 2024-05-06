@@ -3,8 +3,14 @@ import { defineStore } from 'pinia';
 
 export const useCartStore = defineStore('cart', {
   state: () => ({
-    items: []
+    items: [],
   }),
+  getters: {
+    // Définir comme getter pour pouvoir l'utiliser comme une propriété réactive
+    calculateTotal: (state) => {
+      return state.items.reduce((total, item) => total + item.quantity * item.price, 0);
+    }
+  },
   actions: {
     addItem(item) {
       const existingItem = this.items.find(i => i.id === item.id);
@@ -13,27 +19,40 @@ export const useCartStore = defineStore('cart', {
       } else {
         this.items.push({ ...item, quantity: 1 });
       }
+      this.saveCart();
     },
     removeItem(id) {
       this.items = this.items.filter(item => item.id !== id);
+      this.saveCart();
     },
     increment(id) {
       const item = this.items.find(i => i.id === id);
       if (item) {
         item.quantity++;
+        this.saveCart();
       }
     },
     decrement(id) {
       const item = this.items.find(i => i.id === id);
       if (item && item.quantity > 1) {
         item.quantity--;
+        this.saveCart();
+      } else if (item && item.quantity === 1) {
+        this.removeItem(id); // Optionnel : supprimer l'élément si quantité atteint zéro
       }
     },
-    calculateItemTotal(item) {
-      return item.quantity * item.price;
+    saveCart() {
+      localStorage.setItem('cart', JSON.stringify(this.items));
     },
-    calculateTotal() {
-      return this.items.reduce((total, item) => total + item.price * item.quantity, 0);
+    loadCart() {
+      const cart = localStorage.getItem('cart');
+      if (cart) {
+        this.items = JSON.parse(cart);
+      }
+    },
+    init() {
+      this.loadCart();
     }
   }
 });
+
