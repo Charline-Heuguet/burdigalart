@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>Modifier vos informations</h2>
+        <h2>Ici, modifiez vos informations</h2>
         <form @submit="submitForm">
             <div class="avatar">
                 <img src="/img/icon-avatar.svg" alt="avatar">
@@ -59,6 +59,11 @@ export default {
 
 <style lang="scss" scoped>
 @import 'assets/base/colors';
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
 
 .avatar {
     input {

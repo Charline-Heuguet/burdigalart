@@ -76,6 +76,10 @@ header {
 main {
     min-height: calc(100vh - 80px - 70px - 40vh);
     padding: 0 10px;
+
+    @media (min-width:993px){
+        min-height: 100vh;
+    }
 }
 
 // BREAKPOINTS

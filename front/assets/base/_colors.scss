@@ -18,8 +18,9 @@ $bleupastel: #438498;
 
 
 body {
-    background: url('/bg/2.webp');
+    background: url('/bg/3.jpg');
     background-size: cover;
+    background-attachment: fixed;
     color: $black;
     position: relative;
     margin: 0;
@@ -31,7 +32,7 @@ body {
       position: absolute;
       top: 0;
       left: 0;
-      bottom: 0;
+      bottom: 0px;
       right: 0;
       background-color: rgba(247, 241, 235, 0.7);
       z-index: -1;
