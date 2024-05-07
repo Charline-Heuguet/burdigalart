@@ -57,6 +57,7 @@ const pastEvents = computed(() => {
 .event {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   padding: 1rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);

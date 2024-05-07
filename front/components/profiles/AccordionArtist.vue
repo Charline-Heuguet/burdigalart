@@ -1,5 +1,7 @@
 <template>
     <div v-if="artist">
+        <p class="h2">En piste {{ artist.artistName }} !</p>
+        <p class="h3">Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, sa bannière...</p>
         <!-- Artiste / votre fiche -->
         <Accordion :item="{ title: 'Votre fiche d\'artiste', content: '' }">
             <template #content>
@@ -71,22 +73,25 @@
         </Accordion>
 
         <!-- Artiste / Abonnement -->
-        <Accordion :item="{ title: 'Votre abonnement', content: '' }">
-      <template #content>
-        <div v-if="artist.subscription" class="subscription">
-          <p>Vous êtes abonné.e</p>
-          <p>Pour annuler votre abonnement à Burdigal’Art, cliquez sur ce lien qui vous permettra d'annuler votre abonnement en quelques étapes simples. Si vous rencontrez des difficultés, n'hésitez pas à nous contacter directement via notre support client.</p>
-          <button @click="unsubscribe" class="danger">Se désabonner</button>
-        </div>
-        <div v-else class="subscription">
-          <p>Vous n'êtes pas abonné.e</p>
-          <p>Pour vous abonner à Burdigal’Art, cliquez sur ce lien qui vous permettra d'y souscrire en quelques étapes simples. </p>
-            <p>Si vous rencontrez des difficultés, n'hésitez pas à nous contacter directement via notre support client.</p>
-          <button @click="subscribe" class="success">S'abonner</button>
-        </div>
-        <NuxtLink to="/abonnement">En savoir plus sur les abonnements</NuxtLink>
-      </template>
-    </Accordion>
+        <Accordion :item="{ title: '' }">
+            <template #title>
+                <span>Votre abonnement</span>
+                <span v-if="!artist.subscription" class="alert-icon"></span>
+            </template>
+            <template #content>
+                <div v-if="artist.subscription" class="subscription">
+                    <p>Vous êtes abonné.e</p>
+                    <p>Pour annuler votre abonnement à Burdigal’Art, cliquez sur ce lien...</p>
+                    <button @click="unsubscribe" class="danger">Se désabonner</button>
+                </div>
+                <div v-else class="subscription">
+                    <p>Vous n'êtes pas abonné.e</p>
+                    <p>Pour vous abonner à Burdigal’Art, cliquez sur ce lien...</p>
+                    <button @click="subscribe" class="success">S'abonner</button>
+                </div>
+                <NuxtLink to="/abonnement">En savoir plus sur les abonnements</NuxtLink>
+            </template>
+        </Accordion>
     </div>
 </template>
 
@@ -125,12 +130,28 @@ const unsubscribe = () => {
 const subscribe = () => {
   console.log('Subscribe logic here...');
 };
+
 </script>
 
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
+.alert-icon {
+    width: 10px;
+    height: 10px;
+    background-color: #9e0101;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    margin-left: 10px;
+}
 
+.h3{
+    margin: 0 0 30px;
+}
 .form-group {
     margin-bottom: 5px;
     padding: 12px;
@@ -183,7 +204,6 @@ p {
 
 .subscription{
     padding: 10px;
-    margin: 10px 0;
     border-radius: 5px;
 
     p:first-child {

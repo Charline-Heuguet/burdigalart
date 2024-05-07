@@ -1,20 +1,9 @@
 <template>
     <div v-if="user">
         <div class="avatar">
-            <img :src="user.picture" alt="avatar de l'utilisateur">
-            <p> Bonjour {{ user.firstName }} !</p>
+            <p class="h2">Bonjour {{ user.firstName }} !</p>
+            <p class="h3">Ici, retrouves tous tes évènements!</p>
         </div>
-        <!-- <input type="text" v-model="user.name" placeholder="Nom">
-        <input type="text" v-model="user.firstName" placeholder="Prénom">
-        <input type="text" v-model="user.email" placeholder="Email">
-         -->
-         <!-- PARAMETRES -->
-        <!-- <NuxtLink to="/profil/parametres">
-            <div class="setting">
-                <img src="/img/icon-settings.svg" alt="Paramètres">
-                <p> Paramètres de votre compte.</p>
-            </div>
-        </NuxtLink> -->
     </div>
     <div v-else>
         <p>Chargement...</p>
@@ -41,9 +30,8 @@ const email = ref('');
 @import 'assets/base/colors';
 
 .avatar{
-    display: flex;
-    align-items: center;
-    margin: 20px 0 40px 0;
+    margin: 20px auto 40px;
+    text-align: center;
     
     img{
         width: 150px;

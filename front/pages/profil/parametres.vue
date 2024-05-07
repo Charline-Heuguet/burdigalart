@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="profil-modif">
         <h2> Paramètres de votre compte</h2>
         <NuxtLink to="/profil/modifier-informations">
             <div class="update">
@@ -22,21 +22,30 @@
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
-h2{
-    margin: 40px 0 60px 0;
 
-}
-.update, .delete, .logout{
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    padding: 15px 10px;
-    background-color: $beigeclair;
-    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
-    img{
-        width: 20px;
-        height: auto;
-        margin-right: 15px;
+.profil-modif {
+
+    h2 {
+        margin: 40px 0 60px 0;
+        text-align: center;
+    }
+
+    .update,
+    .delete,
+    .logout {
+        display: flex;
+        max-width: 450px;
+        margin: 0 auto 16px;
+        align-items: center;
+        padding: 15px 10px;
+        background-color: $beigeclair;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+
+        img {
+            width: 20px;
+            height: auto;
+            margin-right: 15px;
+        }
     }
 }
 </style>

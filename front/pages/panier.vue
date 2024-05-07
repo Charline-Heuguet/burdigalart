@@ -55,7 +55,7 @@ const removeItem = (id) => {
 };
 
 const validateOrder = () => {
-    // Placeholder pour la logique de validation de la commande
+  cartStore.validateOrder();
 };
 </script>
 

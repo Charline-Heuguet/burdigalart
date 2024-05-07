@@ -22,14 +22,14 @@ const props = defineProps({
   background-color: $beige;
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s;
-  background: linear-gradient(180deg, rgba(67, 132, 152, 1) 0%, rgba(67, 132, 152, 0.6558998599439776) 50%);
-  color: $beige;
+  background: $beige;
+  color: $darkgray;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
 
 .role-pill.active {
-  background-color: $bleupastel;
+  background-color: $mandarin;
   color: $black;
   font-weight: 600;
   border: 1px solid $darkgray;

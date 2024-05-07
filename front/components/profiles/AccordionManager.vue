@@ -91,7 +91,11 @@
     </Accordion>
 
     <!-- Section abonnement -->
-    <Accordion :item="{ title: 'Votre abonnement', content: '' }">
+    <Accordion :item="{ title: '' }">
+            <template #title>
+                <span>Votre abonnement</span>
+                <span v-if="!sceneData.subscription" class="alert-icon"></span>
+            </template>
       <template #content>
         <div v-if="sceneData.subscription === true" class="subscription">
           <p>Vous êtes abonné.e !</p>
@@ -152,6 +156,19 @@ const updateSceneDetails = () => {
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
+
+.alert-icon {
+    width: 10px;
+    height: 10px;
+    background-color: #9e0101;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    margin-left: 10px;
+}
 
 .add {
   background:url('/img/icon-add.svg') no-repeat center left;
@@ -239,7 +256,6 @@ const updateSceneDetails = () => {
 
 .subscription {
   padding: 10px;
-  margin: 10px 0;
   border-radius: 5px;
 
   p:first-child {

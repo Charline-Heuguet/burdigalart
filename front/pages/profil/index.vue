@@ -12,13 +12,10 @@
 
 
   <!-- Accordeon pour les spectateurs -->
-  <div v-if="currentRole === 'Spectateur'">
+  <div class="accordion-profil" v-if="currentRole === 'Spectateur'">
     <AccordionViewer />
   </div>
     
-
-
-
   <!-- Accordeon pour les artistes -->
   <div v-if="currentRole === 'Artiste'">
     <AccordionArtist />
@@ -29,9 +26,9 @@
     <AccordionManager />
   </div>
 
-  <NuxtLink to="/profil/parametres">
+  <NuxtLink to="/profil/parametres" v-if="currentRole === 'Spectateur'">
     <div class="setting">
-      <img src="/img/icon-settings.svg" alt="Paramètres">
+      <img src="/img/icon-setting.svg" alt="Paramètres">
       <p> Paramètres de votre compte.</p>
     </div>
   </NuxtLink>
@@ -41,22 +38,12 @@
 <script setup>
 import RolePill from '~/components/profiles/RolePill.vue';
 import ProfilBase from '~/components/profiles/ProfilBase.vue';
-import AccordionManager from '~/components/profiles/AccordionManager.vue';
-import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
 import AccordionArtist from '~/components/profiles/AccordionArtist.vue';
-import DateIcon from '~/components/ui/DateIcon.vue';
+import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
+import AccordionManager from '~/components/profiles/AccordionManager.vue';
 import { ref } from 'vue';
 
-const baseURL = 'https://localhost:8000/api';
-
 const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par défaut
-
-
-// ATTENTION : l'ID de l'utilisateur est en dur pour le moment !! A CHANGER !
-const { data: eventsData, pending, error } = useAsyncData('userEvents', () => {
-  return $fetch(baseURL + '/users/3');
-});
-
 
 </script>
 
@@ -77,7 +64,8 @@ const { data: eventsData, pending, error } = useAsyncData('userEvents', () => {
 .setting {
   display: flex;
   align-items: center;
-  margin: 40px 0;
+  margin: 40px auto;
+  max-width: 450px;
 
   img {
     width: 20px;

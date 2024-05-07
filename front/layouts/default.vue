@@ -6,11 +6,12 @@
             </NuxtLink>
         </div>
         <div class="navbar-outer">
-                <Navbar />
+            <Navbar />
         </div>
     </header>
     <main class="gutter">
         <slot />
+        <StickyCartIcon />
     </main>
 
     <!-- Footer qui apparaîtra lors du scroll pour le mobile first-->
@@ -30,8 +31,11 @@
             </li>
         </ul>
     </footer>
-
 </template>
+
+<script setup>
+import StickyCartIcon from '~/components/StickyCartIcon.vue';
+</script>
 
 <style lang="scss">
 @import 'assets/base/colors';
@@ -65,6 +69,7 @@ header {
     display: flex;
     justify-content: space-around;
     margin-top: 50px;
+    border-top: 1px solid $darkgray;
 }
 
 // Footer : qu'il reste tt le temps en bas => calcul: 100vh-la hauteur du header - la hauteur du footer

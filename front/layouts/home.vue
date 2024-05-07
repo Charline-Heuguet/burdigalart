@@ -12,6 +12,7 @@
         </div>
     </header>
     <main class="gutter">
+        <StickyCartIcon />
         <slot />
     </main>
 
@@ -34,6 +35,9 @@
     </footer>
 
 </template>
+<script setup>
+import StickyCartIcon from '~/components/StickyCartIcon.vue';
+</script>
 
 <style lang="scss">
 @import 'assets/base/colors';

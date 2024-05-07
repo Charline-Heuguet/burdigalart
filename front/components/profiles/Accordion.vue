@@ -29,32 +29,38 @@ const toggle = () => {
 @import 'assets/base/colors';
 
 .accordion {
-  border: 1px solid $darkgray;
-  border-radius: 5px;
+  max-width: 450px;
   margin-bottom: 10px;
   overflow: hidden;
+  margin: 0 auto 16px;
 
   &-title {
     font-size: 18px;
-    border-bottom: 1px solid $darkgray;
     padding: 10px 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    //background: rgb(67, 132, 152);
-    background: linear-gradient(180deg, rgba(67, 132, 152, 1) 0%, rgba(67, 132, 152, 0.6558998599439776) 50%);
+    background-color: $beige;
 
     p {
       margin: 0;
       color: $black;
       flex: 1; // Permet au titre de prendre l'espace nécessaire mais pas plus
     }
+
+    .icon {
+        margin-left: auto; // Place l'icône à l'extrême droite
+        width: 20px;
+        transition: transform 0.3s ease;
+        
+    }
   }
 
   &-content {
     &.open {
       display: block;
+      background-color: $beigeclair;
     }
   }
 
