@@ -83,8 +83,6 @@ const showProfileAlert = computed(() => {
 //   ],
 //   scenes: []
 // });
-
-
 </script>
 
 
@@ -162,7 +160,7 @@ const showProfileAlert = computed(() => {
     left: 0;
     right: 0;
     height: fit-content;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.472);
     backdrop-filter: blur(5px);
     box-shadow: 15px 5px 15px rgba(100, 100, 100, 0.5);
 

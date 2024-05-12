@@ -2,15 +2,14 @@
   <div class="connexion">
     <div class="content">
       <h1>Connexion</h1>
-      <form @submit.prevent="login">
+      <form>
         <label for="signup-email" class="sr-only">Email</label>
-        <input type="email" id="signup-email" placeholder="Email" v-model="email" required>
+        <input type="email" id="signup-email" placeholder="Email" v-model="credentials.username" required>
 
         <label for="signup-password" class="sr-only">Mot de passe</label>
-        <input type="password" id="signup-password" name="signup-password" placeholder="Votre mot de passe"
-          v-model="password">
+        <input type="password" id="signup-password" name="signup-password" placeholder="Votre mot de passe" v-model="credentials.password">
 
-        <button type="submit">Se connecter</button>
+        <button @click.prevent="login" type="submit">Se connecter</button>
 
         <p class="login-link">Vous n'avez pas de compte ?</p>
         <p>
@@ -23,13 +22,39 @@
 </template>
 
 <script setup>
-const email = ref('');
-const password = ref('');
+import { ref } from 'vue';
 
-function login() {
-  // logique pour la connexion
-  console.log('Connexion avec :', email.value, password.value);
-}
+const credentials = ref({
+  username: '',
+  password: ''
+});
+
+const login = async () => {
+  const response = await fetch('https://localhost:8000/api/users/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials.value)
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    alert(`Login failed: ${errorData.message}`);
+    return;
+  }
+
+  const data = await response.json();
+  console.log(data.token);
+  let user = data.token.split('.')[1];
+  user = JSON.parse(atob(user))
+  console.log(user);
+  // On stocke le token dans le localStorage
+  localStorage.setItem('token', data.token);
+  
+  //alert(`Login successful: ${user}`);
+  // Ici, gérer la logique de session ou de stockage du token
+};
 </script>
 
 <style scoped lang="scss">
@@ -51,6 +76,8 @@ h2 {
     padding: 24px;
     margin: 50px 14px;
     overflow: hidden;
+    max-width: 450px;
+    margin: 30px auto;
 }
 
 .content {

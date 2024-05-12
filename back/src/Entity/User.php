@@ -24,23 +24,23 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     private ?int $id = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
+    #[Groups(['user:index','user:show','user:create','user:update','user:signup', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
+    #[Groups(['user:index','user:show','user:create','user:update','user:signup', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
     #[Groups(['user:index','user:show','user:create','user:update','event:index', 'event:show', 'event:upcoming'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
-    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
+    #[Groups(['user:index','user:show','user:create','user:update','user:signup', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[Groups(['user:create'])]
+    #[Groups(['user:signup'])]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 

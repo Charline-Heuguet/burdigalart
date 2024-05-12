@@ -1,7 +1,7 @@
 <template>
     <div v-if="user">
         <div class="avatar">
-            <p class="h2">Bonjour {{ user.firstName }} !</p>
+            <p class="h2" v-if="isLogged">Bonjour {{ user.firstName }} !</p>
             <p class="h3">Ici, retrouves tous tes évènements!</p>
         </div>
     </div>
@@ -12,6 +12,7 @@
 
 <script setup>
 import { useAsyncData } from 'nuxt/app';
+import { jwtDecode } from "jwt-decode";
 
 const baseURL = 'https://localhost:8000/api/';
 
@@ -23,6 +24,20 @@ if (error.value) {
 }
 
 const email = ref('');
+// On récupère le token stocké dans le localStorage
+const token = JSON.stringify(localStorage.getItem('token'));
+
+function isJwtValid(token) {
+    try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        return decodedToken.exp > currentTime;
+    } catch (error) {
+        console.error('Error decoding JWT:', error);
+        return false;
+    }
+}
+const isLogged = isJwtValid(token);
 
 </script>
 

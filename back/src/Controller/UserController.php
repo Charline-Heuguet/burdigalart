@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -37,33 +38,6 @@ class UserController extends AbstractController
 
         return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:show']);
     }
-
-
-    // CREATE - Créer un utilisateur
-    #[Route('/', name: 'create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer, UserPasswordHasherInterface $passwordHasher): JsonResponse
-    {
-        // Désérialiser la requête en objet User
-        $user = $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:create']);
-        dump($user);
-
-        // Hasher le mot de passe
-        $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
-
-        // Valider l'objet User
-        $errors = $validator->validate($user);
-        if (count($errors) > 0) {
-            return $this->json($errors, Response::HTTP_BAD_REQUEST);
-        }
-
-        // Persister et enregistrer l'objet User
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        // Retourner l'utilisateur créé
-        return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'user:show']);
-    }
-
 
     // UPDATE - Modifier un utilisateur
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
@@ -109,4 +83,60 @@ class UserController extends AbstractController
 
         return $this->json(['message' => 'User deleted'], Response::HTTP_NO_CONTENT);
     }
+
+    // SIGNUP - Inscription
+    #[Route('/signup', name: 'signup', methods: ['POST'])]
+    public function signup(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    {
+        // Désérialiser la requête en objet User
+        $user = $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:signup']);
+
+        // Hasher le mot de passe
+        $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+
+        // Valider l'objet User
+        $errors = $validator->validate($user);
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
+            return $this->json(['errors' => $errorMessages], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Persister et enregistrer l'objet User
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // Retourner l'utilisateur créé
+        return $this->json($user, Response::HTTP_CREATED, [], ['groups' => 'user:show']);
+    }
+
+    // LOGIN - Connexion
+    #[Route('/login', name: 'login', methods: ['POST'])]
+    public function login(Request $request, UserRepository $userRepository, JWTTokenManagerInterface $JWTManager, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    {
+        // Récupérer les données de la requête
+        $data = json_decode($request->getContent(), true);
+        $email = $data['email'] ?? null;
+        $password = $data['password'] ?? null;
+
+        // Vérifier si l'utilisateur existe
+        $user = $userRepository->findOneBy(['email' => $email]);
+        if (!$user) {
+            return $this->json(['message' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Vérifier si le mot de passe est correct
+        if (!$passwordHasher->isPasswordValid($user, $password)) {
+            return $this->json(['message' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Générer le token JWT
+        $token = $JWTManager->create($user);
+
+        // Retourner le token JWT
+        return $this->json(['token' => $token], Response::HTTP_OK);
+    }
+
 }
