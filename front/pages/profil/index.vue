@@ -1,41 +1,34 @@
 <template>
   <div class="rolesPills">
-    <RolePill role="Spectateur" :isActive="currentRole === 'Spectateur'" @selected="role => { currentRole = role }" />
-    <RolePill role="Artiste" :isActive="currentRole === 'Artiste'" @selected="role => { currentRole = role }" />
-    <RolePill role="Gérant de scène" :isActive="currentRole === 'Gérant de scène'"
-      @selected="role => { currentRole = role }" />
+    <!-- Afficher les pastilles basées sur les rôles de l'utilisateur -->
+    <RolePill role="Spectateur" :isActive="currentRole === 'Spectateur'" @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_USER')" />
+    <RolePill role="Artiste" :isActive="currentRole === 'Artiste'" @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_ARTISTE')" />
+    <RolePill role="Gérant de scène" :isActive="currentRole === 'Gérant de scène'" @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_SCENE')" />
   </div>
 
+  <!-- Contenu conditionnel basé sur le rôle sélectionné -->
   <div v-if="currentRole === 'Spectateur'">
     <ProfilBase />
-  </div>
-
-
-  <!-- Accordeon pour les spectateurs -->
-  <div class="accordion-profil" v-if="currentRole === 'Spectateur'">
     <AccordionViewer />
+    <NuxtLink to="/profil/parametres">
+      <div class="setting">
+        <img src="/img/icon-setting.svg" alt="Paramètres">
+        <p> Paramètres de votre compte.</p>
+      </div>
+    </NuxtLink>
   </div>
     
-  <!-- Accordeon pour les artistes -->
   <div v-if="currentRole === 'Artiste'">
     <AccordionArtist />
   </div>
 
-  <!-- Accordeon pour les gérants de scène -->
   <div v-if="currentRole === 'Gérant de scène'">
     <AccordionManager />
   </div>
-
-  <NuxtLink to="/profil/parametres" v-if="currentRole === 'Spectateur'">
-    <div class="setting">
-      <img src="/img/icon-setting.svg" alt="Paramètres">
-      <p> Paramètres de votre compte.</p>
-    </div>
-  </NuxtLink>
-
 </template>
 
 <script setup>
+import { useAuthStore } from '~/stores/auth'; // Importer le store d'authentification
 import RolePill from '~/components/profiles/RolePill.vue';
 import ProfilBase from '~/components/profiles/ProfilBase.vue';
 import AccordionArtist from '~/components/profiles/AccordionArtist.vue';
@@ -43,9 +36,11 @@ import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
 import AccordionManager from '~/components/profiles/AccordionManager.vue';
 import { ref } from 'vue';
 
+const authStore = useAuthStore(); // Utiliser le store pour accéder aux rôles
 const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par défaut
 
 </script>
+
 
 <style scoped lang="scss">
 @import 'assets/base/colors';

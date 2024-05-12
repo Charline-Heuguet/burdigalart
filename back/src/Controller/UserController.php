@@ -91,8 +91,17 @@ class UserController extends AbstractController
         // Désérialiser la requête en objet User
         $user = $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:signup']);
 
+        // Afficher les rôles pour le débogage
+        error_log(print_r($user->getRoles(), true));
+        
         // Hasher le mot de passe
         $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
+
+        // Ajouter ROLE_USER par défaut (si pas déjà inclus)
+        $currentRoles = $user->getRoles();
+        if (!in_array('ROLE_USER', $currentRoles)) {
+            $user->setRoles(array_merge($currentRoles, ['ROLE_USER']));
+        }
 
         // Valider l'objet User
         $errors = $validator->validate($user);
@@ -138,5 +147,4 @@ class UserController extends AbstractController
         // Retourner le token JWT
         return $this->json(['token' => $token], Response::HTTP_OK);
     }
-
 }

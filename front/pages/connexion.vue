@@ -21,13 +21,17 @@
   </div>
 </template>
 
+<!-- DERNIERE MODIF -->
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '~/stores/auth'; // Importer le store d'authentification
 
 const credentials = ref({
   username: '',
   password: ''
 });
+const router = useRouter(); // Pour la redirection après la connexion réussie
 
 const login = async () => {
   const response = await fetch('https://localhost:8000/api/users/login', {
@@ -45,15 +49,17 @@ const login = async () => {
   }
 
   const data = await response.json();
-  console.log(data.token);
-  let user = data.token.split('.')[1];
-  user = JSON.parse(atob(user))
-  console.log(user);
-  // On stocke le token dans le localStorage
-  localStorage.setItem('token', data.token);
-  
-  //alert(`Login successful: ${user}`);
-  // Ici, gérer la logique de session ou de stockage du token
+  const user = JSON.parse(atob(data.token.split('.')[1])); // Décoder la partie payload du JWT
+  console.log(user); // Afficher les données de l'utilisateur pour vérifier
+
+  const authStore = useAuthStore();
+  authStore.setUser({
+    username: user.username,
+    roles: user.roles 
+  });
+
+  localStorage.setItem('token', data.token); // Stocker le token dans le localStorage
+  router.push('/profil'); // Rediriger l'utilisateur vers la page de profil ou dashboard
 };
 </script>
 
