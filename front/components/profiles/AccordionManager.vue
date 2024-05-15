@@ -37,7 +37,7 @@
             <label for="facebook">Facebook:</label>
             <input type="text" id="facebook" v-model="sceneData.facebook">
           </div>
-          <ButtonSubmit />
+          <OrangeButton>Valider</OrangeButton> 
         </form>
       </template>
     </Accordion>
@@ -121,7 +121,7 @@ import { ref } from 'vue';
 import Accordion from './Accordion.vue';
 import DateIcon from '../ui/DateIcon.vue';
 import { useAsyncData } from 'nuxt/app';
-import ButtonSubmit from '../ui/ButtonSubmit.vue';
+import OrangeButton from '../ui/OrangeButton.vue';
 
 // En dur pour les tests: A CHANGER
 const baseUrl = 'https://localhost:8000/api';

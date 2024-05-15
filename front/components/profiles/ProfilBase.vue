@@ -11,34 +11,57 @@
 </template>
 
 <script setup>
-import { useAsyncData } from 'nuxt/app';
+import { ref, onMounted } from 'vue';
 import { jwtDecode } from "jwt-decode";
 
 const baseURL = 'https://localhost:8000/api/';
+const token = ref(localStorage.getItem('token')); // Stocke le token depuis localStorage
 
-// ATTENTION : L'ID de l'utilisateur est fixé à 1 pour le moment !!! A CHANGER
-const { data: user, error } = await useAsyncData('user', () => fetch(baseURL + 'users/3').then(res => res.json()));
+const user = ref(null);
+const error = ref(null);
+const isLogged = ref(false);
 
-if (error.value) {
-    console.error('Erreur lors de la récupération des données:', error.value);
+// si le JWT est valide et met à jour isLogged
+function checkJwtValidity() {
+  if (!token.value) {
+    console.error('No token available.');
+    isLogged.value = false;
+    return;
+  }
+  try {
+    const decodedToken = jwtDecode(token.value);
+    const currentTime = Date.now() / 1000;
+    isLogged.value = decodedToken.exp > currentTime;
+  } catch (err) {
+    console.error('Error decoding JWT:', err);
+    isLogged.value = false;
+  }
 }
 
-const email = ref('');
-// On récupère le token stocké dans le localStorage
-const token = JSON.stringify(localStorage.getItem('token'));
+// Charger les données de l'utilisateur à partir de l'API
+async function loadUserData() {
+  checkJwtValidity(); // Vérifier d'abord la validité du JWT
+  if (!isLogged.value) {
+    console.error('JWT is not valid or expired');
+    return;
+  }
 
-function isJwtValid(token) {
-    try {
-        const decodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-        return decodedToken.exp > currentTime;
-    } catch (error) {
-        console.error('Error decoding JWT:', error);
-        return false;
-    }
+  const decoded = jwtDecode(token.value);
+  const userId = decoded.user_id;
+
+  try {
+    const response = await fetch(`${baseURL}users/${userId}`, {
+      headers: { 'Authorization': `Bearer ${token.value}` }
+    });
+    if (!response.ok) throw new Error(`Failed to fetch user data: Status ${response.status}`);
+    user.value = await response.json();
+  } catch (err) {
+    error.value = err.message;
+    console.error('Error fetching user data:', err.message);
+  }
 }
-const isLogged = isJwtValid(token);
 
+onMounted(loadUserData);
 </script>
 
 <style scoped lang="scss">
