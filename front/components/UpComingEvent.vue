@@ -27,28 +27,33 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import dayjs from 'dayjs';
 
+// Ici, on récupère l'url de l'API depuis le fichier de configuration
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
+
 const formatDateTime = (dateTime) => {
   return dayjs(dateTime).format('DD/MM à HH:mm');
 };
-const baseURL = 'https://localhost:8000/api/';
 
-const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
+const { data: upcomingEvents } = useAsyncData(() => {
+  return $fetch(url + 'events/upcoming')
+});
 
 // Breakpoints pour Swiper
 const breakpoints = {
-  500: {  // à partir de 640px
+  500: { 
     slidesPerView: 2.3,
     spaceBetween: 20
   },
-  768: {  // à partir de 768px
+  768: {  
     slidesPerView: 3.3,
     spaceBetween: 30
   },
-  1024: {  // à partir de 1024px
+  1024: { 
     slidesPerView: 3,
     spaceBetween: 40
   },
-  1280: {  // à partir de 1280px
+  1280: { 
     slidesPerView: 3.2,
     spaceBetween: 20
   },

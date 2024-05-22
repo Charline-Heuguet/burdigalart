@@ -35,10 +35,11 @@
 <script setup lang="ts">
 import type { Scene } from '~/types/interfaces/scene';
 
-const baseURL = 'https://localhost:8000/api/';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 const { data: scenes } = useAsyncData<Scene[]>(() => {
-    return $fetch(`${baseURL}scenes`);
+    return $fetch(url + 'scenes');
 });
 </script>
 

@@ -55,9 +55,8 @@ import OrangeButton from '~/components/ui/OrangeButton.vue';
 import { useCartStore } from '~/stores/useCartStore';
 import TagStyle from '~/components/ui/TagStyle.vue';
 
-
-// LES CONSTANTES
-const baseURL = 'https://localhost:8000/api/';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 // Pour récupérer le slug de l'URL
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
@@ -68,7 +67,10 @@ const formatDateTime = (dateTime) => {
 };
 
 // Appel API
-const { data: events, error } = useFetch(baseURL + 'events/' + slug);
+const { data: events, error } = useAsyncData(() => {
+    return $fetch(url + 'events/' + slug);
+});
+
 
 // Store
 const cartStore = useCartStore();

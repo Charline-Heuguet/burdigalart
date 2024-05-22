@@ -49,14 +49,23 @@ import TagCategory from '~/components/ui/TagCategory.vue'
 import TagStyle from '~/components/ui/TagStyle.vue'
 import type { Artist } from '~/types/interfaces/artist';
 
-const baseURL = 'https://localhost:8000/api/';
+// Récupération de l'url de l'API
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
-// LES CONSTANTES
+// Récupération des données de l'artiste
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
-const { data: artiste, error } = useFetch<Artist>(baseURL + 'artists/' + slug);
-console.log(artiste);
 
+const { data: artiste, error } = useAsyncData('artist', async () => {
+    const response = await fetch(url + 'artists/' + slug);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+});
+
+// Fonction pour récupérer l'ID de la vidéo Youtube
 function getYoutubeID(url) {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     const match = url.match(regExp);

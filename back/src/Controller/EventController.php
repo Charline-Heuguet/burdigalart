@@ -71,9 +71,6 @@ class EventController extends AbstractController
         return new JsonResponse($jsonEvents, Response::HTTP_OK, [], true);
     }
     
-    
-
- 
     // READ - Lire un événement via son slug (url friendly) - event:show
     #[Route('/{slug}', name: 'showSlug', methods: ['GET'], requirements: ['slug' => '[a-zA-Z0-9\-_]+'])]
     public function showSlug(EventRepository $eventRepository, SerializerInterface $serializer, string $slug): JsonResponse

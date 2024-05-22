@@ -24,19 +24,6 @@
 import UpComingEvent from '~/components/UpComingEvent.vue';
 import TopArtists from '~/components/TopArtists.vue';
 
-// Appel de l'API
-
-// USEFETCH marche avec le SSR à false
-//const { data: artists } = useFetch('https://localhost:8000/api/artists');
-// const { data: upcomingEvents } = useFetch('https://localhost:8000/api/scenes/allupcoming');
-
-// SSR à true
-// let artists = ref([]);
-// try {
-//   artists = await $fetch('https://localhost:8000/api/artists');
-// } catch (error) {
-//   error.value = error;
-// }
 definePageMeta({
   layout: "home",
 });

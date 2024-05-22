@@ -29,7 +29,6 @@
 <script setup>
 import dayjs from 'dayjs';
 import { useAsyncData } from 'nuxt/app';
-// import Booking from '~/components/ui/Booking.vue';
 
 const baseURL = 'https://localhost:8000/api/';
 const slugScene = 'le-petit-grain';

@@ -26,29 +26,21 @@
 </template>
 
 <script setup>
-import dayjs from 'dayjs';  
 import OrangeButton from '~/components/ui/OrangeButton.vue';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
 
-const baseURL = 'https://localhost:8000/api/';
-
-const formatDateTime = (dateTime) => {
-    return dayjs(dateTime).format('DD/MM à HH:mm');
-};
-
 const { data: scene, error } = useAsyncData('scene', async () => {
-  const response = await fetch(baseURL + 'scenes/' + slug);
+  const response = await fetch(url + 'scenes/' + slug);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
   return response.json();
 });
-console.log(scene);
 
-// appel api pour recuperer le slug de l'évènement
-// const { data: event, errorEvent } = useFetch(baseURL + 'scenes/' + slug );
 </script>
 
 <style scoped lang="scss">

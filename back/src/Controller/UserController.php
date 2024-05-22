@@ -36,38 +36,37 @@ class UserController extends AbstractController
             return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:show']);
+        return $this->json([
+            'name' => $user->getName(),
+            'firstName' => $user->getFirstName(),
+            'email' => $user->getEmail(),
+        ], Response::HTTP_OK, [], ['groups' => 'user:show']);
     }
 
     // UPDATE - Modifier un utilisateur
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, int $id): JsonResponse
+    public function update(EntityManagerInterface $entityManager,Request $request, UserRepository $userRepository, int $id, ValidatorInterface $validator): JsonResponse
     {
         $user = $userRepository->find($id);
         if (!$user) {
             return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-
-        // Désérialiser la requête dans l'objet User existant
-        $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:update', 'object_to_populate' => $user]);
-
-        // Si mdp envoyé avec la requete => hashage sinon on garde l'ancien
+    
         $data = json_decode($request->getContent(), true);
-        if (!empty($data['password'])) {
-            $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
-        }
-
-        // Valider l'objet User
+        $user->setName($data['name'] ?? $user->getName());
+        $user->setFirstName($data['firstName'] ?? $user->getFirstName());
+        $user->setEmail($data['email'] ?? $user->getEmail());
+    
+        // Ajoute la gestion des erreurs de validation ici
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
-            return $this->json($errors, Response::HTTP_BAD_REQUEST);
+            return $this->json(['errors' => (string) $errors], Response::HTTP_BAD_REQUEST);
         }
-
-        // Enregistrer les modifications
+    
         $entityManager->flush();
-
-        return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:show']);
+        return $this->json(['message' => 'User updated successfully'], Response::HTTP_OK);
     }
+    
 
     // DELETE - Supprimer un utilisateur
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
@@ -146,5 +145,12 @@ class UserController extends AbstractController
 
         // Retourner le token JWT
         return $this->json(['token' => $token], Response::HTTP_OK);
+    }
+
+    // LOGOUT - Déconnexion
+    #[Route('/logout', name: 'logout', methods: ['POST'])]
+    public function logout(): JsonResponse
+    {
+        return $this->json(['message' => 'Logout successful'], Response::HTTP_OK);
     }
 }

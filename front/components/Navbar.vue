@@ -57,8 +57,8 @@ const currentUser = ref<User>({
 
 // Propriété calculée pour déterminer si une alerte doit être affichée
 const showProfileAlert = computed(() => {
-  const hasUnsubscribedArtist = currentUser.value.artists.some(artist => !artist.subscription);
-  const hasUnsubscribedScene = currentUser.value.scenes.some(scene => !scene.subscription);
+  const hasUnsubscribedArtist = currentUser.value.artists.some((artist: Artist) => !artist.subscription);
+  const hasUnsubscribedScene = currentUser.value.scenes.some((scene: Scene) => !scene.subscription);
   return hasUnsubscribedArtist || hasUnsubscribedScene;
 });
 

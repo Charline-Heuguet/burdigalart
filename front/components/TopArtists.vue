@@ -33,11 +33,12 @@ import Pastille from '~/components/ui/pastille.vue';
 import TagStyle from '~/components/ui/TagStyle.vue';
 import type { Artist } from '~/types/interfaces/artist';
 
-const baseURL = 'https://localhost:8000/api/';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 // Utilisation de useAsyncData pour la récupération des données de façon asynchrone
 const { data: artistsData } = useAsyncData<Artist>(() => {
-  return $fetch(`${baseURL}artists`);
+  return $fetch(url + 'artists');
 });
 
 // Création d'une référence reactive pour les artistes, initialisée à un tableau vide

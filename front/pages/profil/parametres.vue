@@ -7,10 +7,10 @@
                 <p>Modifier vos informations personnelles</p>
             </div>
         </NuxtLink>
-        <div class="logout">
-            <img src="/img/icon-logout.svg" alt="une fleche qui sort d'un rectangle">
-            <p>Se déconnecter</p>
-        </div>
+        <div class="logout" @click="logout">
+      <img src="/img/icon-logout.svg" alt="une fleche qui sort d'un rectangle">
+      <p>Se déconnecter</p>
+    </div>
         <NuxtLink to="/profil/supprimer-compte">
             <div class="delete">
                 <img src="/img/icon-delete.svg" alt="un profil avec une croix dans le coin droit">
@@ -19,6 +19,12 @@
         </NuxtLink>
     </div>
 </template>
+
+<script setup>
+import { useAuthStore } from '~/stores/auth';
+
+const { logout } = useAuthStore();
+</script>
 
 <style scoped lang="scss">
 @import 'assets/base/colors';

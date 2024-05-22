@@ -14,9 +14,39 @@ export const useAuthStore = defineStore('auth', {
       this.user = userData;
       this.roles = userData.roles || []; // On suppose que `roles` est une propriété de `userData`
     },
-    logout() {
-      this.user = null;
-      this.roles = [];
+    async logout() {
+      const runtimeConfig = useRuntimeConfig();
+      const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.error('Aucun token trouvé, impossible d\'envoyer la requête de déconnexion');
+        this.clearUserData();
+        return;
+      }
+
+      //console.log('Tentative de déconnexion avec le token:', token);
+
+      try {
+        await $fetch(`${url}users/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (error) {
+        console.error('Logout failed:', error);
+      } finally {
+        this.clearUserData();
+      }
+    },
+    clearUserData() {
+      //console.log('Exécution du nettoyage');
+      localStorage.removeItem('token'); // Suppression du JWT du localStorage
+      this.user = null; // Réinitialisation de l'utilisateur
+      this.roles = []; // Réinitialisation des rôles
+      const router = useRouter();
+      router.push('/'); // Redirection vers la page d'accueil
     }
   }
 });

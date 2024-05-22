@@ -74,10 +74,11 @@
 import type { Artist } from '~/types/interfaces/artist';
 import TagStyle from '~/components/ui/TagStyle.vue';
 
-const baseURL = 'https://localhost:8000/api/';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
-    return $fetch(`${baseURL}artists`);
+    return $fetch(url + 'artists');
 });
 
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div v-if="user">
         <div class="avatar">
-            <p class="h2" v-if="isLogged">Bonjour {{ user.firstName }} !</p>
+            <p class="h2" v-if="user.firstName">Bonjour {{ user.firstName }} !</p>
             <p class="h3">Ici, retrouves tous tes évènements!</p>
         </div>
     </div>
@@ -14,46 +14,22 @@
 import { ref, onMounted } from 'vue';
 import { jwtDecode } from "jwt-decode";
 
-const baseURL = 'https://localhost:8000/api/';
-const token = ref(localStorage.getItem('token')); // Stocke le token depuis localStorage
-
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 const user = ref(null);
 const error = ref(null);
-const isLogged = ref(false);
+let token;
 
-// si le JWT est valide et met à jour isLogged
-function checkJwtValidity() {
-  if (!token.value) {
-    console.error('No token available.');
-    isLogged.value = false;
-    return;
-  }
-  try {
-    const decodedToken = jwtDecode(token.value);
-    const currentTime = Date.now() / 1000;
-    isLogged.value = decodedToken.exp > currentTime;
-  } catch (err) {
-    console.error('Error decoding JWT:', err);
-    isLogged.value = false;
-  }
-}
-
-// Charger les données de l'utilisateur à partir de l'API
+// Charge les données de l'utilisateur à partir de l'API
 async function loadUserData() {
-  checkJwtValidity(); // Vérifier d'abord la validité du JWT
-  if (!isLogged.value) {
-    console.error('JWT is not valid or expired');
-    return;
-  }
-
-  const decoded = jwtDecode(token.value);
-  const userId = decoded.user_id;
-
   try {
-    const response = await fetch(`${baseURL}users/${userId}`, {
-      headers: { 'Authorization': `Bearer ${token.value}` }
+    const decoded = jwtDecode(token);
+    const userId = decoded.user_id;
+
+    const response = await fetch(`${url}users/${userId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
     });
-    if (!response.ok) throw new Error(`Failed to fetch user data: Status ${response.status}`);
+    if (!response.ok) throw new Error('Failed to fetch user data');
     user.value = await response.json();
   } catch (err) {
     error.value = err.message;
@@ -61,7 +37,10 @@ async function loadUserData() {
   }
 }
 
-onMounted(loadUserData);
+onMounted(() => {
+  token = localStorage.getItem('token');
+  loadUserData();
+});
 </script>
 
 <style scoped lang="scss">

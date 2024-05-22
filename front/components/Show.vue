@@ -18,10 +18,13 @@ import { useRoute } from 'vue-router';
 // Les imports dont on a besoin
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
-const baseURL = 'https://localhost:8000/api/';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
-// Appel de l'API
-const { data: showData } = useFetch(baseURL + 'artists/' + slug);
+// Appel de l'API pour récupérer les données du spectacle
+const { data: showData } = useAsyncData(() => {
+    return $fetch(url + 'artists/' + slug)
+});
 
 </script>
 <style scoped lang="scss">

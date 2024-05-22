@@ -18,13 +18,16 @@
 <script setup>
 import dayjs from 'dayjs';
 
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
+
+
 const formatDateTime = (dateTime) => {
     return dayjs(dateTime).format('DD/MM à HH:mm');
 };
-const baseURL = 'https://localhost:8000/api/';
-
-const { data: upcomingEvents } = useFetch(baseURL + 'events/upcoming');
-//console.log(upcomingEvents);
+const { data: upcomingEvents } = useAsyncData(() => {
+  return $fetch(url + 'events/upcoming')
+});
 </script>
 
 <style scoped lang="scss">
