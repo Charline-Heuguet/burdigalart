@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   devtools: { 
     enabled: true 
   },
+  router: {
+    middleware: ['auth']
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',

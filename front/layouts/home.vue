@@ -37,6 +37,7 @@
 </template>
 <script setup>
 import StickyCartIcon from '~/components/StickyCartIcon.vue';
+
 </script>
 
 <style lang="scss">

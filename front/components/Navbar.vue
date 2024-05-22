@@ -20,12 +20,16 @@
         </NuxtLink>
       </li>
       <li class="nav-item">
-        <NuxtLink to="/profil" class="nav-link">
+        <NuxtLink v-if="isAuthenticated" to="/profil" class="nav-link">
           <img src="/img/icon-profil.svg" alt="Profil" class="nav-icon" />
           <div class="profile-container">
             <span class="nav-text">Profil</span>
             <div v-if="showProfileAlert" class="alert-icon"></div>
           </div>
+        </NuxtLink>
+        <NuxtLink v-else to="/connexion" class="nav-link">
+          <img src="/img/icon-login.svg" alt="Login" class="nav-icon" />
+          <span class="nav-text">Connexion</span>
         </NuxtLink>
       </li>
     </ul>
@@ -33,56 +37,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import type { User, Artist, Scene } from '~/types/interfaces';
+import { computed } from 'vue';
+import { useAuthStore } from '~/stores/auth';
 
-// Simuler la récupération d'un utilisateur spécifique EN DUR pour tester
-
-// ARTISTE SANS ABONNEMENT: Sophie Bodin
-const currentUser = ref<User>({
-  id: 3,
-  name: "Édouard Aubert",
-  firstName: "Honoré",
-  picture: "https://fastly.picsum.photos/id/219/5000/3333.jpg",
-  email: "dominique.wagner@free.fr",
-  artists: [
-    {
-      artistName: "Sophie Bodin",
-      slug: "sophie-bodin",
-      subscription: false
-    }
-  ],
-  scenes: []
-});
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const user = computed(() => authStore.user);
 
 // Propriété calculée pour déterminer si une alerte doit être affichée
 const showProfileAlert = computed(() => {
-  const hasUnsubscribedArtist = currentUser.value.artists.some((artist: Artist) => !artist.subscription);
-  const hasUnsubscribedScene = currentUser.value.scenes.some((scene: Scene) => !scene.subscription);
+  if (!isAuthenticated.value || !user.value) return false;
+  const hasUnsubscribedArtist = user.value.artists?.some(artist => !artist.subscription);
+  const hasUnsubscribedScene = user.value.scenes?.some(scene => !scene.subscription);
   return hasUnsubscribedArtist || hasUnsubscribedScene;
 });
-
-// ARTISTE AVEC ABONNEMENT: Eleonore Perrin (essai avec une scene non abonnée et une abonnée également.)
-// const currentUser = ref<User>({
-//   id: 90,
-//   name: "Alexandria-Anne Loiseau",
-//   firstName: "Diane",
-//   picture: "https://via.placeholder.com/640x480.png/0044ff?text=cats+ipsa",
-//   email: "marie.hortense@orange.fr",
-//   artists: [
-//     {
-//       artistName: "Éléonore Perrin",
-//       slug: "eleonore-perrin",
-//       subscription: true
-//     },
-//     {
-//       artistName: "Corinne Rodriguez-Martinez",
-//       slug: "corinne-rodriguez",
-//       subscription: true
-//     }
-//   ],
-//   scenes: []
-// });
 </script>
 
 

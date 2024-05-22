@@ -45,28 +45,28 @@ class UserController extends AbstractController
 
     // UPDATE - Modifier un utilisateur
     #[Route('/{id}', name: 'update', methods: ['PUT'])]
-    public function update(EntityManagerInterface $entityManager,Request $request, UserRepository $userRepository, int $id, ValidatorInterface $validator): JsonResponse
+    public function update(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository, int $id, ValidatorInterface $validator): JsonResponse
     {
         $user = $userRepository->find($id);
         if (!$user) {
             return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
         }
-    
+
         $data = json_decode($request->getContent(), true);
         $user->setName($data['name'] ?? $user->getName());
         $user->setFirstName($data['firstName'] ?? $user->getFirstName());
         $user->setEmail($data['email'] ?? $user->getEmail());
-    
+
         // Ajoute la gestion des erreurs de validation ici
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
             return $this->json(['errors' => (string) $errors], Response::HTTP_BAD_REQUEST);
         }
-    
+
         $entityManager->flush();
         return $this->json(['message' => 'User updated successfully'], Response::HTTP_OK);
     }
-    
+
 
     // DELETE - Supprimer un utilisateur
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
@@ -92,7 +92,7 @@ class UserController extends AbstractController
 
         // Afficher les rôles pour le débogage
         error_log(print_r($user->getRoles(), true));
-        
+
         // Hasher le mot de passe
         $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
 
@@ -153,4 +153,5 @@ class UserController extends AbstractController
     {
         return $this->json(['message' => 'Logout successful'], Response::HTTP_OK);
     }
+
 }

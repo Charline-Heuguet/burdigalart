@@ -14,6 +14,22 @@ export const useAuthStore = defineStore('auth', {
       this.user = userData;
       this.roles = userData.roles || []; // On suppose que `roles` est une propriété de `userData`
     },
+    async fetchUserFromToken() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userData = await $fetch('/api/user', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          this.setUser(userData);
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+          this.clearUserData();
+        }
+      }
+    },
     async logout() {
       const runtimeConfig = useRuntimeConfig();
       const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
