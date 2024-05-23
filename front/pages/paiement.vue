@@ -98,7 +98,7 @@
 
 .payment--options button {
   height: 55px;
-  background: #F2F2F2;
+  background: white;
   border-radius: 11px;
   padding: 0;
   border: 0;
@@ -180,7 +180,7 @@
   padding: 0 0 0 16px;
   border-radius: 9px;
   outline: none;
-  background-color: #F2F2F2;
+  background-color: $beigeclair;
   border: 1px solid #e5e5e500;
   transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
@@ -217,5 +217,18 @@
 
 .input_field[type=number] {
   -moz-appearance: textfield;
+}
+
+@media (min-width: 820px){
+  .modal {
+    max-width: 450px;
+    margin: 0 auto;
+    margin-top: 25px;
+    background-color: $beigeclair;
+
+    .input_field{
+      background-color: white;
+    }
+  }
 }
 </style>

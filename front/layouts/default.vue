@@ -70,9 +70,10 @@ header {
     justify-content: space-around;
     margin-top: 50px;
     border-top: 1px solid $darkgray;
+    padding-top: 20px;
 }
 
-// Footer : qu'il reste tt le temps en bas => calcul: 100vh-la hauteur du header - la hauteur du footer
+// Footer : qu'il reste tt le temps en bas => calcul: 100vh - la hauteur du header - la hauteur du footer
 main {
     min-height: calc(100vh - 80px - 70px - 40vh);
     padding: 0 10px;

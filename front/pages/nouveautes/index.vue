@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h1>Ils nous ont rejoints</h1>
-        <p class="h2 mb-12">Plongez dans notre galerie des derniers arrivés : découvrez les artistes et leurs différents univers. </p>
+        <p class="h2 mb-12">Découvrez les artistes et leurs différents univers !</p>
         <div v-if="pending">Chargement...</div>
         <div v-else-if="error">Erreur : {{ error }}</div>
         <div v-else-if="!artists || artists.length === 0">Aucun artiste à afficher</div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <!-- Section pour les artistes non abonnés -->
-            <h2>Section des artistes non abonnés (trouvez un titre :) )</h2>
+            <h2>A découvrir également</h2>
             <div class="container-artist">
                 <div v-for="artist in artists.filter(a => !a.subscription)" :key="artist.id" class="card">
                     <div class="card-wrapper">
