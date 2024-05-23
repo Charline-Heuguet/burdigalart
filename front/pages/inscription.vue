@@ -15,24 +15,25 @@
         <label for="signup-password" class="sr-only">Mot de passe</label>
         <input type="password" id="signup-password" name="signup-password" placeholder="Votre mot de passe"
           v-model="user.password">
-
-        <label for="signup-password-confirm" class="sr-only">Confirmez votre mot de passe</label>
-        <input type="password" id="signup-password-confirm" name="signup-password-confirm"
+          
+          <label for="signup-password-confirm" class="sr-only">Confirmez votre mot de passe</label>
+          <input type="password" id="signup-password-confirm" name="signup-password-confirm"
           placeholder="Confirmez votre mot de passe" v-model="user.passwordConfirm">
-
-        <!-- Section pour choisir les rôles supplémentaires -->
-        <p>Si vous êtes un artiste ou un gérant de scène, cochez la case correspondante.</p>
-        <div class="add-roles">
-          <div>
-            <label>Artiste</label>
-            <input type="checkbox" v-model="additionalRoles" value="ROLE_ARTISTE">
+          <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
+          <!-- Section pour choisir les rôles supplémentaires -->
+          <p>Si vous êtes un artiste ou un gérant de scène, cochez la case correspondante.</p>
+          <div class="add-roles">
+            <div>
+              <label>Artiste</label>
+              <input type="checkbox" v-model="additionalRoles" value="ROLE_ARTISTE">
+            </div>
+            <div>
+              <label>Gérant de scène</label>
+              <input type="checkbox" v-model="additionalRoles" value="ROLE_SCENE">
+            </div>
           </div>
-          <div>
-            <label>Gérant de scène</label>
-            <input type="checkbox" v-model="additionalRoles" value="ROLE_SCENE">
-          </div>
-        </div>
-
+          
+        
         <button type="submit">Inscription</button>
 
         <p class="login-link">Vous avez déjà un compte ? </p>
@@ -56,11 +57,27 @@ const user = ref({
   password: '',
   passwordConfirm: ''
 });
-const additionalRoles = ref([]);
+
+const errorMessage = ref(''); // Message d'erreur à afficher pour le mpd
+const additionalRoles = ref([]); // Rôles supplémentaires à ajouter
+
+// mot de passe fort 
+const validatePassword = (password) => {
+  const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return strongPasswordRegex.test(password);
+};
 
 const inscription = async () => {
+  errorMessage.value = ''; // Réinitialiser le message d'erreur
+
   if (user.value.password !== user.value.passwordConfirm) {
-    alert('Les mots de passe ne correspondent pas.');
+    errorMessage.value = 'Les mots de passe ne correspondent pas.';
+    return;
+  }
+
+  
+  if (!validatePassword(user.value.password)) {
+    errorMessage.value = 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.'
     return;
   }
 
@@ -93,7 +110,7 @@ const inscription = async () => {
       return;
     }
 
-    alert('Inscription réussie!');
+    alert('Inscription réussie! Maintenant connectez-vous avec votre compte.');
     router.push('/connexion');
   } catch (error) {
     alert(`Erreur lors de l'inscription: ${error.message}`);
@@ -158,5 +175,11 @@ h2 {
     }
 
   }
+
+  .error-message{
+    color: red;
+    font-size: 0.8em;
+    margin-bottom:20px;
+  };
 }
 </style>
