@@ -8,8 +8,7 @@
 
 .button-link {
     background-color: $mandarin;
-    color: white;
-    border: none;
+    color: $beigeclair;
     padding: 15px 20px;
     border-radius: 5px;
     font-size: 20px;

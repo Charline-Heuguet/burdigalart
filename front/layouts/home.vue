@@ -46,10 +46,11 @@ import StickyCartIcon from '~/components/StickyCartIcon.vue';
 // Mobile first
 header {
     .hero {
-        background-image: url('/medias/hero.jpg');
+        background-image: url('/medias/banner1.webp');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+        aspect-ratio: 16/9;
         width: 100%;
         height: 400px;
         padding: 20px 0;

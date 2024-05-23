@@ -12,13 +12,15 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     setUser(userData) {
       this.user = userData;
-      this.roles = userData.roles || []; // On suppose que `roles` est une propriété de `userData`
+      this.roles = userData.roles || [];
     },
     async fetchUserFromToken() {
+      const runtimeConfig = useRuntimeConfig();
+      const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          const userData = await $fetch('/api/user', {
+          const userData = await $fetch(url + 'users', {
             headers: {
               'Authorization': `Bearer ${token}`
             }

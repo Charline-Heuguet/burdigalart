@@ -21,11 +21,16 @@
           placeholder="Confirmez votre mot de passe" v-model="user.passwordConfirm">
 
         <!-- Section pour choisir les rôles supplémentaires -->
+        <p>Si vous êtes un artiste ou un gérant de scène, cochez la case correspondante.</p>
         <div class="add-roles">
-          <label>Artiste</label>
-          <input type="checkbox" v-model="additionalRoles" value="ROLE_ARTISTE">
-          <label>Gérant de scène</label>
-          <input type="checkbox" v-model="additionalRoles" value="ROLE_SCENE">
+          <div>
+            <label>Artiste</label>
+            <input type="checkbox" v-model="additionalRoles" value="ROLE_ARTISTE">
+          </div>
+          <div>
+            <label>Gérant de scène</label>
+            <input type="checkbox" v-model="additionalRoles" value="ROLE_SCENE">
+          </div>
         </div>
 
         <button type="submit">Inscription</button>
@@ -96,9 +101,6 @@ const inscription = async () => {
 };
 </script>
 
-
-
-
 <style scoped lang="scss">
 @import 'assets/base/colors';
 
@@ -123,7 +125,7 @@ h2 {
   input,
   button {
     width: 100%;
-    height: 2.5rem;
+    height: 2.5em;
     display: block;
     margin-bottom: 20px;
     padding: 8px 16px;
@@ -143,19 +145,18 @@ h2 {
   }
 
   .add-roles {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-
+    margin-top: 20px;
     div {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      label {
-        margin-bottom: 5px;
-      }
+      justify-content: space-between;
+      max-width: 200px;
     }
+
+
+    input {
+      width: auto;
+    }
+
   }
 }
 </style>

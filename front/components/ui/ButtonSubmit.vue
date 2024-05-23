@@ -12,13 +12,19 @@
 @import 'assets/base/colors';
 
 button {
-    display: block;
-    margin: 0 auto 12px;
-    padding: .5rem 1rem;
     background-color: $mandarin;
-    color: white;
-    border: none;
-    border-radius: .25rem;
+    color: $beigeclair;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    margin: 20px 0;
     cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid darken($mandarin, 5%);
+    text-shadow: 2px 2px 0px darken($mandarin, 15%);
 }
 </style>
