@@ -26,15 +26,15 @@
                 <label for="targetType">Je veux envoyer un message à:</label>
                 <select id="targetType" v-model="form.targetType" @change="fetchTargets">
                     <option value="">Choisir un destinataire</option>
-                    <option>Un.e artiste</option>
-                    <option>Un.e gérant de scène</option>
-                    <option>Aux administrateurs du site</option>
+                    <option value="artiste">Un.e artiste</option>
+                    <option value="gérant de scène">Un.e gérant de scène</option>
+                    <option value="administrateur">Aux administrateurs du site</option>
                 </select>
             </div>
 
             <!-- Menu déroulant des artistes ou des scènes basé sur la sélection précédente -->
-            <div class="form-group" v-if="targets.length > 0 && form.targetType">
-                <label for="targetId">{{ form.targetType === 'Artiste' ? 'Artiste' : 'Scène' }}:</label>
+            <div class="form-group" v-if="targets.length > 0 && form.targetType !== 'administrateur'">
+                <label for="targetId">{{ form.targetType === 'artiste' ? 'Artiste' : 'Scène' }}:</label>
                 <select id="targetId" v-model="form.targetId">
                     <option v-for="target in targets" :key="target.id" :value="target.id">{{ target.name }}</option>
                 </select>
@@ -49,13 +49,16 @@
     </div>
 </template>
 
-<script setup>
-import { ref, watch } from 'vue';
 
+<script setup>
+import { ref } from 'vue';
+import { useRuntimeConfig } from '#app';
+
+const runtimeConfig = useRuntimeConfig();
+const apiUrl = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 const form = ref({
     role: '',
     firstname: '',
-    lastname: '',
     email: '',
     targetType: '',
     targetId: null,
@@ -71,11 +74,13 @@ const roleChanged = () => {
 };
 
 const fetchTargets = async () => {
-    if (!form.value.targetType) return;
+    if (!form.value.targetType || form.value.targetType === 'administrateur') return;
 
-    const response = await fetch(`http://localhost:8000/api/${form.value.targetType.toLowerCase()}s`);
+    const targetType = form.value.targetType === 'artiste' ? 'artists' : 'scenes';
+    const response = await fetch(`${apiUrl}${targetType}`);
     if (response.ok) {
-        targets.value = await response.json();
+        const data = await response.json();
+        targets.value = targetType === 'artists' ? data.map(artist => ({ id: artist.id, name: artist.artistName })) : data.map(scene => ({ id: scene.id, name: scene.name }));
     } else {
         targets.value = [];
     }
@@ -85,13 +90,12 @@ const submitForm = async () => {
     const payload = {
         role: form.value.role,
         firstname: form.value.firstname,
-        lastname: form.value.lastname,
         email: form.value.email,
         targetId: form.value.targetId,
         message: form.value.message
     };
 
-    const response = await fetch('http://localhost:8000/api/messages', {
+    const response = await fetch(`${apiUrl}messages`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -104,11 +108,12 @@ const submitForm = async () => {
         alert(`Error: ${errorData.message}`);
     } else {
         alert('Message sent successfully!');
-        form.value = { role: '', firstname: '', lastname: '', email: '', targetType: '', targetId: null, message: '' };
+        form.value = { role: '', firstname: '', email: '', targetType: '', targetId: null, message: '' };
         targets.value = [];
     }
 };
 </script>
+
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
