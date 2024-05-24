@@ -87,22 +87,35 @@ const fetchTargets = async () => {
 };
 
 const submitForm = async () => {
+    let targetInfo = '';
+    if (form.value.targetType === 'artiste' && form.value.targetId) {
+        const target = targets.value.find(t => t.id === form.value.targetId);
+        targetInfo = `Message pour l'artiste : ${target ? target.name : 'Non spécifié'}`;
+    } else if (form.value.targetType === 'gérant de scène' && form.value.targetId) {
+        const target = targets.value.find(t => t.id === form.value.targetId);
+        targetInfo = `Message pour le gérant de la scène : ${target ? target.name : 'Non spécifié'}`;
+    } else if (form.value.targetType === 'administrateur') {
+        targetInfo = 'Message pour les administrateurs du site';
+    }
+
     const payload = {
         role: form.value.role,
         firstname: form.value.firstname,
         email: form.value.email,
+        targetType: form.value.targetType,
         targetId: form.value.targetId,
-        message: form.value.message
+        message: form.value.message,
+        targetInfo
     };
 
-    const response = await fetch(`${apiUrl}messages`, {
+    const response = await fetch(`${apiUrl}messages/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
     });
-
+    // Ajoute ici un gestionnaire de réponse pour voir si tout se passe bien ou non
     if (!response.ok) {
         const errorData = await response.json();
         alert(`Error: ${errorData.message}`);
@@ -112,6 +125,9 @@ const submitForm = async () => {
         targets.value = [];
     }
 };
+
+
+
 </script>
 
 

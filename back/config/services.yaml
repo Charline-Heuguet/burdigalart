@@ -21,7 +21,7 @@ services:
             - '../src/Kernel.php'
     
     # Custom Event pour le JWT (afin d'inserer l'id de l'utilisateur dans le token)
-    App\EventListener\JwtCreatedListener:
+    App\EventListener\JWTCreatedListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJwtCreated }
 

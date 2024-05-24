@@ -3,32 +3,32 @@
     <ul class="nav-list">
       <li class="nav-item">
         <NuxtLink to="/" class="nav-link">
-          <img src="/img/icon-home.svg" alt="Home" class="nav-icon" />
+          <img src="/img/icon-home.svg" alt="maison" class="nav-icon" />
           <span class="nav-text">Accueil</span>
         </NuxtLink>
       </li>
       <li class="nav-item">
         <NuxtLink to="/scenes" class="nav-link">
-          <img src="/img/icon-scene4.svg" alt="Scenes" class="nav-icon" />
+          <img src="/img/icon-scene4.svg" alt="mégaphone" class="nav-icon" />
           <span class="nav-text">Scènes</span>
         </NuxtLink>
       </li>
       <li class="nav-item">
         <NuxtLink to="/nouveautes" class="nav-link">
-          <img src="/img/icon-new.svg" alt="Nouveautés" class="nav-icon" />
+          <img src="/img/icon-new.svg" alt="étoile" class="nav-icon" />
           <span class="nav-text">Nouveautés</span>
         </NuxtLink>
       </li>
       <li class="nav-item">
         <NuxtLink v-if="isAuthenticated" to="/profil" class="nav-link">
-          <img src="/img/icon-profil.svg" alt="Profil" class="nav-icon" />
+          <img src="/img/icon-profil.svg" alt="bonhomme" class="nav-icon" />
           <div class="profile-container">
             <span class="nav-text">Profil</span>
             <div v-if="showProfileAlert" class="alert-icon"></div>
           </div>
         </NuxtLink>
         <NuxtLink v-else to="/connexion" class="nav-link">
-          <img src="/img/icon-login.svg" alt="Login" class="nav-icon" />
+          <img src="/img/icon-login.svg" alt="flèche vers la droite qui rentre dans un carré pour signifier l'entrée" class="nav-icon" />
           <span class="nav-text">Connexion</span>
         </NuxtLink>
       </li>
