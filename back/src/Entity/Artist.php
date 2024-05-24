@@ -17,69 +17,69 @@ class Artist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'event:index', 'event:show', 'event:update'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update','user:index','user:show','user:create','user:update',])]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'event:index', 'event:show', 'event:update', 'user:index', 'user:show', 'user:create', 'user:update',])]
     private ?string $artistName = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update',])]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'event:index', 'event:show', 'event:update',])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'event:index', 'event:show', 'event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $officialPhoto = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:show','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $linkExcerpt = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:show','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $instagram = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:show','artist:update'])]
     #[ORM\Column(length: 255)]
     private ?string $facebook = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:show','artist:update', 'scene_artist:show', 'event:index', 'event:show', 'event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showPhoto = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:show','artist:update', 'scene_artist:show', 'event:show', 'event:index', 'event:show', 'event:update'])]
     #[ORM\Column(length: 255)]
     private ?string $showTitle = null;
 
-    #[Groups(['artist:show', 'artist:create','artist:update','scene_artist:show','event:show','event:index', 'event:show','event:update'])]
+    #[Groups(['artist:show','artist:update', 'scene_artist:show', 'event:show', 'event:index', 'event:show', 'event:update'])]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $showDescription = null;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','event:show','user:index','user:show','user:create','user:update',])]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'event:show', 'user:index', 'user:show', 'user:create', 'user:update',])]
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','user:index','user:show','user:create','user:update' ])]
-    #[ORM\Column]
-    private ?bool $subscription = null;
+    #[Groups(['artist:index', 'artist:show','artist:update', 'user:index', 'user:show', 'user:create', 'user:update'])]
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $subscription = false;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','category:index'])]
-    #[ORM\ManyToOne(inversedBy: 'artists')]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'category:index'])]
+    #[ORM\ManyToOne(inversedBy: 'artists', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
-    #[Groups(['artist:index','artist:show', 'artist:create','artist:update','event:show'])]
-    #[ORM\ManyToOne(inversedBy: 'artists')]
+    #[Groups(['artist:index', 'artist:show','artist:update', 'event:show'])]
+    #[ORM\ManyToOne(inversedBy: 'artists', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Style $style = null;
 
-    #[Groups(['artist:create','artist:update'])]
+    #[Groups(['artist:index', 'artist:show','artist:update'])]
     #[ORM\ManyToOne(inversedBy: 'artists')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
     private ?User $user = null;
 
-    #[Groups(['artist:index', 'artist:show', 'artist:create','artist:update'])]
+    #[Groups(['artist:index', 'artist:show','artist:update'])]
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'Artist')]
     private Collection $events;
 
@@ -89,7 +89,7 @@ class Artist
     // LES RECOMMANDATIONS - a voir plus tard...
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'artistRecommended')]
     private Collection $recommendedBy;
-    
+
     // LES RECOMMANDATIONS - a voir plus tard...
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'recommendedBy')]
     private Collection $artistRecommended;

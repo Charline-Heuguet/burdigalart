@@ -21,7 +21,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user:index','user:show','user:create','user:update', 'message:read','event:index', 'event:show', 'event:upcoming'])]
+    #[Groups(['user:index','user:show','user:create','user:update','artist:show','artist:index', 'message:read','event:index', 'event:show', 'event:upcoming'])]
     private ?int $id = null;
 
     #[Groups(['user:index','user:show','user:create','user:update','user:signup', 'message:read','event:index', 'event:show', 'event:upcoming'])]
@@ -48,7 +48,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    #[Groups(['user:index','user:show','user:create','user:update','artist:index','artist:show','artist:create','artist:update','scene:index','scene:show','scene:create','scene:update'])]
+    #[Groups(['user:index','user:show','user:create','user:update','scene:index','scene:show','scene:create','scene:update'])]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Artist::class)]
     private Collection $artists;
 

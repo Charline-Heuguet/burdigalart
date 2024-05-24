@@ -1,7 +1,8 @@
 <template>
     <div v-if="artist">
         <p class="h2">En piste {{ artist.artistName }} !</p>
-        <p class="h3">Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, sa bannière...</p>
+        <p class="h3">Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, sa
+            bannière...</p>
         <!-- Artiste / votre fiche -->
         <Accordion :item="{ title: 'Votre fiche d\'artiste', content: '' }">
             <template #content>
@@ -12,6 +13,26 @@
                         <label for="artistName">Votre nom d'artiste</label>
                         <input type="text" id="artistName" v-model="artist.artistName">
                     </div>
+
+                    <div class="form-group">
+                        <label for="category">Dans quelle catégorie se trouve votre art?</label>
+                        <select id="category" v-model="artist.category.categoryName">
+                            <option v-for="category in categories" :key="category.categoryName"
+                                :value="category.categoryName">
+                                {{ category.categoryName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style">Quel est votre style de musique ?</label>
+                        <select id="style" v-model="artist.style.styleName">
+                            <option v-for="style in styles" :key="style.id" :value="style.styleName">
+                                {{ style.styleName }}
+                            </option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="description">Votre description</label>
                         <textarea id="description" v-model="artist.description"></textarea>
@@ -25,19 +46,9 @@
                         <input type="text" id="facebook" v-model="artist.facebook">
                     </div>
                     <div class="form-group">
-                        <label for="linkExcerpt">Un lien d'un extrait où on pourrait vous voir</label>
+                        <label for="linkExcerpt">Un lien (youtube) d'un extrait où on pourrait vous voir</label>
                         <input type="text" id="linkExcerpt" v-model="artist.linkExcerpt">
                     </div>
-                    <ButtonSubmit>Valider</ButtonSubmit>
-                </form>
-            </template>
-        </Accordion>
-
-        <!-- Artiste / spectacle -->
-        <Accordion :item="{ title: 'Votre show', content: '' }">
-            <template #content>
-
-                <form @submit.prevent="saveShow">
                     <div class="form-group">
                         <label for="showPhoto">Photo de votre spectacle</label>
                         <img :src="artist.showPhoto" alt="Photo du spectacle" class="show-photo">
@@ -53,7 +64,6 @@
                     </div>
                     <ButtonSubmit>Valider</ButtonSubmit>
                 </form>
-
             </template>
         </Accordion>
 
@@ -102,11 +112,26 @@ import DateIcon from '../ui/DateIcon.vue';
 import ButtonSubmit from '../ui/ButtonSubmit.vue';
 import { useAsyncData } from 'nuxt/app';
 
+const runtimeConfig = useRuntimeConfig();
+const apiUrl = runtimeConfig.public.apiUrl || runtimeConfig.apiUrl;
+
+
 const baseUrl = 'https://localhost:8000/api';
 const artistSlug = 'sophie-bodin';
 const { data: artist, pending, error } = useAsyncData('artistData', () => {
     return $fetch(`${baseUrl}/artists/${artistSlug}`);
 });
+
+// Lire les catégories.
+const { data: categories } = useAsyncData(() => {
+  return $fetch(`${apiUrl}categories/`);
+});
+
+// Lire les styles.
+const { data: styles } = useAsyncData(() => {
+  return $fetch(`${apiUrl}styles`);
+});
+
 
 
 const saveProfile = () => {

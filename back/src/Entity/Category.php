@@ -17,10 +17,11 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['category:index','artist:index','artist:show','artist:update','style:index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['category:index','artist:index','artist:show','artist:update','artist:create', 'style:index'])]
+    #[Groups(['category:index','artist:index','artist:show','artist:update','style:index'])]
     private ?string $categoryName = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Style::class)]

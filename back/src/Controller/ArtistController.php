@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Style;
 use App\Entity\Artist;
+use App\Entity\Category;
 use App\Repository\ArtistRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,34 +52,50 @@ class ArtistController extends AbstractController
         $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show', 'artist_scene:show']]);
         return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
-    
+
 
     // CREATE - Créer un artiste
     #[Route('/', name: 'create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer): JsonResponse
+    // Dans la méthode de création de l'ArtistController
+    public function create(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
-        // Désérialiser le contenu JSON de la requête en une instance de l'entité Artist
-        $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json', ['groups' => 'artist:create']);
-
-        // Valider l'entité désérialisée
+        $artistData = json_decode($request->getContent(), true);
+    
+        // Charger l'utilisateur
+        $user = $entityManager->getRepository(User::class)->find($artistData['user_id']);
+        if (!$user) {
+            return new JsonResponse(['error' => 'User not found'], Response::HTTP_BAD_REQUEST);
+        }
+    
+        // Charger les entités Category et Style
+        $category = $entityManager->getRepository(Category::class)->find($artistData['category']);
+        $style = $entityManager->getRepository(Style::class)->find($artistData['style']);
+        if (!$category || !$style) {
+            return new JsonResponse(['error' => 'Category or style not found'], Response::HTTP_BAD_REQUEST);
+        }
+    
+        $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json');
+        $artist->setUser($user);
+        $artist->setCategory($category);
+        $artist->setStyle($style);
+    
+        // Valider et persister l'entité
         $errors = $validator->validate($artist);
         if (count($errors) > 0) {
-            // Formater les erreurs de validation pour la réponse JSON
             $errorsArray = [];
             foreach ($errors as $error) {
                 $errorsArray[$error->getPropertyPath()] = $error->getMessage();
             }
             return new JsonResponse(['errors' => $errorsArray], Response::HTTP_BAD_REQUEST);
         }
-
-        // Persister l'entité dans la base de données
+    
         $entityManager->persist($artist);
         $entityManager->flush();
-
-        // Sérialiser l'artiste pour la réponse, en utilisant le groupe de lecture
-        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => 'artist:show']);
-        return new JsonResponse($jsonArtist, Response::HTTP_CREATED, [], true);
+    
+        return new JsonResponse($serializer->serialize($artist, 'json', ['groups' => ['artist:index', 'artist:show']]), Response::HTTP_CREATED, [], true);
     }
+    
+
 
     // UPDATE - modifier un artiste
     #[Route('/{slug}', name: 'update', methods: ['PUT'])]
