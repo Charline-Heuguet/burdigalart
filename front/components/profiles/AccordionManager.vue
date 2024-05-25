@@ -1,5 +1,7 @@
 <template>
   <div v-if="sceneData">
+    <p class="h2">Rideau, en haut !</p>
+        <p class="h3">Gérez la fiche de votre établissement: nom, bannière, adresse, les évènements que vous organisez...</p>
     <!-- La fiche-->
     <Accordion :item="{ title: 'La fiche de votre scène', content: '' }">
       <template #content>
@@ -156,7 +158,13 @@ const updateSceneDetails = () => {
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
-
+.h2{
+    text-align: center;
+    margin-bottom: 25px;
+}
+.h3{
+    margin: 0 0 30px;
+}
 .alert-icon {
     width: 10px;
     height: 10px;

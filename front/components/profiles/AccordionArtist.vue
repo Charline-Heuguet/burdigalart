@@ -1,6 +1,6 @@
 <template>
     <div v-if="artist">
-        <p class="h2">En piste {{ artist.artistName }} !</p>
+        <p class="h2">En piste l'artiste!</p>
         <p class="h3">Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, sa
             bannière...</p>
         <!-- Artiste / votre fiche -->
@@ -9,13 +9,13 @@
                 <!-- S'assurer que l'artiste est chargé avant d'accéder à ses propriétés -->
 
                 <form @submit.prevent="saveProfile">
+                    <p class="h3 formh3">Présentez-vous :</p>
                     <div class="form-group">
                         <label for="artistName">Votre nom d'artiste</label>
                         <input type="text" id="artistName" v-model="artist.artistName">
                     </div>
-
                     <div class="form-group">
-                        <label for="category">Dans quelle catégorie se trouve votre art?</label>
+                        <label for="category">Dans quelle catégorie artistique vous situez-vous?</label>
                         <select id="category" v-model="artist.category.categoryName">
                             <option v-for="category in categories" :key="category.categoryName"
                                 :value="category.categoryName">
@@ -23,7 +23,6 @@
                             </option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="style">Quel est votre style de musique ?</label>
                         <select id="style" v-model="artist.style.styleName">
@@ -32,7 +31,6 @@
                             </option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="description">Votre description</label>
                         <textarea id="description" v-model="artist.description"></textarea>
@@ -46,9 +44,10 @@
                         <input type="text" id="facebook" v-model="artist.facebook">
                     </div>
                     <div class="form-group">
-                        <label for="linkExcerpt">Un lien (youtube) d'un extrait où on pourrait vous voir</label>
+                        <label for="linkExcerpt">Un lien d'un extrait où on pourrait vous voir</label>
                         <input type="text" id="linkExcerpt" v-model="artist.linkExcerpt">
                     </div>
+                    <p class="h3 formh3">Et votre spectacle ?</p>
                     <div class="form-group">
                         <label for="showPhoto">Photo de votre spectacle</label>
                         <img :src="artist.showPhoto" alt="Photo du spectacle" class="show-photo">
@@ -143,11 +142,6 @@ const updateShowPhoto = (event) => {
         console.log('File selected:', file);
     }
 };
-
-const saveShow = () => {
-    console.log('Show details saved:', artist.value);
-};
-
 const unsubscribe = () => {
   console.log('Unsubscribe logic here...');
 };
@@ -161,6 +155,7 @@ const subscribe = () => {
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
+
 .alert-icon {
     width: 10px;
     height: 10px;
@@ -177,6 +172,10 @@ const subscribe = () => {
 .h3{
     margin: 0 0 30px;
 }
+.formh3{
+    text-align: center;
+    margin: 30px 0 20px;
+}
 .form-group {
     margin-bottom: 5px;
     padding: 12px;
@@ -187,7 +186,7 @@ const subscribe = () => {
     }
 
     input[type="text"],
-    textarea {
+    textarea, select {
         width: 100%;
         padding: .5rem;
         line-height: 1.5;

@@ -1,13 +1,16 @@
 <template>
   <div class="rolesPills">
     <!-- Afficher les pastilles basées sur les rôles de l'utilisateur -->
-    <RolePill role="Spectateur" :isActive="currentRole === 'Spectateur'" @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_USER')" />
-    <RolePill role="Artiste" :isActive="currentRole === 'Artiste'" @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_ARTISTE')" />
-    <RolePill role="Gérant de scène" :isActive="currentRole === 'Gérant de scène'" @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_SCENE')" />
+    <RolePill role="Spectateur" :isActive="currentRole === 'Spectateur'" @selected="role => { currentRole = role }"
+      v-if="authStore.roles.includes('ROLE_USER')" />
+    <RolePill role="Artiste" :isActive="currentRole === 'Artiste'" @selected="role => { currentRole = role }"
+      v-if="authStore.roles.includes('ROLE_ARTISTE')" />
+    <RolePill role="Gérant de scène" :isActive="currentRole === 'Gérant de scène'"
+      @selected="role => { currentRole = role }" v-if="authStore.roles.includes('ROLE_SCENE')" />
   </div>
 
   <!-- Contenu conditionnel basé sur le rôle sélectionné -->
-  <div v-if="currentRole === 'Spectateur'">
+  <div class="profil-view" v-if="currentRole === 'Spectateur'">
     <ProfilBase />
     <AccordionViewer />
     <NuxtLink to="/profil/parametres">
@@ -17,12 +20,12 @@
       </div>
     </NuxtLink>
   </div>
-    
-  <div v-if="currentRole === 'Artiste'">
+
+  <div class="profil-view" v-if="currentRole === 'Artiste'">
     <AccordionArtist />
   </div>
 
-  <div v-if="currentRole === 'Gérant de scène'">
+  <div class="profil-view" v-if="currentRole === 'Gérant de scène'">
     <AccordionManager />
   </div>
 </template>
@@ -44,6 +47,15 @@ const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par dé
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
+
+.profil-view {
+  max-width: 600px;
+  margin: 30px auto 0;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: rgba(247, 241, 235, 0.7);
+  border-radius: 8px;
+}
 
 .rolesPills {
   display: flex;

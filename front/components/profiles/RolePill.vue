@@ -17,7 +17,7 @@ const props = defineProps({
 .role-pill {
   margin: 40px 10px;
   min-width: 125px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 30px;  
   background-color: $beige;
   cursor: pointer;
