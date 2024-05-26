@@ -273,6 +273,7 @@ p {
 .event-card {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
