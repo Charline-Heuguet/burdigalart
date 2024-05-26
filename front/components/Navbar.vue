@@ -47,8 +47,8 @@ const user = computed(() => authStore.user);
 // Propriété calculée pour déterminer si une alerte doit être affichée
 const showProfileAlert = computed(() => {
   if (!isAuthenticated.value || !user.value) return false;
-  const hasUnsubscribedArtist = user.value.artists?.some(artist => !artist.subscription);
-  const hasUnsubscribedScene = user.value.scenes?.some(scene => !scene.subscription);
+  const hasUnsubscribedArtist = (user.value as { artists?: any[] }).artists?.some(artist => !artist.subscription);
+  const hasUnsubscribedScene = (user.value as { scenes?: any[] }).scenes?.some(scene => !scene.subscription);
   return hasUnsubscribedArtist || hasUnsubscribedScene;
 });
 </script>

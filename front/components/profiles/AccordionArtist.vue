@@ -1,7 +1,7 @@
 <template>
     <div v-if="artist">
-        <p class="h2">En piste l'artiste!</p>
-        <p class="h3">Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, sa
+        <p class="h3">En piste l'artiste!</p>
+        <p>Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, sa
             bannière...</p>
         <!-- Artiste / votre fiche -->
         <Accordion :item="{ title: 'Votre fiche d\'artiste', content: '' }">
@@ -11,22 +11,25 @@
                 <form @submit.prevent="saveProfile">
                     <p class="h3 formh3">Présentez-vous :</p>
                     <div class="form-group">
+                        <label for="officialPhoto">Photo officielle</label>
+                        <img :src="artist.officialPhoto" alt="Photo officielle de l'artiste" class="official-photo">
+                    </div>
+                    <div class="form-group">
                         <label for="artistName">Votre nom d'artiste</label>
                         <input type="text" id="artistName" v-model="artist.artistName">
                     </div>
                     <div class="form-group">
                         <label for="category">Dans quelle catégorie artistique vous situez-vous?</label>
-                        <select id="category" v-model="artist.category.categoryName">
-                            <option v-for="category in categories" :key="category.categoryName"
-                                :value="category.categoryName">
+                        <select id="category" v-model="artist.category.id">
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
                                 {{ category.categoryName }}
                             </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="style">Quel est votre style de musique ?</label>
-                        <select id="style" v-model="artist.style.styleName">
-                            <option v-for="style in styles" :key="style.id" :value="style.styleName">
+                        <select id="style" v-model="artist.style.id">
+                            <option v-for="style in styles" :key="style.id" :value="style.id">
                                 {{ style.styleName }}
                             </option>
                         </select>
@@ -51,7 +54,7 @@
                     <div class="form-group">
                         <label for="showPhoto">Photo de votre spectacle</label>
                         <img :src="artist.showPhoto" alt="Photo du spectacle" class="show-photo">
-                        <input type="file" id="showPhoto" @change="updateShowPhoto">
+                        <!-- <input type="file" id="showPhoto" @change="updateShowPhoto"> -->
                     </div>
                     <div class="form-group">
                         <label for="showTitle">Titre du spectacle</label>
@@ -110,45 +113,99 @@ import Accordion from './Accordion.vue';
 import DateIcon from '../ui/DateIcon.vue';
 import ButtonSubmit from '../ui/ButtonSubmit.vue';
 import { useAsyncData } from 'nuxt/app';
+import { jwtDecode } from "jwt-decode";
 
 const runtimeConfig = useRuntimeConfig();
 const apiUrl = runtimeConfig.public.apiUrl || runtimeConfig.apiUrl;
 
+const artist = ref(null);
+const userRoles = ref([]);
+const userId = ref(null);
 
-const baseUrl = 'https://localhost:8000/api';
-const artistSlug = 'sophie-bodin';
-const { data: artist, pending, error } = useAsyncData('artistData', () => {
-    return $fetch(`${baseUrl}/artists/${artistSlug}`);
-});
+function initializeArtistModel() {
+    return {
+        artistName: '',
+        category: { categoryName: '' },
+        style: { styleName: '' },
+        description: '',
+        instagram: '',
+        facebook: '',
+        linkExcerpt: '',
+        officialPhoto: 'https://fastly.picsum.photos/id/91/3504/2336.jpg?hmac=tK6z7RReLgUlCuf4flDKeg57o6CUAbgklgLsGL0UowU', // URL par défaut pour la photo officielle
+        showPhoto: 'https://fastly.picsum.photos/id/158/4836/3224.jpg?hmac=Gu_3j3HxZgR74iw1sV0wcwlnSZSeCi7zDWLcjblOp_c', // URL par défaut pour la photo du spectacle
+        showTitle: '',
+        showDescription: ''
+    };
+}
 
 // Lire les catégories.
 const { data: categories } = useAsyncData(() => {
-  return $fetch(`${apiUrl}categories/`);
+    return $fetch(`${apiUrl}categories/`);
 });
-
 // Lire les styles.
 const { data: styles } = useAsyncData(() => {
-  return $fetch(`${apiUrl}styles`);
+    return $fetch(`${apiUrl}styles`);
 });
 
-
-
-const saveProfile = () => {
-    console.log('Profile saved:', artist.value);
-};
-const updateShowPhoto = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        console.log('File selected:', file);
+// Décoder le token stocké pour obtenir les informations de l'utilisateur
+function decodeToken() {
+    const token = localStorage.getItem('token');
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRoles.value = decoded.roles || [];
+        userId.value = decoded.user_id;
+        return decoded;
     }
-};
-const unsubscribe = () => {
-  console.log('Unsubscribe logic here...');
-};
+    return null;
+}
 
-const subscribe = () => {
-  console.log('Subscribe logic here...');
-};
+onMounted(() => {
+    const userInfo = decodeToken();
+    if (userInfo && userRoles.value.includes('ROLE_ARTISTE')) {
+        $fetch(`${apiUrl}artists/user/${userId.value}`).then((response) => {
+            artist.value = response;
+        }).catch(() => {
+            artist.value = initializeArtistModel();
+        });
+    } else {
+        artist.value = initializeArtistModel();
+    }
+});
+
+async function saveProfile() {
+    const payload = {
+        artistName: artist.value.artistName,
+        category: artist.value.category.id, // ID de la catégorie
+        style: artist.value.style.id, // ID du style
+        description: artist.value.description,
+        instagram: artist.value.instagram,
+        facebook: artist.value.facebook,
+        linkExcerpt: artist.value.linkExcerpt,
+        official_photo: artist.value.officialPhoto,
+        showPhoto: artist.value.showPhoto,
+        showTitle: artist.value.showTitle,
+        showDescription: artist.value.showDescription,
+        user_id: userId.value
+    };
+
+    try {
+        const response = await $fetch(`${apiUrl}artists/`, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        // Réponse du serveur
+        alert('Profil sauvegardé avec succès!');
+        console.log('Réponse:', response);
+    } catch (error) {
+        console.error('Erreur lors de la sauvegarde:', error);
+        alert('Erreur lors de la sauvegarde du profil. Vérifiez les données et réessayez.');
+    }
+}
 
 </script>
 
@@ -169,13 +226,15 @@ const subscribe = () => {
     margin-left: 10px;
 }
 
-.h3{
+.h3 {
     margin: 0 0 30px;
 }
-.formh3{
+
+.formh3 {
     text-align: center;
     margin: 30px 0 20px;
 }
+
 .form-group {
     margin-bottom: 5px;
     padding: 12px;
@@ -186,7 +245,8 @@ const subscribe = () => {
     }
 
     input[type="text"],
-    textarea, select {
+    textarea,
+    select {
         width: 100%;
         padding: .5rem;
         line-height: 1.5;
@@ -226,7 +286,7 @@ p {
     }
 }
 
-.subscription{
+.subscription {
     padding: 10px;
     border-radius: 5px;
 

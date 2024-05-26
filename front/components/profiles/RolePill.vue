@@ -32,7 +32,6 @@ const props = defineProps({
   background-color: $mandarin;
   color: $black;
   font-weight: 600;
-  border: 1px solid $darkgray;
   
 }
 </style>

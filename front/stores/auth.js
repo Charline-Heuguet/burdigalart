@@ -7,13 +7,14 @@ export const useAuthStore = defineStore('auth', {
     roles: [] // champ pour les rôles
   }),
   getters: {
-    isAuthenticated: (state) => !!state.user
+    isAuthenticated: (state) => !!state.user,
   },
   actions: {
     setUser(userData) {
       this.user = userData;
       this.roles = userData.roles || [];
     },
+    // Fonction pour récupérer les données de l'utilisateur à partir du token
     async fetchUserFromToken() {
       const runtimeConfig = useRuntimeConfig();
       const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;

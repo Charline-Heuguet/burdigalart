@@ -8,7 +8,7 @@
           <p>{{ event.scene.name }} - {{ event.scene.address }}</p>
         </div>
         <NuxtLink :to="'/evenement/' + event.slug">
-          <img src="/img/icon-arrow-next.svg" alt="flèche vers la droite" />        
+          <img src="/img/icon-arrow-next.svg" alt="flèche vers la droite" />
         </NuxtLink>
       </div>
       <p class="nothing" v-if="upcomingEvents.length === 0">Aucun événement à venir.</p>
@@ -32,25 +32,48 @@
 <script setup>
 import Accordion from './Accordion.vue';
 import DateIcon from '../ui/DateIcon.vue';
-import { ref, computed } from 'vue';
-import { useAsyncData } from 'nuxt/app';
+import { ref, onMounted, computed } from 'vue';
+import { jwtDecode } from "jwt-decode";
 
-const baseURL = 'https://localhost:8000/api';
-const userId = 1; // Utilisateur pour les tests en dur
+const runtimeConfig = useRuntimeConfig();
+const apiUrl = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
-const { data, error, pending } = useAsyncData('userEvents', () => {
-  return $fetch(`${baseURL}/users/${userId}`);
-});
+const userInfo = ref(null);
+const error = ref(null);
 
+const loadUserData = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('No token found');
+    return;
+  }
+
+  try {
+    const decoded = jwtDecode(token);
+    const userId = decoded.user_id;
+    const response = await fetch(`${apiUrl}users/${userId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!response.ok) throw new Error('Failed to fetch user data');
+    userInfo.value = await response.json();
+  } catch (err) {
+    error.value = err.message;
+    console.error('Error fetching user data:', err.message);
+  }
+};
+
+onMounted(loadUserData);
+
+const now = new Date();
 const upcomingEvents = computed(() => {
-  return data.value ? data.value.events.filter(event => new Date(event.dateTime) > new Date()) : [];
+  return userInfo.value && userInfo.value.events ? userInfo.value.events.filter(event => new Date(event.dateTime) > now) : [];
 });
-//console.log(upcomingEvents);
 
 const pastEvents = computed(() => {
-  return data.value ? data.value.events.filter(event => new Date(event.dateTime) <= new Date()) : [];
+  return userInfo.value && userInfo.value.events ? userInfo.value.events.filter(event => new Date(event.dateTime) <= now) : [];
 });
 </script>
+
 
 <style scoped lang="scss">
 @import 'assets/base/colors';

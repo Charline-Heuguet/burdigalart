@@ -39,7 +39,12 @@ class UserController extends AbstractController
         return $this->json([
             'name' => $user->getName(),
             'firstName' => $user->getFirstName(),
+            'picture' => $user->getPicture(), 
             'email' => $user->getEmail(),
+            'roles' => $user->getRoles(),
+            'artists' => $user->getArtists(),
+            'scenes' => $user->getScenes(),
+            'events' => $user->getEvents(),
         ], Response::HTTP_OK, [], ['groups' => 'user:show']);
     }
 

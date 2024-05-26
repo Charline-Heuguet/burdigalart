@@ -78,7 +78,8 @@ class ArtistController extends AbstractController
         $artist->setUser($user);
         $artist->setCategory($category);
         $artist->setStyle($style);
-    
+        // Générer le slug
+        $artist->updateSlug();
         // Valider et persister l'entité
         $errors = $validator->validate($artist);
         if (count($errors) > 0) {
@@ -87,7 +88,7 @@ class ArtistController extends AbstractController
                 $errorsArray[$error->getPropertyPath()] = $error->getMessage();
             }
             return new JsonResponse(['errors' => $errorsArray], Response::HTTP_BAD_REQUEST);
-        }
+        }        
     
         $entityManager->persist($artist);
         $entityManager->flush();
@@ -144,6 +145,18 @@ class ArtistController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['status' => 'Artist deleted']);
+    }
+
+    // Accéder aux infos de l'artiste via l'ID de l'utilisateur connecté (=> afin de RECUPERER les infos de l'artiste SI la fiche artiste existe pour cet utilisateur)
+    #[Route('/user/{id}', name: 'artist_by_user', methods: ['GET'])]
+    public function getArtistByUser(ArtistRepository $artistRepository, SerializerInterface $serializer, int $id,): JsonResponse
+    {
+        $artist = $artistRepository->findOneBy(['user' => $id]);
+        if (!$artist) {
+            return new JsonResponse(['error' => 'Artist not found :( '], Response::HTTP_NOT_FOUND);
+        }
+        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show']]);
+        return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
 
     // DELETE - Pour SUPPRIMER un artiste par son id
