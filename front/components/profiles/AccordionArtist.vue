@@ -307,6 +307,7 @@ p {
 
         &.danger {
             background-color: red;
+            font-weight: bold;
             margin-top: 12px;
         }
 
