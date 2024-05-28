@@ -33,6 +33,17 @@
                 <NuxtLink to="/cgv">CGV</NuxtLink>
             </li>
         </ul>
+        <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="/img/icon-fb.svg" alt="Facebook" />
+            </a>
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="/img/icon-insta.svg" alt="Instagram" />
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+                <img src="/img/icon-lkdn.svg" alt="linkedin" />
+            </a>
+        </div>
     </footer>
 </template>
 
@@ -67,13 +78,31 @@ header {
     margin: 0 auto;
 }
 
-.footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    margin-top: 50px;
-    border-top: 1px solid $darkgray;
-    padding-top: 20px;
+footer {
+    .footer {
+        width: 100%;
+        display: flex;
+        flex-direction: row; // Change la direction pour une disposition verticale
+        align-items: center; // Centre les éléments horizontalement
+        justify-content: space-around;
+        margin-top: 50px;
+        padding-top: 20px;
+    }
+
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px; // Espace entre les icônes et les liens
+
+        a {
+            display: flex;
+            margin: 0 10px; // Espacement horizontal entre les icônes
+        }
+
+        img {
+            width: 20px;
+        }
+    }
 }
 
 // Footer : qu'il reste tt le temps en bas => calcul: 100vh - la hauteur du header - la hauteur du footer
