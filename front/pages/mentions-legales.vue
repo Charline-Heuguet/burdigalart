@@ -4,7 +4,7 @@
         <h2>Informations légales :</h2>
         <p>Nom du Site : BURDIGAL’ ART </p>
         <p>Adresse : 4 QUAI DES QUEYRIES 33100 BORDEAUX</p>
-        <p>Adresse mail de contact: burdigalart@gmail.com</p>
+        <p>Adresse mail de contact: contact@burdigalart.com</p>
         <p>Directeur de publication : Enola MONAI</p>
         <p>Hébergeur : PLANET HOSTER 4416 Louis-B. -Mayer, Laval, Québec, Canada H7P 0G1 (numéro de téléphone :  01 76 60 41 43)</p>
 

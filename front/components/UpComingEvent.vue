@@ -6,7 +6,7 @@
         <Pastille>Voir plus</Pastille>
       </NuxtLink>
     </div>
-    <swiper :slidesPerView="1.5" :spaceBetween="30" :breakpoints="breakpoints" :loop="true" :modules="modules" class="mySwiper">
+    <swiper :slidesPerView="1.5" :spaceBetween="30" :breakpoints="breakpoints" :loop="true" class="mySwiper">
       <swiper-slide v-for="allEvent in upcomingEvents" :key="allEvent.id" class="slide">
         <NuxtLink :to="'/evenement/' + allEvent.slug">
           <img :src="allEvent.poster" alt="affiche de l'évènement">
