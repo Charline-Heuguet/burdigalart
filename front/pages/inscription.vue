@@ -15,25 +15,44 @@
         <label for="signup-password" class="sr-only">Mot de passe</label>
         <input type="password" id="signup-password" name="signup-password" placeholder="Votre mot de passe"
           v-model="user.password">
-          
-          <label for="signup-password-confirm" class="sr-only">Confirmez votre mot de passe</label>
-          <input type="password" id="signup-password-confirm" name="signup-password-confirm"
+
+        <label for="signup-password-confirm" class="sr-only">Confirmez votre mot de passe</label>
+        <input type="password" id="signup-password-confirm" name="signup-password-confirm"
           placeholder="Confirmez votre mot de passe" v-model="user.passwordConfirm">
-          <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
-          <!-- Section pour choisir les rôles supplémentaires -->
-          <p>Si vous êtes un artiste ou un gérant de scène, cochez la case correspondante.</p>
-          <div class="add-roles">
-            <div>
-              <label>Artiste</label>
-              <input type="checkbox" v-model="additionalRoles" value="ROLE_ARTISTE">
-            </div>
-            <div>
-              <label>Gérant de scène</label>
-              <input type="checkbox" v-model="additionalRoles" value="ROLE_SCENE">
-            </div>
+        <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
+
+        <!-- Pour les CGV et CGU -->
+        <p>En vous inscrivant, vous acceptez les:</p>
+        <div class="consent">
+          <input type="checkbox" id="accept-cgu" v-model="acceptsCGU">
+          <label for="accept-cgu">
+            <NuxtLink to="/cgu">Conditions Générales d'Utilisation</NuxtLink>
+          </label>
+        </div>
+        <div class="consent">
+          <input type="checkbox" id="accept-privacy" v-model="acceptsPrivacy">
+          <label for="accept-privacy">
+            <NuxtLink to="/cgv">Conditions Générales de Vente</NuxtLink>
+          </label>
+        </div>
+        <div class="error-message" v-if="!consentGiven">Vous devez accepter les Conditions Générales d'Utilisation et la
+          Charte de Confidentialité.</div>
+
+
+        <!-- Section pour choisir les rôles supplémentaires -->
+        <p>Si vous êtes un artiste ou un gérant de scène, cochez la case correspondante.</p>
+        <div class="add-roles">
+          <div>
+            <label>Artiste</label>
+            <input type="checkbox" v-model="additionalRoles" value="ROLE_ARTISTE">
           </div>
-          
-        
+          <div>
+            <label>Gérant de scène</label>
+            <input type="checkbox" v-model="additionalRoles" value="ROLE_SCENE">
+          </div>
+        </div>
+
+
         <button type="submit">Inscription</button>
 
         <p class="login-link">Vous avez déjà un compte ? </p>
@@ -60,6 +79,10 @@ const user = ref({
 
 const errorMessage = ref(''); // Message d'erreur à afficher pour le mpd
 const additionalRoles = ref([]); // Rôles supplémentaires à ajouter
+const acceptsCGU = ref(false);
+const acceptsPrivacy = ref(false);
+
+const consentGiven = computed(() => acceptsCGU.value && acceptsPrivacy.value);
 
 // mot de passe fort 
 const validatePassword = (password) => {
@@ -68,6 +91,10 @@ const validatePassword = (password) => {
 };
 
 const inscription = async () => {
+  if (!consentGiven.value) {
+    errorMessage.value = 'Vous devez accepter les Conditions Générales d\'Utilisation et les Conditions Générales de Vente pour continuer.';
+    return;
+  }
   errorMessage.value = ''; // Réinitialiser le message d'erreur
 
   if (user.value.password !== user.value.passwordConfirm) {
@@ -75,7 +102,7 @@ const inscription = async () => {
     return;
   }
 
-  
+
   if (!validatePassword(user.value.password)) {
     errorMessage.value = 'Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.'
     return;
@@ -161,25 +188,50 @@ h2 {
     text-align: center;
   }
 
+  .consent {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+
+    input {
+      margin-right: 10px;
+      width: auto;
+      margin-bottom: 0;
+    }
+
+    label {
+      font-size: 0.9em;
+      margin-bottom: 0;
+    }
+  }
+
   .add-roles {
     margin-top: 20px;
+
     div {
       display: flex;
       justify-content: space-between;
       max-width: 200px;
     }
 
-
+    label{
+      margin-bottom: 0;
+      height: 0;
+    }
     input {
       width: auto;
+      margin-bottom: 0;
     }
 
   }
 
-  .error-message{
+  .error-message {
     color: red;
     font-size: 0.8em;
-    margin-bottom:20px;
-  };
+    margin-bottom: 20px;
+  }
+
+  ;
 }
 </style>

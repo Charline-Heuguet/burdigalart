@@ -29,6 +29,9 @@
             <li>
                 <NuxtLink to="/cgu">CGU</NuxtLink>
             </li>
+            <li>
+                <NuxtLink to="/cgv">CGV</NuxtLink>
+            </li>
         </ul>
     </footer>
 </template>

@@ -66,14 +66,13 @@ class ArtistController extends AbstractController
         if (!$user) {
             return new JsonResponse(['error' => 'User not found'], Response::HTTP_BAD_REQUEST);
         }
-    
+        
         // Charger les entités Category et Style
         $category = $entityManager->getRepository(Category::class)->find($artistData['category']);
         $style = $entityManager->getRepository(Style::class)->find($artistData['style']);
         if (!$category || !$style) {
             return new JsonResponse(['error' => 'Category or style not found'], Response::HTTP_BAD_REQUEST);
         }
-    
         $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json');
         $artist->setUser($user);
         $artist->setCategory($category);
@@ -158,6 +157,23 @@ class ArtistController extends AbstractController
         $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:show']]);
         return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
     }
+
+    // Pour aller LIRE tous les artistes du USER connecté
+    #[Route('/byuser', name: 'by_user', methods: ['GET'])]
+    public function getArtistsByUser(ArtistRepository $artistRepository, SerializerInterface $serializer): JsonResponse
+    {
+        $artists = $artistRepository->findBy(['user' => $this->getUser()]);
+        $jsonArtists = $serializer->serialize($artists, 'json', ['groups' => ['artist:show']]);
+        return new JsonResponse($jsonArtists, Response::HTTP_OK, [], true);
+    }
+
+
+
+
+
+
+
+
 
     // DELETE - Pour SUPPRIMER un artiste par son id
     // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
