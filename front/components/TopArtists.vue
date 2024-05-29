@@ -38,7 +38,7 @@ const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 // Utilisation de useAsyncData pour la récupération des données de façon asynchrone
 const { data: artistsData } = useAsyncData<Artist>(() => {
-  return $fetch(url + 'artists');
+  return $fetch(url + 'artists/');
 });
 
 // Création d'une référence reactive pour les artistes, initialisée à un tableau vide

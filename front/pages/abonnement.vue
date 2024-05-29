@@ -2,6 +2,7 @@
     <h1>Les abonnements</h1>
     <h2>Nous proposons 2 types d'abonnements</h2>
     <p class="h3">Choisissez celui qui vous convient le mieux</p>
+    <p>Attention, un abonnement par artiste / gérant de scène. Au delà, nous vous demandons de nous contacter afin que nous vous établissions un devis.</p>
 
     <div class="container-abonnement">
         <div class="abonnement">

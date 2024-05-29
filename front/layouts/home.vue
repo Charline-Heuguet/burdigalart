@@ -90,6 +90,7 @@ footer {
         align-items: center; // Centre les éléments horizontalement
         justify-content: space-around;
         margin-top: 50px;
+        border-top: 1px solid $darkgray;
         padding-top: 20px;
     }
 

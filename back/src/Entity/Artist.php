@@ -75,7 +75,7 @@ class Artist
     private ?Style $style = null;
 
     #[Groups(['artist:index', 'artist:show', 'artist:update'])]
-    #[ORM\ManyToOne(inversedBy: 'artists')]
+    #[ORM\ManyToOne(inversedBy: 'artists', cascade: ['persist'])]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
     private ?User $user = null;
 

@@ -22,7 +22,8 @@
   </div>
 
   <div class="profil-view" v-if="currentRole === 'Artiste'">
-    <AccordionArtist />
+    <!-- <AccordionArtist /> -->
+    <ArtistAccordion />
   </div>
 
   <div class="profil-view" v-if="currentRole === 'Gérant de scène'">
@@ -34,7 +35,8 @@
 import { useAuthStore } from '~/stores/auth'; // Importer le store d'authentification
 import RolePill from '~/components/profiles/RolePill.vue';
 import ProfilBase from '~/components/profiles/ProfilBase.vue';
-import AccordionArtist from '~/components/profiles/AccordionArtist.vue';
+// import AccordionArtist from '~/components/profiles/AccordionArtist.vue'; // ancienne version
+import ArtistAccordion from '~/components/profiles/ArtistAccordion.vue'; // nouvelle version
 import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
 import AccordionManager from '~/components/profiles/AccordionManager.vue';
 import { ref } from 'vue';
