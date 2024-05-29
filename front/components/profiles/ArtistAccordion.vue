@@ -1,10 +1,10 @@
 <template>
     <p class="h3">En piste l'artiste!</p>
-    <p>Ici, vous pouvez gérer votre fiche d'artiste: votre style, la description de votre spectacle, votre
-        abonnement</p>
+    <p>Ici, vous pouvez créer et gérer votre fiche d'artiste: le style, la description de votre spectacle, votre
+        abonnement...</p>
     <div>
         <div v-if="canCreateArtist">
-            <ButtonSubmit @click="showCreateForm = true">Créer votre fiche d'artiste</ButtonSubmit>
+            <ButtonSubmit class="my-button" @click="showCreateForm = true">Créer votre fiche d'artiste</ButtonSubmit>
             <Accordion v-if="showCreateForm" :item="{ title: 'Créer une fiche d\'artiste', content: '' }">
                 <template #content>
                     <form @submit.prevent="createArtist">
@@ -356,6 +356,10 @@ onMounted(() => {
 
 .h3 {
     margin: 0 0 30px;
+}
+
+.my-button {
+    margin: 20px auto 20px ;
 }
 
 .formh3 {
