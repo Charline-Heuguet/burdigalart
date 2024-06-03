@@ -68,11 +68,13 @@
             </Accordion>
         </div>
         <div v-if="artists.length > 0">
-            <Accordion :item="{ title: 'Fiche d\'artiste :'+ artist.artistName , content: '' }">
+            <Accordion :item="{ title: 'Fiche d\'artiste : '+ artist.artistName , content: '' }">
                 <template #content>
                     <div v-for="artist in artists" :key="artist.id" class="artist-card">
-                        <h3>{{ artist.artistName }}</h3>
-                        <button @click="selectArtistForEdit(artist)">Modifier</button>
+                        <div class="update-artist">
+                            <h3>{{ artist.artistName }}</h3>
+                            <button @click="selectArtistForEdit(artist)">Modifier</button>
+                        </div>
                         <div v-if="selectedArtist === artist" class="edit-form">
                             <form @submit.prevent="updateArtist">
                                 <div class="form-group">
@@ -166,9 +168,11 @@
                 </div>
                 <div v-else class="subscription">
                     <p>Vous n'êtes pas abonné.e</p>
-                    <p>Pour vous abonner à Burdigal’Art, cliquez sur ce lien...</p>
+                    <p>Pour vous abonner à Burdigal’Art, cliquez sur ce lien</p>
                     <!-- Lien ou bouton pour s'abonner ici, non fonctionnel pour le moment -->
-                    <button class="success">S'abonner</button>
+                    <NuxtLink to="/profil/vous-abonner">
+                        <button class="success">S'abonner</button>
+                    </NuxtLink>
                 </div>
                 <NuxtLink to="/abonnement">En savoir plus sur les abonnements</NuxtLink>
             </template>
@@ -455,5 +459,24 @@ a {
     display: block;
     margin: 12px 0;
     text-align: center;
+}
+
+
+.update-artist {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+
+    button {
+        background-color: $turquoise;
+        color: $black;
+        font-weight: bold;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 }
 </style>

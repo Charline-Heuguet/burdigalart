@@ -49,6 +49,15 @@
 
 <script setup>
 import StickyCartIcon from '~/components/StickyCartIcon.vue';
+import { onMounted } from 'vue';
+import { useAuthStore } from '~/stores/auth';
+
+const authStore = useAuthStore();
+
+onMounted(() => {
+  authStore.fetchUserFromToken();
+});
+
 </script>
 
 <style lang="scss">

@@ -1,10 +1,19 @@
 <template>
-  <button class="role-pill" :class="{ active: isActive }" @click="$emit('selected', role)">
-    {{ role }}
-  </button>
+    <button class="role-pill" :class="{ active: isActive }" @click="$emit('selected', role)">
+      {{ role }}
+    </button>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import { useAuthStore } from '~/stores/auth';
+
+const authStore = useAuthStore();
+
+// onMounted(() => {
+//   authStore.fetchUserFromToken();
+// });
+
 const props = defineProps({
   role: String,
   isActive: Boolean

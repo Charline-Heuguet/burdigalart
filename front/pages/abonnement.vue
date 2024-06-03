@@ -103,8 +103,8 @@
         <p>Le présent contrat est signé électroniquement par le Client lors de la souscription à l’abonnement.</p>
 
         <h2>10. Téléchargement du Contrat</h2>
-        <p>Le Client est libre de télécharger le présent contrat sous format .pdf en cliquant sur: <a
-                href="/medias/contrat-abonnement.pdf" download="contrat_abonnement.pdf">Télécharger le contrat</a>
+        <p>Le Client est libre de télécharger le présent contrat sous format .pdf en cliquant sur: 
+            <a href="/medias/contrat-abonnement.pdf" download="contrat_abonnement.pdf">Télécharger le contrat</a>
         </p>
         <p class="important">Date de dernière mise à jour : Avril 2024 </p>
     </div>

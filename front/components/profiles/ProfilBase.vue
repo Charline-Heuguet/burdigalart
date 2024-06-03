@@ -4,6 +4,7 @@
             <p class="h2" v-if="user.firstName">Bonjour {{ user.firstName }} !</p>
             <p class="h3">Ici, retrouves tous tes évènements!</p>
         </div>
+        <p>{{console.log("toto")}}</p>
     </div>
     <div v-else>
         <p>Chargement...</p>

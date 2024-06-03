@@ -53,6 +53,15 @@
 <script setup>
 import StickyCartIcon from '~/components/StickyCartIcon.vue';
 import StudentProjectWarning from '~/components/StudentProjectWarning.vue';
+import { onMounted } from 'vue';
+import { useAuthStore } from '~/stores/auth';
+
+const authStore = useAuthStore();
+
+onMounted(() => {
+  authStore.fetchUserFromToken();
+});
+
 
 </script>
 
