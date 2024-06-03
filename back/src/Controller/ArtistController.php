@@ -204,16 +204,16 @@ public function create(Request $request, EntityManagerInterface $entityManager, 
 
 
     // Lire les infos d'UN ARTISTE via l'ID L'UTILISATEUR connecté (=> afin de RECUPERER les infos de l'artiste SI la fiche artiste existe pour cet utilisateur)
-    #[Route('/user/{id}', name: 'artist_by_user', methods: ['GET'])]
-    public function getArtistByUser(ArtistRepository $artistRepository, SerializerInterface $serializer, int $id,): JsonResponse
-    {
-        $artist = $artistRepository->findOneBy(['user' => $id]);
-        if (!$artist) {
-            return new JsonResponse(['error' => 'Artist not found :( '], Response::HTTP_NOT_FOUND);
-        }
-        $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:index', 'artist:show']]);
-        return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
-    }
+    // #[Route('/user/{id}', name: 'artist_by_user', methods: ['GET'])]
+    // public function getArtistByUser(ArtistRepository $artistRepository, SerializerInterface $serializer, int $id,): JsonResponse
+    // {
+    //     $artist = $artistRepository->findOneBy(['user' => $id]);
+    //     if (!$artist) {
+    //         return new JsonResponse(['error' => 'Artist not found :( '], Response::HTTP_NOT_FOUND);
+    //     }
+    //     $jsonArtist = $serializer->serialize($artist, 'json', ['groups' => ['artist:index', 'artist:show']]);
+    //     return new JsonResponse($jsonArtist, Response::HTTP_OK, [], true);
+    // }
 
 
 

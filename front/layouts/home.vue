@@ -12,6 +12,7 @@
         </div>
     </header>
     <main class="gutter">
+        <StudentProjectWarning />
         <StickyCartIcon />
         <slot />
     </main>
@@ -51,12 +52,12 @@
 </template>
 <script setup>
 import StickyCartIcon from '~/components/StickyCartIcon.vue';
+import StudentProjectWarning from '~/components/StudentProjectWarning.vue';
 
 </script>
 
 <style lang="scss">
 @import 'assets/base/colors';
-
 // Mobile first
 header {
     .hero {

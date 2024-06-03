@@ -188,7 +188,7 @@ const runtimeConfig = useRuntimeConfig();
 const apiUrl = runtimeConfig.public.apiUrl || runtimeConfig.apiUrl;
 
 // initialiser les données
-const artists = ref([]);// Liste des artistes
+const artists = ref([]);// Liste des artistes (bloqué à un seul artiste par utilisateur pour l'instant)
 const artist = ref(null);// Artiste connecté
 const selectedArtist = ref(null);// Artiste sélectionné pour modification
 const canCreateArtist = ref(true);  // Commence par assumer que l'utilisateur peut créer un artiste
@@ -275,14 +275,14 @@ async function updateArtist() {
 
     const payload = {
         artistName: selectedArtist.value.artistName,
-        category: { id: selectedArtist.value.category.id }, // Assure-toi que cette structure est correcte
-        style: { id: selectedArtist.value.style.id }, // Assure-toi que cette structure est correcte
+        category: { id: selectedArtist.value.category.id },
+        style: { id: selectedArtist.value.style.id },
         description: selectedArtist.value.description,
         instagram: selectedArtist.value.instagram,
         facebook: selectedArtist.value.facebook,
         linkExcerpt: selectedArtist.value.linkExcerpt,
-        official_photo: selectedArtist.value.officialPhoto, // Assure-toi que cette URL est correcte
-        showPhoto: selectedArtist.value.showPhoto, // Assure-toi que cette URL est correcte
+        official_photo: selectedArtist.value.officialPhoto, 
+        showPhoto: selectedArtist.value.showPhoto, 
         showTitle: selectedArtist.value.showTitle,
         showDescription: selectedArtist.value.showDescription
     };
@@ -332,6 +332,7 @@ const createArtist = async () => {
     }
 };
 
+// Exécuter les fonctions de chargement des données lors du montage du composant
 onMounted(() => {
     loadArtists();
     loadArtist();

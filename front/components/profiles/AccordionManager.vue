@@ -7,9 +7,15 @@
       <template #content>
         <form @submit.prevent="updateSceneDetails">
           <div class="form-group">
-            <label for="banner">Bannière de la scène:</label>
+            <label for="banner">Une photo de votre scène:</label>
             <img :src="sceneData.banner" alt="Bannière de la scène">
             <input type="file" id="banner" @change="handleBannerChange">
+          </div>
+          <div class="form-group">
+            <label for="siret">Numéro de SIRET de votre scène:
+              <BulleInfo>Attention, ce numéro est vérifié</BulleInfo>
+            </label>
+            <input type="text" id="siret" v-model="sceneData.siret" placeholder="Numéro à 14 chiffres" >
           </div>
           <div class="form-group">
             <label for="name">Nom de la scène:</label>
@@ -124,6 +130,7 @@ import Accordion from './Accordion.vue';
 import DateIcon from '../ui/DateIcon.vue';
 import { useAsyncData } from 'nuxt/app';
 import OrangeButton from '../ui/OrangeButton.vue';
+import BulleInfo from '../ui/BulleInfo.vue';
 
 // En dur pour les tests: A CHANGER
 const baseUrl = 'https://localhost:8000/api';

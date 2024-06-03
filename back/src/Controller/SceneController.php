@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/api/scenes', name: 'scene_')]
 class SceneController extends AbstractController
 {
-    // Liste des scènes : scene:index
+    // Lire les scènes : scene:index
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(SceneRepository $sceneRepository, SerializerInterface $serializer): JsonResponse
     {
@@ -24,16 +24,6 @@ class SceneController extends AbstractController
         $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:index']);
         return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
     }
-
-    // // Listes de tous les évènements de toutes les scènes.
-    // #[Route('/allupcoming', name: 'allUpcoming', methods: ['GET'])]
-    // public function allUpcoming(SceneRepository $sceneRepository, SerializerInterface $serializer): JsonResponse
-    // {
-    //     $scenes = $sceneRepository->findUpcomingAllScenes();
-    //     $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:upcoming']);
-    //     return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
-    // }
-
 
     // READ : lire une scene via son slug
     #[Route('/{slug}', name: 'showSlug', methods: ['GET'], requirements: ['slug' => '[a-zA-Z0-9\-_]+'])]
@@ -59,16 +49,7 @@ class SceneController extends AbstractController
         return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
     }
 
-    // // Les évènements à venir d'une scène : scene:upcoming
-    // #[Route('/{slug}/upcoming', name: 'upcoming', methods: ['GET'])]
-    // public function upcoming($slug, SceneRepository $sceneRepository, SerializerInterface $serializer): JsonResponse
-    // {
-    //     $scenes = $sceneRepository->sceneEvents($slug);
-    //     $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:upcoming']);
-    //     return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
-    // }
-
-    // CREATE : scene:create
+    // CREATE : créer une scene
     #[Route('/', name: 'create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer): JsonResponse
     {
@@ -137,4 +118,12 @@ class SceneController extends AbstractController
         return new JsonResponse(['message' => 'Scene deleted'], Response::HTTP_NO_CONTENT);
     }
 
+    // Pour Lire toutes les scenes de l'utilisateur connecté
+    #[Route('/byuser', name: 'by_user', methods: ['GET'])]
+    public function byUser(SerializerInterface $serializer, SceneRepository $sceneRepository): JsonResponse
+    {
+       $scenes = $sceneRepository->findBy(['user' => $this->getUser()]);
+       $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:index', 'scene:show']);
+       return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
+    }
 }

@@ -35,12 +35,11 @@
             <NuxtLink to="/cgv">Conditions Générales de Vente</NuxtLink>
           </label>
         </div>
-        <div class="error-message" v-if="!consentGiven">Vous devez accepter les Conditions Générales d'Utilisation et la
-          Charte de Confidentialité.</div>
+        <div class="error-message" v-if="!consentGiven">Vous devez accepter les Conditions Générales d'Utilisation et les conditons générales de Vente</div>
 
 
         <!-- Section pour choisir les rôles supplémentaires -->
-        <p>Si vous êtes un artiste ou un gérant de scène, cochez la case correspondante.</p>
+        <p>Si vous êtes un artiste ou un gérant de scène, veuillez cocher la case correspondante.</p>
         <div class="add-roles">
           <div>
             <label>Artiste</label>
