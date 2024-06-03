@@ -50,9 +50,13 @@
             <p>Vous pouvez consulter le contrat en vous rendant à cette page:
                 <NuxtLink to="/abonnement">Voir le contrat d'abonnement</NuxtLink>
             </p>
-            <p class="dl">Vous pouvez également le télécharger ci-dessous:
-                <a href="/medias/contrat-abonnement.pdf" download="contrat_abonnement.pdf">Télécharger le contrat</a>
-            </p>
+            
+            <div class="dl">
+                <p>Vous pouvez également le télécharger ci-après:</p>
+                <a href="/medias/contrat-abonnement.pdf" download="contrat_abonnement.pdf">
+                    <img src="/img/icon-dl.svg" alt="une fleche pointant vers le bas entourée d'un nuage">
+                </a>
+            </div>
             <label for="agreeCheckbox" class="checkbox">Je suis d'accord avec le contrat et cet accord vaut pour
                 signature</label>
             <input type="checkbox" id="agreeCheckbox" v-model="agreedToContract">
@@ -197,8 +201,14 @@ const togglePremiumSection = () => {
         margin-right: 20px;
     }
     .dl{
+        display: flex;
+        align-items: center;
         margin-bottom: 15px;
         margin-top: 10px;
+        img {
+            width: 20px;
+            margin-right: 10px;
+        }
     }
 
 }
