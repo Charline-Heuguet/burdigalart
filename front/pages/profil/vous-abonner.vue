@@ -94,8 +94,6 @@ const togglePremiumSection = () => {
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
-
-
 .container-abonnement {
     display: flex;
     justify-content: space-around;
@@ -161,7 +159,7 @@ const togglePremiumSection = () => {
 
     .modal-content {
         background-color: #fefefe;
-        margin: 15% auto;
+        margin: 65% auto;
         padding: 20px;
         border: 1px solid #888;
         max-width: 600px;

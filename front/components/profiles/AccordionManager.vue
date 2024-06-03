@@ -54,6 +54,11 @@
     <Accordion :item="{ title: 'Les événements que vous organisez', content: '' }">
       <template #content>
         <!-- ajouter un évènement -->
+        <div class="text-center">
+          <NuxtLink to="/scenes/ajouter-un-evenement" class="add">
+            <p>Ajouter un évènement</p>
+          </NuxtLink>
+        </div>
         <div v-for="event in upcomingEvents" :key="event.title" class="event-card">
           <img :src="event.poster" alt="">
           <h3>{{ event.title }}</h3>
@@ -68,11 +73,7 @@
           </div>
           <div v-if="upcomingEvents.length > 1" class="separator"></div>
         </div>
-        <div class="text-center">
-          <NuxtLink to="/scenes/ajouter-un-evenement" class="add">
-            <p>Ajouter un évènement</p>
-          </NuxtLink>
-        </div>
+        
         <p class="nothing" v-if="upcomingEvents.length === 0">Aucun événement à venir.</p>
       </template>
     </Accordion>
@@ -192,7 +193,7 @@ const updateSceneDetails = () => {
   border: solid 1px $darkgray;
   border-radius: 50px;
   position: relative;
-  margin-bottom: 12px;
+  margin-top: 12px;
   
   &::after{
     content: '';

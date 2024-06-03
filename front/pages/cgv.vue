@@ -55,7 +55,7 @@
     </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 h2{
     font-size: 1.5em;

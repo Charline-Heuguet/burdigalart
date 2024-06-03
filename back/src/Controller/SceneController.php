@@ -89,21 +89,6 @@ class SceneController extends AbstractController
         return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
     }
 
-    // DELETE 
-    // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-    // public function delete(EntityManagerInterface $entityManager, SceneRepository $sceneRepository, int $id): JsonResponse
-    // {
-    //     $scene = $sceneRepository->find($id);
-    //     if (!$scene) {
-    //         return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
-    //     }
-
-    //     $entityManager->remove($scene);
-    //     $entityManager->flush();
-
-    //     return new JsonResponse(['message' => 'Scene deleted'], Response::HTTP_NO_CONTENT);
-    // }
-
     #[Route('/{slug}', name: 'delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $entityManager, SceneRepository $sceneRepository, $slug): JsonResponse
     {
@@ -126,4 +111,20 @@ class SceneController extends AbstractController
        $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:index', 'scene:show']);
        return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
     }
+
+
+        // DELETE 
+    // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    // public function delete(EntityManagerInterface $entityManager, SceneRepository $sceneRepository, int $id): JsonResponse
+    // {
+    //     $scene = $sceneRepository->find($id);
+    //     if (!$scene) {
+    //         return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
+    //     }
+
+    //     $entityManager->remove($scene);
+    //     $entityManager->flush();
+
+    //     return new JsonResponse(['message' => 'Scene deleted'], Response::HTTP_NO_CONTENT);
+    // }
 }

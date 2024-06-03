@@ -216,14 +216,6 @@ public function create(Request $request, EntityManagerInterface $entityManager, 
     // }
 
 
-
-
-
-
-
-
-
-
     // DELETE - Pour SUPPRIMER un artiste par son id
     // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     // public function delete(EntityManagerInterface $entityManager, ArtistRepository $artistRepository, $id): JsonResponse
