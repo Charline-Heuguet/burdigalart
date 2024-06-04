@@ -51,9 +51,18 @@ class SceneController extends AbstractController
 
     // CREATE : créer une scene
     #[Route('/', name: 'create', methods: ['POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer): JsonResponse
+    public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer, SceneRepository $sceneRepository): JsonResponse
     {
-        $scene = $serializer->deserialize($request->getContent(), Scene::class, 'json', ['groups' => 'scene:create']);
+        $user = $this->getUser();
+        // Vérifie si l'utilisateur a déjà une scène
+        $existingScene = $sceneRepository->findOneBy(['user' => $user]);
+        if ($existingScene) {
+            return new JsonResponse(['error' => 'User already has a scene'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $scene = $serializer->deserialize($request->getContent(), Scene::class, 'json');
+        $scene->setUser($user);  
+        $scene->updateSlug();
 
         $errors = $validator->validate($scene);
         if (count($errors) > 0) {
@@ -104,16 +113,17 @@ class SceneController extends AbstractController
     }
 
     // Pour Lire toutes les scenes de l'utilisateur connecté
-    #[Route('/byuser', name: 'by_user', methods: ['GET'])]
+    #[Route('/user/byuser', name: 'by_user', methods: ['GET'])]
     public function byUser(SerializerInterface $serializer, SceneRepository $sceneRepository): JsonResponse
     {
-       $scenes = $sceneRepository->findBy(['user' => $this->getUser()]);
-       $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:index', 'scene:show']);
-       return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
+        $user = $this->getUser();
+        $scenes = $sceneRepository->findBy(['user' => $user]);
+        $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:index', 'scene:show']);
+        return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
     }
 
 
-        // DELETE 
+    // DELETE 
     // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     // public function delete(EntityManagerInterface $entityManager, SceneRepository $sceneRepository, int $id): JsonResponse
     // {

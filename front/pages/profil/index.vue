@@ -22,12 +22,12 @@
   </div>
 
   <div class="profil-view" v-if="currentRole === 'Artiste'">
-    <!-- <AccordionArtist /> -->
     <ArtistAccordion />
   </div>
 
   <div class="profil-view" v-if="currentRole === 'Gérant de scène'">
-    <AccordionManager />
+    <!-- <AccordionManager /> -->
+    <SceneAccordion />
   </div>
 </template>
 
@@ -38,6 +38,7 @@ import ProfilBase from '~/components/profiles/ProfilBase.vue';
 import ArtistAccordion from '~/components/profiles/ArtistAccordion.vue'; // nouvelle version
 import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
 import AccordionManager from '~/components/profiles/AccordionManager.vue';
+import SceneAccordion from '~/components/profiles/SceneAccordion.vue';
 import { ref, onMounted } from 'vue';
 
 const authStore = useAuthStore(); // Utiliser le store pour accéder aux rôles

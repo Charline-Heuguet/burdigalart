@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+
 #[ORM\Entity(repositoryClass: SceneRepository::class)]
 class Scene
 {
@@ -18,9 +19,9 @@ class Scene
     #[Groups(['event:create'])]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
     #[Groups(['scene:show', 'scene:create', 'scene:update'])]
-    private ?int $siret = null;
+    private ?string $siret = null;
 
     #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update'])]
     #[ORM\Column(length: 255)]
@@ -35,8 +36,8 @@ class Scene
     private ?string $address = null;
 
     #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show' ])]
-    #[ORM\Column]
-    private ?int $zipcode = null;
+    #[ORM\Column(length: 255)]
+    private ?string $zipcode = null;
 
     #[Groups(['scene:index', 'scene:show', 'scene:create', 'scene:update', 'artist_scene:show','event:index', 'event:show', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\Column(length: 255)]
@@ -47,8 +48,8 @@ class Scene
     private ?string $phoneNumber = null;
 
     #[Groups(['scene:show', 'scene:create', 'scene:update'])]
-    #[ORM\Column]
-    private ?int $capacity = null;
+    #[ORM\Column(length: 255)]
+    private ?string $capacity = null;
 
     #[Groups(['scene:show', 'scene:create', 'scene:update'])]
     #[ORM\Column(length: 255)]
@@ -59,8 +60,8 @@ class Scene
     private ?string $facebook = null;
 
     #[Groups(['scene:index','scene:show','scene:create', 'scene:update','user:index','user:show','user:create','user:update'])]
-    #[ORM\Column]
-    private ?bool $subscription = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $subscription = false;
 
     #[Groups(['scene:index','scene:create', 'scene:show', 'scene:update', 'scene:upcoming', 'event:upcoming'])]
     #[ORM\Column(length: 255)]

@@ -67,6 +67,8 @@
                 </template>
             </Accordion>
         </div>
+
+        <!--  -->
         <div v-if="artists.length > 0">
             <Accordion :item="{ title: 'Fiche d\'artiste : '+ artist.artistName , content: '' }">
                 <template #content>
@@ -195,7 +197,7 @@ const apiUrl = runtimeConfig.public.apiUrl || runtimeConfig.apiUrl;
 const artists = ref([]);// Liste des artistes (bloqué à un seul artiste par utilisateur pour l'instant)
 const artist = ref(null);// Artiste connecté
 const selectedArtist = ref(null);// Artiste sélectionné pour modification
-const canCreateArtist = ref(true);  // Commence par assumer que l'utilisateur peut créer un artiste
+const canCreateArtist = ref(true);  // l'utilisateur peut créer un artiste
 const showCreateForm = ref(false); // Initialise showCreateForm comme une référence réactive
 
 const initialNewArtistState = {

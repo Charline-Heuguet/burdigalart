@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Scene;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArtistRepository;

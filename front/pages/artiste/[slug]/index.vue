@@ -6,7 +6,6 @@
                 <img :src="artiste.officialPhoto" :alt="`photo officielle de ${artiste.artistName}`">
                 <div class="artist-info">
                     <h1>{{ artiste.artistName }}</h1>
-                    <!-- <TagCategory v-if="artiste.category" :category="artiste.category.categoryName" /> -->
                     <TagStyle v-if="artiste.style" :style="artiste.style.styleName" class="card-tags" />
                 </div>
             </div>
@@ -45,7 +44,6 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import TagCategory from '~/components/ui/TagCategory.vue'
 import TagStyle from '~/components/ui/TagStyle.vue'
 import type { Artist } from '~/types/interfaces/artist';
 
