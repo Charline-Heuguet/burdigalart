@@ -58,70 +58,68 @@ class ArtistController extends AbstractController
     }
 
 
-// CREATE - Créer un artiste
-#[Route('/', name: 'create', methods: ['POST'])]
-public function create(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator, Security $security): JsonResponse
-{
-    // Obtenir l'utilisateur actuellement connecté
-    /** @var User $user */
-    $user = $security->getUser();
+    // CREATE - Créer un artiste
+    #[Route('/', name: 'create', methods: ['POST'])]
+    public function create(Request $request, EntityManagerInterface $entityManager, SerializerInterface $serializer, ValidatorInterface $validator, Security $security): JsonResponse
+    {
+        // Obtenir l'utilisateur actuellement connecté
+        /** @var User $user */
+        $user = $security->getUser();
 
-    if (!$user) {
-        return new JsonResponse(['error' => 'Authentication required'], Response::HTTP_UNAUTHORIZED);
-    }
-
-    $userId = $user->getId(); // Assure-toi que ta classe User a une méthode getId()
-    if (!$userId) {
-        return new JsonResponse(['error' => 'User ID is missing'], Response::HTTP_BAD_REQUEST);
-    }
-
-    $artistData = json_decode($request->getContent(), true);
-
-    // Vérifier si l'utilisateur a déjà un artiste
-    $existingArtist = $entityManager->getRepository(Artist::class)->findOneBy(['user' => $user]);
-    if ($existingArtist) {
-        return new JsonResponse(['error' => 'User already has an artist profile'], Response::HTTP_BAD_REQUEST);
-    }
-
-    // Charger les entités Category et Style
-    $category = $entityManager->getRepository(Category::class)->find($artistData['category']);
-    $style = $entityManager->getRepository(Style::class)->find($artistData['style']);
-    if (!$category || !$style) {
-        return new JsonResponse(['error' => 'Category or style not found'], Response::HTTP_BAD_REQUEST);
-    }
-
-    try {
-        $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json');
-        $artist->setUser($user);
-        $artist->setCategory($category);
-        $artist->setStyle($style);
-        $artist->updateSlug();
-    } catch (\Exception $e) {
-        return new JsonResponse(['error' => 'Error processing request: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-
-    // Valider et persister l'entité
-    $errors = $validator->validate($artist);
-    if (count($errors) > 0) {
-        $errorsArray = [];
-        foreach ($errors as $error) {
-            $errorsArray[$error->getPropertyPath()] = $error->getMessage();
+        if (!$user) {
+            return new JsonResponse(['error' => 'Authentication required'], Response::HTTP_UNAUTHORIZED);
         }
-        return new JsonResponse(['errors' => $errorsArray], Response::HTTP_BAD_REQUEST);
+
+        $userId = $user->getId(); // Assure-toi que ta classe User a une méthode getId()
+        if (!$userId) {
+            return new JsonResponse(['error' => 'User ID is missing'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $artistData = json_decode($request->getContent(), true);
+
+        // Vérifier si l'utilisateur a déjà un artiste
+        $existingArtist = $entityManager->getRepository(Artist::class)->findOneBy(['user' => $user]);
+        if ($existingArtist) {
+            return new JsonResponse(['error' => 'User already has an artist profile'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Charger les entités Category et Style
+        $category = $entityManager->getRepository(Category::class)->find($artistData['category']);
+        $style = $entityManager->getRepository(Style::class)->find($artistData['style']);
+        if (!$category || !$style) {
+            return new JsonResponse(['error' => 'Category or style not found'], Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $artist = $serializer->deserialize($request->getContent(), Artist::class, 'json');
+            $artist->setUser($user);
+            $artist->setCategory($category);
+            $artist->setStyle($style);
+            $artist->updateSlug();
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Error processing request: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        // Valider et persister l'entité
+        $errors = $validator->validate($artist);
+        if (count($errors) > 0) {
+            $errorsArray = [];
+            foreach ($errors as $error) {
+                $errorsArray[$error->getPropertyPath()] = $error->getMessage();
+            }
+            return new JsonResponse(['errors' => $errorsArray], Response::HTTP_BAD_REQUEST);
+        }
+
+        $entityManager->persist($artist);
+        $entityManager->flush();
+
+        return new JsonResponse($serializer->serialize($artist, 'json', ['groups' => ['artist:index', 'artist:show']]), Response::HTTP_CREATED, [], true);
     }
-
-    $entityManager->persist($artist);
-    $entityManager->flush();
-
-    return new JsonResponse($serializer->serialize($artist, 'json', ['groups' => ['artist:index', 'artist:show']]), Response::HTTP_CREATED, [], true);
-}
-
-
 
 
     // UPDATE - modifier un artiste
     #[Route('/{slug}', name: 'update', methods: ['PUT'])]
-    public function update(Request $request,EntityManagerInterface $entityManager,ArtistRepository $artistRepository,CategoryRepository $categoryRepository,StyleRepository $styleRepository, SerializerInterface $serializer, ValidatorInterface $validator,LoggerInterface $logger,$slug): JsonResponse 
+    public function update(Request $request, EntityManagerInterface $entityManager, ArtistRepository $artistRepository, CategoryRepository $categoryRepository, StyleRepository $styleRepository, SerializerInterface $serializer, ValidatorInterface $validator, LoggerInterface $logger, $slug): JsonResponse
     {
         $artist = $artistRepository->findOneBySlug($slug);
         if (!$artist) {
@@ -131,21 +129,20 @@ public function create(Request $request, EntityManagerInterface $entityManager, 
         $artistData = json_decode($request->getContent(), true);
         $logger->info('Received artist data:', $artistData);
 
-        // Handling category
+        // Categorie
         $categoryId = $artistData['category']['id'] ?? null;
         $category = $categoryId ? $categoryRepository->find($categoryId) : null;
         if (!$category) {
             return new JsonResponse(['error' => 'Category not found'], Response::HTTP_BAD_REQUEST);
         }
 
-        // Handling style
+        // Style
         $styleId = $artistData['style']['id'] ?? null;
         $style = $styleId ? $styleRepository->find($styleId) : null;
         if (!$style) {
             return new JsonResponse(['error' => 'Style not found'], Response::HTTP_BAD_REQUEST);
         }
 
-        // Set category and style
         $artist->setCategory($category);
         $artist->setStyle($style);
 
@@ -175,7 +172,6 @@ public function create(Request $request, EntityManagerInterface $entityManager, 
 
         return new JsonResponse($serializer->serialize($artist, 'json', ['groups' => 'artist:show']), Response::HTTP_OK, [], true);
     }
-    
 
 
     // DELETE - Pour SUPPRIMER un artiste par son slug
@@ -200,6 +196,23 @@ public function create(Request $request, EntityManagerInterface $entityManager, 
         $artists = $artistRepository->findBy(['user' => $this->getUser()]);
         $jsonArtists = $serializer->serialize($artists, 'json', ['groups' => ['artist:index', 'artist:show']]);
         return new JsonResponse($jsonArtists, Response::HTTP_OK, [], true);
+    }
+
+    // Pour l'abonnement d'un artiste
+    #[Route('/user/subscribe', name: 'subscribe', methods: ['PATCH'])]
+    public function subscribeArtistCurrentUser(EntityManagerInterface $entityManager)
+    {
+        $user = $this->getUser();
+        $artist = $entityManager->getRepository(Artist::class)->findOneBy(['user' => $user]);
+
+        if (!$artist) {
+            return $this->json(['message' => 'Artiste non trouvé pour cet utilisateur'], Response::HTTP_NOT_FOUND);
+        }
+
+        $artist->setSubscription(true);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Abonnement de l\'artiste mis à jour avec succès']);
     }
 
 

@@ -29,7 +29,7 @@ class Event
     private ?string $description = null;
 
     #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     private ?\DateTimeImmutable $dateTime = null;
 
     #[Groups(['event:index', 'event:show', 'event:create','event:update','event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show','scene:index','scene:create', 'scene:show', 'scene:update'])]
@@ -50,6 +50,7 @@ class Event
 
     #[Groups(['event:index', 'event.create', 'event:show', 'event:update', 'event:upcoming','user:show','user:create','user:update','artist:index', 'artist:show'])]
     #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\JoinColumn(name:"scene_id", referencedColumnName:"id", nullable: true)]
     private ?Scene $scene = null;
 
     #[Groups(['event:index', 'event:show', 'event:upcoming'])]

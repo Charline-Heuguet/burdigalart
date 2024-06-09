@@ -1,35 +1,6 @@
 <template>
-    <h1>Les abonnements</h1>
-    <h2>Nous proposons 2 types d'abonnements</h2>
-    <p class="h3">Choisissez celui qui vous convient le mieux</p>
-    <p>Attention, un abonnement par artiste / gérant de scène. Au delà, nous vous demandons de nous contacter afin que nous vous établissions un devis.</p>
-
-    <div class="container-abonnement">
-        <div class="abonnement">
-            <h2>Abonnement Freemium</h2>
-            <p class="h2">Gratuit</p>
-            <div class="avantages">
-                <img src="/img/icon-croix.svg" alt="une croix rouge">
-                <p>Pas de mise en avant</p>
-            </div>
-            <div class="avantages">
-                <img src="/img/icon-croix.svg" alt="une croix rouge">
-                <p>Vous n'apparaissez pas sur la page d'accueil.</p>
-            </div>
-        </div>
-        <div class="abonnement">
-            <h2>Abonnement Premium</h2>
-            <p class="h2">60 euros par an</p>
-            <div class="avantages">
-                <img src="/img/icon-check.svg" alt="un signe qui represente un V">
-                <p>Mise en avant sur toutes les pages qui listent les scènes / les artistes</p>
-            </div>
-            <div class="avantages">
-                <img src="/img/icon-check.svg" alt="un signe qui represente un V">
-                <p>Vous apparaissez sur la page d'accueil</p>
-            </div>
-        </div>
-    </div>
+    
+    <CardSubscription />
 
     <h2>Contrat d'abonnement</h2>
     <p class="h3">Consultez le contrat d'abonnement ci-dessous pour plus d'informations</p>
@@ -109,7 +80,10 @@
         <p class="important">Date de dernière mise à jour : Avril 2024 </p>
     </div>
 </template>
+<script setup>
+import CardSubscription from '@/components/CardSubscription.vue';
 
+</script>
 <style scoped lang="scss">
 @import 'assets/base/colors';
 
@@ -130,47 +104,6 @@ h2 {
     margin: 20px 0;
 
 }
-
-.container-abonnement {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 50px;
-
-    .abonnement {
-        border: 1px solid $darkgray;
-        max-width: 400px;
-        margin: 20px auto;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-        background-color: rgba(247, 241, 235, 0.7);
-        border-radius: 8px;
-
-        h2 {
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-top: 0px;
-        }
-
-        .h2 {
-            font-weight: bold;
-            text-align: center;
-            margin: 15px 0;
-        }
-
-        .avantages {
-            display: flex;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        img {
-            width: 20px;
-            margin-right: 30px;
-        }
-    }
-}
-
 
 .contrat {
     margin: 30px auto 0;

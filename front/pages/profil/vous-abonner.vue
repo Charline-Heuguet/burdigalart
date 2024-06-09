@@ -62,7 +62,7 @@
             <input type="checkbox" id="agreeCheckbox" v-model="agreedToContract">
             <!-- Affiche le composant de paiement uniquement si la checkbox est cochée -->
             <div v-if="agreedToContract" class="payment-section">
-                <PaymentComponent />
+                <PaymentComponent @payment-successful="handlePaymentSuccess" />
             </div>
         </div>
     </div>
@@ -71,16 +71,21 @@
 <script setup>
 import { ref } from 'vue';
 import PaymentComponent from '~/components/PaymentComponent.vue';
+import {jwtDecode} from 'jwt-decode';
+
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 const showFreemium = ref(false);
 const showPremiumSection = ref(false);
 const agreedToContract = ref(false);
 const isPremiumSelected = ref(false);
 
+// Fonction pour afficher la modale Freemium
 const showFreemiumModal = () => {
     showFreemium.value = true;
 };
-
+// Fonction pour fermer la modale
 const closeModal = () => {
     showFreemium.value = false;
 };
@@ -89,6 +94,53 @@ const closeModal = () => {
 const togglePremiumSection = () => {
     showPremiumSection.value = true;
     isPremiumSelected.value = !isPremiumSelected.value; // Bascule l'état de la sélection
+};
+
+// Fonction pour récupérer le token de l'utilisateur
+const getToken = () => {
+  return localStorage.getItem('token');
+};
+
+const handlePaymentSuccess = () => {
+    event.preventDefault();
+    console.log("Payment successful, subscribing now...");
+    subscribe();
+};
+
+const subscribe = () => {
+  console.log("Fetching token from storage...");
+  const token = getToken();
+  const decoded = jwtDecode(token);
+  console.log("Token decoded, roles:", decoded.roles);
+  const roles = decoded.roles;
+
+  if (roles.includes('ROLE_SCENE')) {
+    console.log("Calling subscribe API for SCENE...");
+    callSubscribeApi(url + 'scenes/user/subscribe');
+  } else if (roles.includes('ROLE_ARTISTE')) {
+    console.log("Calling subscribe API for ARTISTE...");
+    callSubscribeApi(url + 'artists/user/subscribe');
+  }
+};
+
+const callSubscribeApi = async (apiUrl) => {
+  console.log("API call to:", apiUrl);
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subscribe: true })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Subscription successful:', data.message);
+    } else {
+      throw new Error('Failed to subscribe with status: ' + response.status);
+    }
+  } catch (error) {
+    console.error('Error subscribing:', error.message);
+  }
 };
 </script>
 

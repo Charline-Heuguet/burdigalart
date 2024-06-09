@@ -38,11 +38,34 @@
         <Show />
 
         <h2>Vous pouvez voir cet.te artiste ici:</h2>
-        <Event />
+        <!-- <Event /> -->
+        <div v-if="artiste && artiste.events">
+            <div class="container-artist">
+                <div v-for="event in artiste.events" :key="event.id" class="card">
+                    <NuxtLink :to="`/evenement/${event.slug}`">
+                        <div class="ar16-9">
+                            <img :src="event.poster" :alt="event.title" />
+                        </div>
+                        <h3>{{ event.title }}</h3>
+                        <p class="description-event">{{ event.description }}</p>
+                        <div class="infos">
+                            <div class="date">
+                                <img src="/img/icon-calendar.svg" alt="calendrier" />
+                                <p>{{ formatDateTime(event.dateTime) }}</p>
+                            </div>
+                            <div class="price">
+                                <p>{{ event.price.toFixed(2) }}€</p>
+                            </div>
+                        </div>
+                    </NuxtLink>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import { useRoute } from 'vue-router'
 import TagStyle from '~/components/ui/TagStyle.vue'
 import type { Artist } from '~/types/interfaces/artist';
@@ -62,6 +85,11 @@ const { data: artiste, error } = useAsyncData('artist', async () => {
     }
     return response.json();
 });
+
+// Fonction pour formater la date et l'heure
+const formatDateTime = (dateTime) => {
+    return dayjs(dateTime).format('DD/MM à HH:mm');
+};
 
 // Fonction pour récupérer l'ID de la vidéo Youtube
 function getYoutubeID(url) {
@@ -95,7 +123,7 @@ useHead({
     }
 
     img {
-        width: 185px;
+        width: 350px;
         height: auto;
         border-radius: 10px;
         margin-right: 15px;
@@ -132,5 +160,74 @@ h2 {
 .video-wrapper {
     border: 1px solid $darkgray;
     box-shadow: 0 0 10px $darkgray;
+}
+
+
+.container-artist {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    width: calc(50% - 20px);
+    background-color: $beigeclair;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+
+    h3 {
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    .infos {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+    }
+
+    .description-event {
+        padding: 0 8px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
+
+    .date,
+    .price {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 20px;
+            height: auto;
+            margin-right: 10px;
+        }
+    }
+
+    .price {
+        background-color: $canard;
+        text-align: center;
+        border-radius: 100px;
+        color: $beigeclair;
+        width: 60px;
+        height: 60px;
+        padding: 3px;
+
+        p {
+            margin: 0 auto;
+            font-size: 16px;
+        }
+
+    }
+}
+
+@media (min-width: 680px) {
+    .container-artist {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .event {
+            width: calc(50% - 20px);
+        }
+    }
 }
 </style>

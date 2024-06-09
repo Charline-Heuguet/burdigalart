@@ -3,6 +3,8 @@
     <p>Ici, vous pouvez créer et gérer votre fiche d'artiste: le style, la description de votre spectacle, votre
         abonnement...</p>
     <div>
+
+        <!-- CREATION D'UN ARTISTE -->
         <div v-if="canCreateArtist">
             <ButtonSubmit class="my-button" @click="showCreateForm = true">Créer votre fiche d'artiste</ButtonSubmit>
             <Accordion v-if="showCreateForm" :item="{ title: 'Créer une fiche d\'artiste', content: '' }">
@@ -67,9 +69,8 @@
                 </template>
             </Accordion>
         </div>
-
-        <!--  -->
-        <div v-if="artists.length > 0">
+        <!-- OU MODIFICATION DE L'ARTISTE EXISTANT -->
+        <div v-if="artists.length > 0 && artist ">
             <Accordion :item="{ title: 'Fiche d\'artiste : '+ artist.artistName , content: '' }">
                 <template #content>
                     <div v-for="artist in artists" :key="artist.id" class="artist-card">
@@ -142,6 +143,7 @@
             </Accordion>
         </div>
     </div>
+    <!-- Les événements à venir auxquels participent l'artiste-->
     <div v-if="artist">
         <Accordion :item="{ title: 'Événements à venir ', content: '' }">
             <template #content>
@@ -156,6 +158,7 @@
                 </div>
             </template>
         </Accordion>
+        <!-- Abonnement -->
         <Accordion :item="{ title: '' }">
             <template #title>
                 <span>Votre abonnement</span>
@@ -171,10 +174,7 @@
                 <div v-else class="subscription">
                     <p>Vous n'êtes pas abonné.e</p>
                     <p>Pour vous abonner à Burdigal’Art, cliquez sur ce lien</p>
-                    <!-- Lien ou bouton pour s'abonner ici, non fonctionnel pour le moment -->
-                    <NuxtLink to="/profil/vous-abonner">
-                        <button class="success">S'abonner</button>
-                    </NuxtLink>
+                    <NuxtLink to="profil/vous-abonner" class="success">S'abonner</NuxtLink>
                 </div>
                 <NuxtLink to="/abonnement">En savoir plus sur les abonnements</NuxtLink>
             </template>
@@ -449,11 +449,6 @@ p {
             font-weight: bold;
             margin-top: 12px;
         }
-
-        &.success {
-            background-color: $mandarin;
-            margin-top: 12px;
-        }
     }
 }
 
@@ -461,6 +456,15 @@ a {
     display: block;
     margin: 12px 0;
     text-align: center;
+}
+
+.success {
+    max-width: fit-content;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $mandarin;
+    margin-top: 12px;
 }
 
 

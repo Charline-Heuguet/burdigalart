@@ -25,9 +25,6 @@
                                 </div>
                                 <footer class="card-footer">
                                     <div class="card-user">
-                                        <figure class="card-user-img">
-                                            <img :src="artist.officialPhoto" alt="photo officielle de l'artiste">
-                                        </figure>
                                         <span class="card-user-name">{{ artist.description }}</span>
                                     </div>
                                 </footer>
@@ -53,9 +50,6 @@
                                 </div>
                                 <footer class="card-footer">
                                     <div class="card-user">
-                                        <figure class="card-user-img">
-                                            <img :src="artist.officialPhoto" alt="photo officielle de l'artiste">
-                                        </figure>
                                         <span class="card-user-name">{{ artist.description }}</span>
                                     </div>
                                 </footer>
@@ -274,7 +268,6 @@ const { data: artists, pending, error } = useAsyncData<Artist[]>(() => {
     
                     .card-title {
                         max-width: 237px;
-                        font-size: 24px;
                     }
     
                     .infos-card {

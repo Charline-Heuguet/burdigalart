@@ -146,7 +146,7 @@ const breakpoints = {
 .pastille {
   background-color: $pink;
   font-weight: 600;
-  color: $beigeclair;
+  color: $black;
   letter-spacing: .03em;
   position: relative;
   z-index: 999;

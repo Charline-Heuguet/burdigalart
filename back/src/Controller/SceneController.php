@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Scene;
+use Psr\Log\LoggerInterface;
 use App\Repository\SceneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/api/scenes', name: 'scene_')]
@@ -78,23 +80,36 @@ class SceneController extends AbstractController
 
     // UPDATE : scene:update 
     #[Route('/{slug}', name: 'update', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, SceneRepository $sceneRepository, ValidatorInterface $validator, SerializerInterface $serializer, $slug): JsonResponse
+    public function update(Request $request, EntityManagerInterface $entityManager, SceneRepository $sceneRepository, ValidatorInterface $validator, SerializerInterface $serializer, string $slug): JsonResponse 
     {
         $scene = $sceneRepository->findOneBySlug($slug);
         if (!$scene) {
             return new JsonResponse(['error' => 'Scene not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $serializer->deserialize($request->getContent(), Scene::class, 'json', ['object_to_populate' => $scene, 'groups' => 'scene:update']);
+        try {
+            $serializer->deserialize(
+                $request->getContent(), 
+                Scene::class, 
+                'json', 
+                ['object_to_populate' => $scene, 'groups' => ['scene:update']]
+            );
+        } catch (ExceptionInterface $e) {
+            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
 
         $errors = $validator->validate($scene);
         if (count($errors) > 0) {
-            return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
+            $errorsArray = [];
+            foreach ($errors as $error) {
+                $errorsArray[$error->getPropertyPath()] = $error->getMessage();
+            }
+            return new JsonResponse(['errors' => $errorsArray], Response::HTTP_BAD_REQUEST);
         }
 
         $entityManager->flush();
 
-        $jsonScene = $serializer->serialize($scene, 'json', ['groups' => 'scene:show']);
+        $jsonScene = $serializer->serialize($scene, 'json', ['groups' => ['scene:show']]);
         return new JsonResponse($jsonScene, Response::HTTP_OK, [], true);
     }
 
@@ -120,6 +135,23 @@ class SceneController extends AbstractController
         $scenes = $sceneRepository->findBy(['user' => $user]);
         $jsonScenes = $serializer->serialize($scenes, 'json', ['groups' => 'scene:index', 'scene:show']);
         return new JsonResponse($jsonScenes, Response::HTTP_OK, [], true);
+    }
+
+    // Gérer l'abonnement d'une scene (patch car subscribe est un booléen et on veut juste le modifier)
+    #[Route('user/subscribe', name: 'subscribe', methods: ['PATCH'])]
+    public function subscribeSceneCurrentUser(EntityManagerInterface $entityManager)
+    {
+        $user = $this->getUser();
+        $scene = $entityManager->getRepository(Scene::class)->findOneBy(['user' => $user]);
+    
+        if (!$scene) {
+            return $this->json(['message' => 'Scène non trouvée pour cet utilisateur'], Response::HTTP_NOT_FOUND);
+        }
+    
+        $scene->setSubscription(true);
+        $entityManager->flush();
+    
+        return $this->json(['message' => 'Abonnement de la scène mis à jour avec succès']);
     }
 
 

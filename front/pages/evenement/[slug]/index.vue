@@ -1,16 +1,19 @@
 <template>
     <div class="event-slug">
         <div v-if="events && !error">
-            <h1>{{ events.title }}</h1>
-            <h2 class="desc">{{ events.description }}</h2>
-            <div class="ar16-9">
-                <img :src="events.poster" alt="">
+            <div class="poster-title">
+                <img :src="events.poster" alt="" class="ar16-9">
+                <div>
+                    <h1>{{ events.title }}</h1>
+                    <p class="desc h2">{{ events.description }}</p>
+                <!-- Bouton "Réserver" qui amène au panier -->
+                <NuxtLink to="/panier" @click="addToCart">
+                    <OrangeButton class="button">Reserver</OrangeButton>
+                </NuxtLink>
+                </div>
             </div>
-            <!-- Bouton "Réserver" qui amène au panier -->
-            <NuxtLink to="/panier" @click="addToCart">
-                <OrangeButton>Reserver</OrangeButton>
-            </NuxtLink>
 
+            <!-- Date / adresse et prix -->
             <div class="infos">
                 <div class="info-event">
                     <img src="/img/icon-calendar.svg" alt="">
@@ -21,14 +24,14 @@
                     <p>{{ events.scene.address }} <br> {{ events.scene.zipcode }} {{ events.scene.town }}</p>
                 </div>
                 <div class="info-event price">
-                    <!-- <img src="/img/icon-euro2.svg" alt="symbole de la monnaie euro"> -->
                     <p>{{ events.price.toFixed(2) }}€</p>
                 </div>
             </div>
 
+            <!-- Artistes participants-->
             <div v-if="events.Artist.length > 0">
                 <div class="container-artist">
-                    <h2>Vous les verrez sur scène :</h2>
+                    <h2>Ils participent à cet événement:</h2>
                     <div class="card-artist">
                         <div v-for="artist in events.Artist" :key="artist.slug" class="show">
                             <NuxtLink :to="'/artiste/' + artist.slug">
@@ -89,6 +92,11 @@ const addToCart = () => {
         price: parseFloat(events.value.price.toFixed(2))
     });
 };
+
+const { toTitleCase } = useUtilities();
+useHead({
+    title: toTitleCase(route.params.slug)
+});
 </script>
 
 <style scoped lang="scss">
@@ -96,18 +104,20 @@ const addToCart = () => {
 
 .event-slug {
     padding: 12px;
+    margin-top: 40px;
 
     .desc {
-        margin-bottom: 20px;
+        margin-bottom: 40px;
         letter-spacing: 0.02em;
         font-size: 18px;
         font-weight: 400;
     }
 
+    .poster-title {
 
-    img {
-        width: 100%;
-        height: auto;
+        img {
+            border-radius: 10px;
+        }
     }
 
     .infos {
@@ -127,7 +137,7 @@ const addToCart = () => {
                 font-size: 14px;
             }
 
-
+            // Icones
             img {
                 width: 25px;
                 height: auto;
@@ -197,13 +207,57 @@ const addToCart = () => {
 
 @media (min-width: 700px) {
     .card-artist {
-        display: flex; 
+        display: flex;
         justify-content: space-between;
 
-        .show{
+        .show {
             display: block;
             flex: 0 1 calc(50% - 20px);
         }
+    }
+}
+
+@media (min-width: 820px) {
+    .event-slug {
+        .button {
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        .poster-title {
+            img {
+                width: 500px;
+                height: auto;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .event-slug {
+        h1 {
+            margin-top: 10px;
+        }
+
+        .poster-title {
+            display: flex;
+            justify-content: space-between;
+
+            img {
+                width: 50%;
+                height: auto;
+            }
+
+            div {
+                margin-left: 30px;
+            }
+        }
+
+        .infos {
+            margin-top: 40px;
+        }
+
     }
 }
 </style>

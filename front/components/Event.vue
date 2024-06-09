@@ -2,6 +2,7 @@
     <div v-if="pending">Chargement...</div>
     <div v-else-if="error">Erreur : {{ error }}</div>
     <div v-else>
+        <h2>Nos prochains événements:</h2>
         <div class="container-artist">
             <div v-for="event in sceneData.events" :key="event.id" class="event">
                 <NuxtLink :to="`/evenement/${event.slug}`">
@@ -30,12 +31,16 @@
 import dayjs from 'dayjs';
 import { useAsyncData } from 'nuxt/app';
 
-const baseURL = 'https://localhost:8000/api/';
-const slugScene = 'le-petit-grain';
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
+
+const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
+const slug = route.params.slug; // On récupère le slug de l'URL
+
 
 // Utiliser useAsyncData pour récupérer les données de manière asynchrone
 const { data: sceneData, pending, error } = useAsyncData('scene-events', () => {
-    return $fetch(`${baseURL}scenes/${slugScene}`);
+    return $fetch(url + 'scenes/' + slug);
 });
 
 const formatDateTime = (dateTime) => {
