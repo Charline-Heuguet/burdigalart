@@ -67,12 +67,4 @@ h3 {
     fill: #ee831962;
 }
 
-/** For mobile devices **/
-// @media (max-width: 767px) {
-//     .custom-shape-divider-bottom-1713957316 svg {
-//         width: calc(330% + 1.3px);
-//         height: 600px;
-//         z-index: -1;
-//     }
-// }
 </style>

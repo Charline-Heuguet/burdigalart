@@ -30,7 +30,12 @@ const { logout } = useAuthStore();
 @import 'assets/base/colors';
 
 .profil-modif {
-
+    max-width: 600px;
+  margin: 30px auto 0;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: rgba(247, 241, 235, 0.7);
+  border-radius: 8px;
     h2 {
         margin: 40px 0 60px 0;
         text-align: center;

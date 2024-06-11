@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="update">
         <h2>Ici, modifiez vos informations</h2>
         <form @submit.prevent="submitForm">
             <div>
@@ -19,7 +19,7 @@
                 <input type="password" id="password" v-model="user.password">
             </div>
             <div class="submit-form">
-                <button type="submit">Sauvegarder</button>
+                <ButtonSubmit type="submit">Sauvegarder</ButtonSubmit>
             </div>
         </form>
     </div>
@@ -29,6 +29,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { jwtDecode } from "jwt-decode";
+import ButtonSubmit from '~/components/ui/ButtonSubmit.vue';
 
 const runtimeConfig = useRuntimeConfig();
 const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
@@ -90,6 +91,15 @@ onMounted(() => {
 <style lang="scss" scoped>
 @import 'assets/base/colors';
 
+.update {
+    max-width: 600px;
+    margin: 30px auto 0;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    background-color: rgba(247, 241, 235, 0.7);
+    border-radius: 8px;
+}
+
 form {
     max-width: 400px;
     margin: 0 auto;
@@ -123,16 +133,5 @@ input {
     border: 1px solid black;
     border-radius: 10px;
     background-color: $beigeclair;
-}
-
-.submit-form{
-    text-align: center;
-    background-color: $mandarin;
-    color: white;
-    border: 1px solid $mandarin;
-    border-radius: 30px;
-    padding: 10px;
-    margin: 20px auto;
-    max-width: 150px;
 }
 </style>
