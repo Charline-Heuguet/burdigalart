@@ -18,34 +18,36 @@
     </main>
 
     <!-- Footer qui apparaîtra lors du scroll pour le mobile first-->
-    <footer class="gutter">
-        <ul class="footer">
-            <li>
-                <NuxtLink to="/equipe">L'équipe</NuxtLink>
-            </li>
-            <li>
-                <NuxtLink to="/contact">Contact</NuxtLink>
-            </li>
-            <li>
-                <NuxtLink to="/mentions-legales">Mentions légales</NuxtLink>
-            </li>
-            <li>
-                <NuxtLink to="/cgu">CGU</NuxtLink>
-            </li>
-            <li>
-                <NuxtLink to="/cgv">CGV</NuxtLink>
-            </li>
-        </ul>
-        <div class="social-icons">
-            <a href="https://www.facebook.com" target="_blank">
-                <img src="/img/icon-fb.svg" alt="Facebook" />
-            </a>
-            <a href="https://www.instagram.com" target="_blank">
-                <img src="/img/icon-insta.svg" alt="Instagram" />
-            </a>
-            <a href="https://www.twitter.com" target="_blank">
-                <img src="/img/icon-lkdn.svg" alt="linkedin" />
-            </a>
+    <footer>
+        <div class="gutter">
+            <ul class="footer">
+                <li>
+                    <NuxtLink to="/equipe">L'équipe</NuxtLink>
+                </li>
+                <li>
+                    <NuxtLink to="/contact">Contact</NuxtLink>
+                </li>
+                <li>
+                    <NuxtLink to="/mentions-legales">Mentions légales</NuxtLink>
+                </li>
+                <li>
+                    <NuxtLink to="/cgu">CGU</NuxtLink>
+                </li>
+                <li>
+                    <NuxtLink to="/cgv">CGV</NuxtLink>
+                </li>
+            </ul>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="/img/icon-fb.svg" alt="Facebook" />
+                </a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="/img/icon-insta.svg" alt="Instagram" />
+                </a>
+                <a href="https://www.twitter.com" target="_blank">
+                    <img src="/img/icon-lkdn.svg" alt="linkedin" />
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -65,7 +67,7 @@ onMounted(() => {
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import 'assets/base/colors';
 // Mobile first
 header {
@@ -93,6 +95,8 @@ header {
 }
 
 footer {
+    background-color: $black;
+    padding-bottom: 25px;
     .footer {
         width: 100%;
         display: flex;
@@ -102,6 +106,11 @@ footer {
         margin-top: 50px;
         border-top: 1px solid $darkgray;
         padding-top: 20px;
+
+        a{
+            color: $beigeclair;
+            text-decoration: none;
+        }
     }
 
     .social-icons {

@@ -1,6 +1,6 @@
 <template>
     <div class="update">
-        <h2>Ici, modifiez vos informations</h2>
+        <h2>Modifiez vos informations personnelles</h2>
         <form @submit.prevent="submitForm">
             <div>
                 <label for="firstName">Prénom:</label>
@@ -98,6 +98,16 @@ onMounted(() => {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     background-color: rgba(247, 241, 235, 0.7);
     border-radius: 8px;
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: .5rem;
+        line-height: 1.5;
+        border: 1px solid #ccc;
+        border-radius: .25rem;
+    }
 }
 
 form {
@@ -132,6 +142,5 @@ input {
     padding: 5px 5px 5px 10px;
     border: 1px solid black;
     border-radius: 10px;
-    background-color: $beigeclair;
 }
 </style>

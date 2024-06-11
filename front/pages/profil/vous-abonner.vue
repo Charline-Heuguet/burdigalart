@@ -205,13 +205,18 @@ const callSubscribeApi = async (apiUrl) => {
     z-index: 1;
     left: 0;
     top: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 
     .modal-content {
         background-color: #fefefe;
-        margin: 65% auto;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0 auto;
         padding: 20px;
         border: 1px solid #888;
         max-width: 600px;

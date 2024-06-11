@@ -63,7 +63,7 @@ class SceneController extends AbstractController
         }
 
         $scene = $serializer->deserialize($request->getContent(), Scene::class, 'json');
-        $scene->setUser($user);  
+        $scene->setUser($user);
         $scene->updateSlug();
 
         $errors = $validator->validate($scene);
@@ -80,7 +80,7 @@ class SceneController extends AbstractController
 
     // UPDATE : scene:update 
     #[Route('/{slug}', name: 'update', methods: ['PUT'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, SceneRepository $sceneRepository, ValidatorInterface $validator, SerializerInterface $serializer, string $slug): JsonResponse 
+    public function update(Request $request, EntityManagerInterface $entityManager, SceneRepository $sceneRepository, ValidatorInterface $validator, SerializerInterface $serializer, string $slug): JsonResponse
     {
         $scene = $sceneRepository->findOneBySlug($slug);
         if (!$scene) {
@@ -89,9 +89,9 @@ class SceneController extends AbstractController
 
         try {
             $serializer->deserialize(
-                $request->getContent(), 
-                Scene::class, 
-                'json', 
+                $request->getContent(),
+                Scene::class,
+                'json',
                 ['object_to_populate' => $scene, 'groups' => ['scene:update']]
             );
         } catch (ExceptionInterface $e) {
@@ -138,19 +138,24 @@ class SceneController extends AbstractController
     }
 
     // Gérer l'abonnement d'une scene (patch car subscribe est un booléen et on veut juste le modifier)
-    #[Route('user/subscribe', name: 'subscribe', methods: ['PATCH'])]
-    public function subscribeSceneCurrentUser(EntityManagerInterface $entityManager)
+    #[Route('/user/subscribe', name: 'subscribe', methods: ['PATCH'])]
+    public function subscribeSceneCurrentUser(EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
+        $logger->info('User ID: ' . $user->getId());
+
         $scene = $entityManager->getRepository(Scene::class)->findOneBy(['user' => $user]);
-    
         if (!$scene) {
+            $logger->info('Aucune scène trouvée pour l\'utilisateur ID: ' . $user->getId());
             return $this->json(['message' => 'Scène non trouvée pour cet utilisateur'], Response::HTTP_NOT_FOUND);
         }
-    
+
         $scene->setSubscription(true);
         $entityManager->flush();
-    
+
         return $this->json(['message' => 'Abonnement de la scène mis à jour avec succès']);
     }
 

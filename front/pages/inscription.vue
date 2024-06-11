@@ -117,7 +117,6 @@ const inscription = async () => {
   };
 
   // Afficher les données dans la console pour vérification
-  // console.log("Données envoyées au backend:", JSON.stringify(userData));
   const runtimeConfig = useRuntimeConfig();
   const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
