@@ -10,7 +10,5 @@ Dans le dossier back: symfony server:start
 - Symfony 7 
 - NuxtJs - VueJs3
 - Docker : MySQL et PhpMyAdmin
-- MAMP
-
 
 

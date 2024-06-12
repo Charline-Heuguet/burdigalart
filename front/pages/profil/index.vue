@@ -37,13 +37,12 @@ import RolePill from '~/components/profiles/RolePill.vue';
 import ProfilBase from '~/components/profiles/ProfilBase.vue';
 import ArtistAccordion from '~/components/profiles/ArtistAccordion.vue'; // nouvelle version
 import AccordionViewer from '~/components/profiles/AccordionViewer.vue';
-import AccordionManager from '~/components/profiles/AccordionManager.vue';
 import SceneAccordion from '~/components/profiles/SceneAccordion.vue';
 import { ref, onMounted } from 'vue';
 
 const authStore = useAuthStore(); // Utiliser le store pour accéder aux rôles
 const currentRole = ref('Spectateur'); // L'utilisateur est "Spectateur" par défaut
-//console.log('authStore roles:', authStore.roles);
+
 </script>
 
 

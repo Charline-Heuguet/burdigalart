@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
   css: [
     '@/assets/main.scss'

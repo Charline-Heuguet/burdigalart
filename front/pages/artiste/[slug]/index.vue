@@ -38,7 +38,6 @@
         <Show />
 
         <h2>Vous pouvez voir cet.te artiste ici:</h2>
-        <!-- <Event /> -->
         <div v-if="artiste && artiste.events">
             <div class="container-artist">
                 <div v-for="event in artiste.events" :key="event.id" class="card">
@@ -68,7 +67,6 @@
 import dayjs from 'dayjs';
 import { useRoute } from 'vue-router'
 import TagStyle from '~/components/ui/TagStyle.vue'
-import type { Artist } from '~/types/interfaces/artist';
 
 // Récupération de l'url de l'API
 const runtimeConfig = useRuntimeConfig();
@@ -76,7 +74,7 @@ const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 // Récupération des données de l'artiste
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
-const slug = route.params.slug; // On récupère le slug de l'URL
+const slug = route.params.slug; // Récupération du slug de l'URL
 
 const { data: artiste, error } = useAsyncData('artist', async () => {
     const response = await fetch(url + 'artists/' + slug);
@@ -87,12 +85,12 @@ const { data: artiste, error } = useAsyncData('artist', async () => {
 });
 
 // Fonction pour formater la date et l'heure
-const formatDateTime = (dateTime) => {
+const formatDateTime = (dateTime: string) => {
     return dayjs(dateTime).format('DD/MM à HH:mm');
 };
 
 // Fonction pour récupérer l'ID de la vidéo Youtube
-function getYoutubeID(url) {
+function getYoutubeID(url : string) {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     const match = url.match(regExp);
     return (match && match[7].length == 11) ? match[7] : null;

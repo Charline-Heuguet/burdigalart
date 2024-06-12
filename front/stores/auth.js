@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
-    roles: [] // champ pour les rôles
+    roles: JSON.parse(localStorage.getItem('roles')) || []  // cahrgement des rôles depuis le localStorage
   }),
   getters: {
     isAuthenticated: (state) => !!state.user,
@@ -13,7 +13,10 @@ export const useAuthStore = defineStore('auth', {
     setUser(userData) {
       this.user = userData;
       this.roles = userData.roles || [];
+      localStorage.setItem('roles', JSON.stringify(this.roles));
     },
+
+    
     // Fonction pour récupérer les données de l'utilisateur à partir du token
     async fetchUserFromToken() {
       const runtimeConfig = useRuntimeConfig();
@@ -27,12 +30,14 @@ export const useAuthStore = defineStore('auth', {
             }
           });
           this.setUser(userData);
+          localStorage.setItem('roles', JSON.stringify(userData.roles || []));
         } catch (error) {
           console.error('Failed to fetch user data:', error);
           this.clearUserData();
         }
       }
     },
+    // Fonction pour se déconnecter
     async logout() {
       const runtimeConfig = useRuntimeConfig();
       const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
@@ -62,10 +67,12 @@ export const useAuthStore = defineStore('auth', {
     clearUserData() {
       //console.log('Exécution du nettoyage');
       localStorage.removeItem('token'); // Suppression du JWT du localStorage
+      localStorage.removeItem('roles'); // Suppression des rôles du localStorage
       this.user = null; // Réinitialisation de l'utilisateur
       this.roles = []; // Réinitialisation des rôles
       const router = useRouter();
       router.push('/'); // Redirection vers la page d'accueil
     }
+
   }
 });
