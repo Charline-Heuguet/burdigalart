@@ -67,9 +67,7 @@ export const useAuthStore = defineStore('auth', {
     clearUserData() {
       //console.log('Exécution du nettoyage');
       localStorage.removeItem('token'); // Suppression du JWT du localStorage
-      localStorage.removeItem('roles'); // Suppression des rôles du localStorage
       this.user = null; // Réinitialisation de l'utilisateur
-      this.roles = []; // Réinitialisation des rôles
       const router = useRouter();
       router.push('/'); // Redirection vers la page d'accueil
     }

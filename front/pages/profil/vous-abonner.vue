@@ -50,7 +50,7 @@
             <p>Vous pouvez consulter le contrat en vous rendant à cette page:
                 <NuxtLink to="/abonnement">Voir le contrat d'abonnement</NuxtLink>
             </p>
-            
+
             <div class="dl">
                 <p>Vous pouvez également le télécharger ci-après:</p>
                 <a href="/medias/contrat-abonnement.pdf" download="contrat_abonnement.pdf">
@@ -65,6 +65,13 @@
                 <PaymentComponent @payment-successful="handlePaymentSuccess" />
             </div>
         </div>
+
+        <div class="modal" v-if="subscriptionMessage" @click="closeSubscriptionModal">
+            <div class="modal-content">
+                <span class="close" @click="closeSubscriptionModal">&times;</span>
+                <p>{{ subscriptionMessage }}</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -72,6 +79,7 @@
 import { ref } from 'vue';
 import PaymentComponent from '~/components/PaymentComponent.vue';
 import {jwtDecode} from 'jwt-decode';
+import { useRouter } from 'vue-router';
 
 const runtimeConfig = useRuntimeConfig();
 const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
@@ -80,6 +88,9 @@ const showFreemium = ref(false);
 const showPremiumSection = ref(false);
 const agreedToContract = ref(false);
 const isPremiumSelected = ref(false);
+const subscriptionMessage = ref('');
+const router = useRouter();
+
 
 // Fonction pour afficher la modale Freemium
 const showFreemiumModal = () => {
@@ -101,40 +112,48 @@ const getToken = () => {
   return localStorage.getItem('token');
 };
 
-const handlePaymentSuccess = () => {
-    event.preventDefault();
+const handlePaymentSuccess = (paymentSuccess) => {
     console.log("Payment successful, subscribing now...");
     subscribe();
 };
 
 const subscribe = () => {
   console.log("Fetching token from storage...");
-  const token = getToken();
+  const token = getToken();  // S'assurer que le token est récupéré ici
+  if (!token) {
+    console.error("No token found, user might not be logged in.");
+    return;  // Sortir de la fonction si aucun token n'est trouvé
+  }
   const decoded = jwtDecode(token);
   console.log("Token decoded, roles:", decoded.roles);
   const roles = decoded.roles;
 
   if (roles.includes('ROLE_SCENE')) {
     console.log("Calling subscribe API for SCENE...");
-    callSubscribeApi(url + 'scenes/user/subscribe');
+    callSubscribeApi(url + 'scenes/user/subscribe', token);  // Passer le token comme argument
   } else if (roles.includes('ROLE_ARTISTE')) {
     console.log("Calling subscribe API for ARTISTE...");
-    callSubscribeApi(url + 'artists/user/subscribe');
+    callSubscribeApi(url + 'artists/user/subscribe', token);  // Passer le token comme argument
   }
 };
 
-const callSubscribeApi = async (apiUrl) => {
+
+const callSubscribeApi = async (apiUrl, token) => {  // Ajouter token comme paramètre
   console.log("API call to:", apiUrl);
   try {
     const response = await fetch(apiUrl, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subscribe: true })
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`  // Utiliser le token dans le header Authorization
+      },
+      body: JSON.stringify({ subscription: true })
     });
 
     if (response.ok) {
       const data = await response.json();
       console.log('Subscription successful:', data.message);
+      subscriptionMessage.value = "Félicitations, vous êtes abonnée à Burdigarl'Art ! Quand vous fermerez cette fenêtre, vous serez redirigés vers votre profil";
     } else {
       throw new Error('Failed to subscribe with status: ' + response.status);
     }
@@ -142,6 +161,13 @@ const callSubscribeApi = async (apiUrl) => {
     console.error('Error subscribing:', error.message);
   }
 };
+
+const closeSubscriptionModal = () => {
+    subscriptionMessage.value = ''; // Efface le message
+    router.push('/profil'); // Utilise Vue Router pour rediriger vers le profil
+};
+
+
 </script>
 
 <style scoped lang="scss">

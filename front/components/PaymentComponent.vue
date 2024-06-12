@@ -64,7 +64,7 @@
           </svg>
         </button>
       </div>
-      <button class="purchase--btn" @click="simulatePaymentSuccess">Validation</button>
+      <button class="purchase--btn" @click.prevent="simulatePaymentSuccess">Validation</button>
     </form>
   </div>
 </template>
