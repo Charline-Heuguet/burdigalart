@@ -37,7 +37,7 @@
         <h2> Son spectacle: </h2>
         <Show />
 
-        <h2>Vous pouvez voir cet.te artiste ici:</h2>
+        <h2 v-if="artiste.events">Vous pouvez voir cet.te artiste ici:</h2>
         <div v-if="artiste && artiste.events">
             <div class="container-artist">
                 <div v-for="event in artiste.events" :key="event.id" class="card">

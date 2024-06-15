@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
-    roles: JSON.parse(localStorage.getItem('roles')) || []  // cahrgement des rôles depuis le localStorage
+    //roles: JSON.parse(localStorage.getItem('roles')) || []  // cahrgement des rôles depuis le localStorage
   }),
   getters: {
     isAuthenticated: (state) => !!state.user,
@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
     setUser(userData) {
       this.user = userData;
       this.roles = userData.roles || [];
-      localStorage.setItem('roles', JSON.stringify(this.roles));
+      //localStorage.setItem('roles', JSON.stringify(this.roles));
     },
 
     
@@ -70,7 +70,23 @@ export const useAuthStore = defineStore('auth', {
       this.user = null; // Réinitialisation de l'utilisateur
       const router = useRouter();
       router.push('/'); // Redirection vers la page d'accueil
+    },
+
+    async deleteUser(userId) {
+      const runtimeConfig = useRuntimeConfig();
+      const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
+      try {
+        const response = await $fetch(`${url}users/${userId}`, {
+          method: 'DELETE'
+        });
+        console.log('Message du serveur:', response.message); // Affiche le message de succès
+        this.clearUserData();
+      } catch (error) {
+        console.error('Failed to delete user:', error.message || 'No error message from server');
+        throw error; // Pour la gestion d'erreur dans le composant
+      }
     }
+    
 
   }
 });

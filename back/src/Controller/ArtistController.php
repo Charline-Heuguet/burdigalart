@@ -229,18 +229,4 @@ class ArtistController extends AbstractController
     // }
 
 
-    // DELETE - Pour SUPPRIMER un artiste par son id
-    // #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-    // public function delete(EntityManagerInterface $entityManager, ArtistRepository $artistRepository, $id): JsonResponse
-    // {
-    //     $artist = $artistRepository->find($id);
-    //     if (!$artist) {
-    //         return new JsonResponse(['error' => 'Artist not found with this id'], Response::HTTP_NOT_FOUND);
-    //     }
-    //     $entityManager->remove($artist);
-    //     $entityManager->flush();
-
-    //     return new JsonResponse(['status' => 'Artist deleted']);
-    // }
-
 }

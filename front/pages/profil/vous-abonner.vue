@@ -153,7 +153,7 @@ const callSubscribeApi = async (apiUrl, token) => {  // Ajouter token comme para
     if (response.ok) {
       const data = await response.json();
       console.log('Subscription successful:', data.message);
-      subscriptionMessage.value = "Félicitations, vous êtes abonnée à Burdigarl'Art ! Quand vous fermerez cette fenêtre, vous serez redirigés vers votre profil";
+      subscriptionMessage.value = "Félicitations, vous êtes abonné.e à Burdigarl'Art ! Quand vous fermerez cette fenêtre, vous serez redirigé vers votre profil";
     } else {
       throw new Error('Failed to subscribe with status: ' + response.status);
     }
@@ -163,8 +163,8 @@ const callSubscribeApi = async (apiUrl, token) => {  // Ajouter token comme para
 };
 
 const closeSubscriptionModal = () => {
-    subscriptionMessage.value = ''; // Efface le message
-    router.push('/profil'); // Utilise Vue Router pour rediriger vers le profil
+    subscriptionMessage.value = ''; 
+    router.push('/profil'); 
 };
 
 

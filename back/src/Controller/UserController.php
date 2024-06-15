@@ -5,15 +5,16 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 #[Route('/api/users', name: 'user_')]
 class UserController extends AbstractController
@@ -72,20 +73,18 @@ class UserController extends AbstractController
         return $this->json(['message' => 'User updated successfully'], Response::HTTP_OK);
     }
 
-
-    // DELETE - Supprimer un utilisateur
+    // DELETE - Supprimer un utilisateur (avec vérification des rôles)
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $entityManager, UserRepository $userRepository, int $id): JsonResponse
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->find($id);
-        if (!$user) {
-            return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        $roles = $user->getRoles();
+        if (count($roles) === 1 && in_array("ROLE_USER", $roles)) {
+            $entityManager->remove($user);
+            $entityManager->flush();
+            return new JsonResponse(['message' => 'Utilisateur supprimé avec succès.'], Response::HTTP_OK);
+        } else {
+            return new JsonResponse(['error' => 'Cet utilisateur ne peut pas être supprimé car il possède d’autres rôles.'], Response::HTTP_FORBIDDEN);
         }
-
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        return $this->json(['message' => 'User deleted'], Response::HTTP_NO_CONTENT);
     }
 
     // SIGNUP - Inscription
