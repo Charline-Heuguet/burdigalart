@@ -39,8 +39,8 @@ class EventRepository extends ServiceEntityRepository
     public function EventsUpComingAll()
     {
         $qb = $this->createQueryBuilder('e')
-            ->join('e.scene', 's') // Assure-toi que 'scene' est le bon nom de la propriété dans l'entité Event
-            ->addSelect('s') // Ajoute ceci pour inclure les données de Scene dans le résultat
+            ->join('e.scene', 's') 
+            ->addSelect('s')
             ->where('e.dateTime > :now')
             ->orderBy('e.dateTime', 'ASC')
             ->setParameter('now', new \DateTime(), \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)

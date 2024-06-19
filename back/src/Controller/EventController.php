@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\Scene;
 use Doctrine\ORM\Mapping;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,6 +86,27 @@ class EventController extends AbstractController
         return new JsonResponse($jsonEvent, Response::HTTP_OK, [], true);
     }
 
+
+    // Un utilisateur achète un ticket pour un événement - event:buy
+    #[Route('/{slug}/buy', name: 'buy', methods: ['POST'])]
+    public function buy(EntityManagerInterface $entityManager, EventRepository $eventRepository, UserRepository $userRepository,string $slug): JsonResponse
+    {
+        $event = $eventRepository->findOneBySlug($slug);
+        if (!$event) {
+            return new JsonResponse(['error' => 'Event not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        // Récupère l'utilisateur connecté
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $event->addParticipant($user);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Ticket bought'], Response::HTTP_OK);
+    }
+
+
     // READ - Lire un événement via son id - event:show
     #[Route('/id/{id}', name: 'showId', methods: ['GET'])]
     public function showId(EventRepository $eventRepository, SerializerInterface $serializer, int $id): JsonResponse
@@ -96,7 +118,6 @@ class EventController extends AbstractController
         $jsonEvent = $serializer->serialize($event, 'json', ['groups' => 'event:show']);
         return new JsonResponse($jsonEvent, Response::HTTP_OK, [], true);
     }
-
 
     // UPDATE - Mettre à jour un événement - event:update
     #[Route('/{slug}', name: 'update', methods: ['PUT'])]

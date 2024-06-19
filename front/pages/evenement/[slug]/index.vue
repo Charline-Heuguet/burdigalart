@@ -6,10 +6,13 @@
                 <div>
                     <h1>{{ events.title }}</h1>
                     <p class="desc h2">{{ events.description }}</p>
-                <!-- Bouton "Réserver" qui amène au panier -->
-                <NuxtLink to="/panier" @click="addToCart">
-                    <OrangeButton class="button">Reserver</OrangeButton>
-                </NuxtLink>
+                    <!-- Bouton "Réserver" qui amène au panier -->
+                    <NuxtLink v-if="authStore.isAuthenticated" to="/panier" @click="addToCart">
+                        <OrangeButton class="button">Réserver</OrangeButton>
+                    </NuxtLink>
+                    <div v-else="!authStore.isAuthenticated">
+                        Vous devez être connecté pour acheter un billet sur cet événement.
+                    </div>
                 </div>
             </div>
 
@@ -57,6 +60,7 @@ import dayjs from 'dayjs';
 import OrangeButton from '~/components/ui/OrangeButton.vue';
 import { useCartStore } from '~/stores/useCartStore';
 import TagStyle from '~/components/ui/TagStyle.vue';
+import { useAuthStore } from '~/stores/auth';
 
 const runtimeConfig = useRuntimeConfig();
 const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
@@ -65,26 +69,28 @@ const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
 
+// Formatage de la date
 const formatDateTime = (dateTime) => {
     return dayjs(dateTime).format('DD/MM à HH:mm');
-};
-
-// Appel API
-const { data: events, error } = useAsyncData(() => {
-    return $fetch(url + 'events/' + slug);
-});
-
-
+    };
+    
+    // Appel API
+    const { data: events, error } = useAsyncData(() => {
+        return $fetch(url + 'events/' + slug);
+        });
+        
+        
 // Store
 const cartStore = useCartStore();
+const authStore = useAuthStore();
+
+
 
 const addToCart = () => {
-    console.log("Adding to cart", {
-        id: events.value.id,
-        artist: events.value.Artist.map(a => a.artistName).join(', '),
-        show: events.value.title,
-        price: parseFloat(events.value.price.toFixed(2))
-    });
+    if (!authStore.isAuthenticated) {
+        alert("Vous devez être connecté pour acheter un billet sur cet événement.");
+        return;
+    }
     cartStore.addItem({
         id: events.value.id,
         artist: events.value.Artist.map(a => a.artistName).join(', '),
@@ -92,6 +98,13 @@ const addToCart = () => {
         price: parseFloat(events.value.price.toFixed(2))
     });
 };
+
+// Récupère l'utilisateur dès le montage du composant
+onMounted(async () => {
+  if (!authStore.user) {
+    await authStore.fetchUserFromToken();
+  }
+});
 
 const { toTitleCase } = useUtilities();
 useHead({
@@ -239,11 +252,9 @@ useHead({
         h1 {
             margin-top: 10px;
         }
-
         .poster-title {
             display: flex;
             justify-content: space-between;
-
             img {
                 width: 50%;
                 height: auto;

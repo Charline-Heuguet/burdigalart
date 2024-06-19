@@ -26,7 +26,6 @@
   </div>
 
   <div class="profil-view" v-if="currentRole === 'Gérant de scène'">
-    <!-- <AccordionManager /> -->
     <SceneAccordion />
   </div>
 </template>

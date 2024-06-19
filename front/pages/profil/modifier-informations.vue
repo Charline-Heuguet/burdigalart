@@ -19,7 +19,7 @@
                 <input type="password" id="password" v-model="user.password">
             </div>
             <div class="submit-form">
-                <ButtonSubmit type="submit">Sauvegarder</ButtonSubmit>
+                <ButtonSubmit>Sauvegarder</ButtonSubmit>
             </div>
         </form>
     </div>

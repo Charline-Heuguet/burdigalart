@@ -55,25 +55,28 @@ class SceneController extends AbstractController
     #[Route('/', name: 'create', methods: ['POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, ValidatorInterface $validator, SerializerInterface $serializer, SceneRepository $sceneRepository): JsonResponse
     {
-        $user = $this->getUser();
-        // Vérifie si l'utilisateur a déjà une scène
-        $existingScene = $sceneRepository->findOneBy(['user' => $user]);
+        $user = $this->getUser();// Récupère l'utilisateur connecté
+       
+        $existingScene = $sceneRepository->findOneBy(['user' => $user]); // Vérifie si l'utilisateur a déjà une scène
+        // Si l'utilisateur a déjà une scène, on retourne une erreur
         if ($existingScene) {
             return new JsonResponse(['error' => 'User already has a scene'], Response::HTTP_BAD_REQUEST);
         }
 
-        $scene = $serializer->deserialize($request->getContent(), Scene::class, 'json');
-        $scene->setUser($user);
-        $scene->updateSlug();
+        $scene = $serializer->deserialize($request->getContent(), Scene::class, 'json'); // On désérialise la requête en objet Scene
+        $scene->setUser($user); // On associe la scène à l'utilisateur connecté
+        $scene->updateSlug(); // On génère un slug pour la scène
 
-        $errors = $validator->validate($scene);
+        $errors = $validator->validate($scene); // On vérifie si la scène est valide
+        // Si la scène n'est pas valide => erreurs
         if (count($errors) > 0) {
             return new JsonResponse($errors, Response::HTTP_BAD_REQUEST);
         }
 
-        $entityManager->persist($scene);
-        $entityManager->flush();
+        $entityManager->persist($scene); // On enregistre la scène
+        $entityManager->flush(); // On écrit la scène en base de données
 
+        // On retourne la scène créée en JSON 
         $jsonScene = $serializer->serialize($scene, 'json', ['groups' => 'scene:show']);
         return new JsonResponse($jsonScene, Response::HTTP_CREATED, [], true);
     }

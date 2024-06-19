@@ -63,7 +63,7 @@ class UserController extends AbstractController
         $user->setFirstName($data['firstName'] ?? $user->getFirstName());
         $user->setEmail($data['email'] ?? $user->getEmail());
 
-        // Ajoute la gestion des erreurs de validation ici
+        // gestion des erreurs de validation
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
             return $this->json(['errors' => (string) $errors], Response::HTTP_BAD_REQUEST);
@@ -94,13 +94,9 @@ class UserController extends AbstractController
         // Désérialiser la requête en objet User
         $user = $serializer->deserialize($request->getContent(), User::class, 'json', ['groups' => 'user:signup']);
 
-        // Afficher les rôles pour le débogage
-        error_log(print_r($user->getRoles(), true));
-
         // Hasher le mot de passe
         $user->setPassword($passwordHasher->hashPassword($user, $user->getPassword()));
 
-        // Ajouter ROLE_USER par défaut (si pas déjà inclus)
         $currentRoles = $user->getRoles();
         if (!in_array('ROLE_USER', $currentRoles)) {
             $user->setRoles(array_merge($currentRoles, ['ROLE_USER']));

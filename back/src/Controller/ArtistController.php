@@ -70,7 +70,7 @@ class ArtistController extends AbstractController
             return new JsonResponse(['error' => 'Authentication required'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $userId = $user->getId(); // Assure-toi que ta classe User a une méthode getId()
+        $userId = $user->getId();
         if (!$userId) {
             return new JsonResponse(['error' => 'User ID is missing'], Response::HTTP_BAD_REQUEST);
         }

@@ -1,12 +1,20 @@
 <template>
-
-    <button type="submit">
+    <button :type="type">
         <slot></slot>
     </button>
-
 </template>
 
+<script setup>
+import { defineProps } from 'vue';
 
+// Définition des props avec une valeur par défaut pour 'type'
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'submit' // 'submit' est la valeur par défaut
+  }
+});
+</script>
 
 <style scoped lang="scss">
 @import 'assets/base/colors';
