@@ -28,6 +28,10 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
+
+const runtimeConfig = useRuntimeConfig();
+const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
+
 const event = ref({
   title: '',
   description: '',
@@ -36,11 +40,11 @@ const event = ref({
   price: ''
 });
 
-const baseURL = 'https://localhost:8000/api/events/';
+// const baseURL = 'https://localhost:8000/api/events/';
 
 const submitEvent = async () => {
   try {
-    const response = await axios.post(baseURL, event.value, {
+    const response = await axios.post(url + 'events' , event.value, {
       headers: {
         'Content-Type': 'application/json'
       }

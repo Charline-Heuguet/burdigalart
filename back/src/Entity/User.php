@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements PasswordAuthenticatedUserInterface, UserInterface
@@ -41,6 +43,11 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $email = null;
 
     #[Groups(['user:signup'])]
+    #[Assert\Length( min: 8, minMessage: 'Le mot de passe doit comporter au moins 8 caractères')]
+    #[Assert\Regex(
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/',
+        message: 'Le mot de passe doit inclure au moins une majuscule, une minuscule, un chiffre et un caractère spécial.'
+    )]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 

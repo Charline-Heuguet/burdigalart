@@ -116,7 +116,6 @@ const inscription = async () => {
     roles: ['ROLE_USER', ...additionalRoles.value] // Toujours inclure ROLE_USER
   };
 
-  // Afficher les données dans la console pour vérification
   const runtimeConfig = useRuntimeConfig();
   const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 

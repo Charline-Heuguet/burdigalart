@@ -1,72 +1,83 @@
 <template>
     <div>
         <h1>Ils ont fait Burdigal'Art</h1>
-        <!-- Enola -->
-        <div class="main">
-            <div class="card">
-                <img src="/medias/enola.webp" alt="">
-                <h2>Enola Monai - Web Marketing</h2>
-                <a href="https://www.linkedin.com/in/enola-monai-b014621b8/" class="linkedin-icon">
-                    <img src="/img/icon-lkdn.svg" alt="linkedin">
-                </a>
-                <p>Enola Monai, étudiante en Bachelor Webmarketing & Social Media mais surtout passionnée par ce projet
-                    nommé Burdigal’art. <br> Un projet né d’une équipe dévouée et surtout d’une idée
-                    flamboyante.<br>L’essence même de ce concept est la cohésion, la passion et bien évidemment l’envie de
-                    vous faire découvrir de nouvelles personnalités à travers l’univers Burdigal’art !
-                </p>
+        <div class="container">
+            <!-- Enola -->
+            <div class="main">
+                <div class="card">
+                    <img src="/medias/enola.webp" alt="">
+                    <h2>Enola Monai - Web Marketing</h2>
+                    <a href="https://www.linkedin.com/in/enola-monai-b014621b8/" class="linkedin-icon">
+                        <img src="/img/icon-lkdn.svg" alt="linkedin">
+                    </a>
+                    <p>Enola Monai, étudiante en Bachelor Webmarketing & Social Media mais surtout passionnée par ce
+                        projet
+                        nommé Burdigal’art. <br> Un projet né d’une équipe dévouée et surtout d’une idée
+                        flamboyante.<br>L’essence même de ce concept est la cohésion, la passion et bien évidemment
+                        l’envie de
+                        vous faire découvrir de nouvelles personnalités à travers l’univers Burdigal’art !
+                    </p>
+                </div>
+            </div>
+            <!-- Armand -->
+            <div class="main">
+                <div class="card">
+                    <img src="/medias/armand.webp" alt="">
+                    <h2>Armand Pelletier - Web Marketing</h2>
+                    <a href="https://www.linkedin.com/in/armand-pelletier-0b6796262/" class="linkedin-icon">
+                        <img src="/img/icon-lkdn.svg" alt="linkedin">
+                    </a>
+                    <p>Passionné par les mondes imaginaires depuis ma jeunesse, j'ai toujours cru en la puissance des
+                        histoires
+                        et en la beauté du livre. Mon parcours a été marqué par la fusion de cette passion avec mes
+                        compétences
+                        en communication et événementiel.J'ai exploré ma passion pour le cinéma et l'audiovisuel,
+                        consolidant
+                        mes compétences grâce à une option cinéma audiovisuel et un BTS montage et post-production.
+                    </p>
+                </div>
+            </div>
+            <!-- Charline -->
+            <div class="main">
+                <div class="card">
+                    <img src="/medias/charline.png" alt="">
+                    <h2>Charline Heuguet - Développeuse CDA </h2>
+                    <a href="https://www.linkedin.com/in/charline-heuguet/" class="linkedin-icon">
+                        <img src="/img/icon-lkdn.svg" alt="linkedin">
+                    </a>
+                    <p>Passionnée de développement, je suis impatiente d'approfondir mes compétences dans le cadre de ce
+                        projet dédié à la promotion des artistes locaux. Mon objectif est de créer une plateforme
+                        technologique innovante qui mettra en lumière leur talent et les rendra accessibles à un public
+                        plus large.
+                    </p>
+                </div>
+            </div>
+            <!-- Anthony -->
+            <div class="main">
+                <div class="card">
+                    <img src="/medias/anthony.webp" alt="">
+                    <h2>Anthony Labrit - Web Marketing</h2>
+                    <a href="https://www.linkedin.com/in/anthony-l-a35072266/" class="linkedin-icon">
+                        <img src="/img/icon-lkdn.svg" alt="linkedin">
+                    </a>
+                    <p>Passionné, sportif et entrepreneur dans l’âme, mettre en avant des artistes émergents est un
+                        projet mobilisant des valeurs qui me sont chères.
+                        De l’humoriste qui s’ignore au rappeur discret enchaînant les proses, nous avons à coeur
+                        d’offrir visibilité et crédibilité à ces créateurs de l’ombre.
+                    </p>
+                </div>
+            </div>
+            <!-- Fanny -->
+            <div class="main">
+                <div class="card">
+                    <img src="/medias/fanny.webp" alt="">
+                    <h2>Fanny Razanadrasamy - <br> Web Marketing</h2>
+                    <a href="https://www.linkedin.com/in/fanny-razanadrasamy-b34542196/" class="linkedin-icon">
+                        <img src="/img/icon-lkdn.svg" alt="linkedin">
+                    </a>
+                </div>
             </div>
         </div>
-        <!-- Armand -->
-        <div class="main">
-            <div class="card">
-                <img src="/medias/armand.webp" alt="">
-                <h2>Armand Pelletier - Web Marketing</h2>
-                <a href="https://www.linkedin.com/in/armand-pelletier-0b6796262/" class="linkedin-icon">
-                    <img src="/img/icon-lkdn.svg" alt="linkedin">
-                </a>
-                <p>Passionné par les mondes imaginaires depuis ma jeunesse, j'ai toujours cru en la puissance des histoires
-                    et en la beauté du livre. Mon parcours a été marqué par la fusion de cette passion avec mes compétences
-                    en communication et événementiel.J'ai exploré ma passion pour le cinéma et l'audiovisuel, consolidant
-                    mes compétences grâce à une option cinéma audiovisuel et un BTS montage et post-production.
-                </p>
-            </div>
-        </div>
-        <!-- Charline -->
-        <div class="main">
-            <div class="card">
-                <img src="/medias/charline.png" alt="">
-                <h2>Charline Heuguet - Développeuse CDA </h2>
-                <a href="https://www.linkedin.com/in/charline-heuguet/" class="linkedin-icon">
-                    <img src="/img/icon-lkdn.svg" alt="linkedin">
-                </a>
-                <p>Passionnée de développement, je suis impatiente d'approfondir mes compétences dans le cadre de ce projet dédié à la promotion des artistes locaux. Mon objectif est de créer une plateforme technologique innovante qui mettra en lumière leur talent et les rendra accessibles à un public plus large.
-                </p>
-            </div>
-        </div>
-        <!-- Anthony -->
-        <div class="main">
-            <div class="card">
-                <img src="/medias/anthony.webp" alt="">
-                <h2>Anthony Labrit - Web Marketing</h2>
-                <a href="https://www.linkedin.com/in/anthony-l-a35072266/" class="linkedin-icon">
-                    <img src="/img/icon-lkdn.svg" alt="linkedin">
-                </a>
-                <p>Passionné, sportif et entrepreneur dans l’âme, mettre en avant des artistes émergents est un projet mobilisant des valeurs qui me sont chères.
-De l’humoriste qui s’ignore au rappeur discret enchaînant les proses, nous avons à coeur d’offrir visibilité et crédibilité à ces créateurs de l’ombre.
-                </p>
-            </div>
-        </div>
-        <!-- Fanny -->
-        <div class="main">
-            <div class="card">
-                <img src="/medias/fanny.webp" alt="">
-                <h2>Fanny Razanadrasamy - <br> Web Marketing</h2>
-                <a href="https://www.linkedin.com/in/fanny-razanadrasamy-b34542196/" class="linkedin-icon">
-                    <img src="/img/icon-lkdn.svg" alt="linkedin">
-                </a>
-            </div>
-        </div>
-
     </div>
 </template>
 
@@ -159,8 +170,12 @@ De l’humoriste qui s’ignore au rappeur discret enchaînant les proses, nous 
     }
 }
 
-@media (min-width: 768px) {
-    .card {
-        height: 36rem; // Hauteur originale pour les tablettes et les desktops
+@media (min-width: 1028px) {
+    .container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
     }
-}</style>
+}
+</style>

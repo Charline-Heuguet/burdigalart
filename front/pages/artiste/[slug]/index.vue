@@ -37,7 +37,7 @@
         <h2> Son spectacle: </h2>
         <Show />
 
-        <h2 v-if="artiste.events">Vous pouvez voir cet.te artiste ici:</h2>
+        <h2 v-if="artiste.events > 0">Vous pouvez voir cet.te artiste ici:</h2>
         <div v-if="artiste && artiste.events">
             <div class="container-artist">
                 <div v-for="event in artiste.events" :key="event.id" class="card">
@@ -109,6 +109,7 @@ useHead({
 .presentation {
     padding-top: 20px;
     display: flex;
+    flex-direction: column;
 
     .artist-info {
         display: flex;
@@ -121,11 +122,10 @@ useHead({
     }
 
     img {
-        width: 350px;
+        width: 100%;
         height: auto;
         border-radius: 10px;
         margin-right: 15px;
-        object-fit: cover;
     }
 }
 
@@ -218,6 +218,27 @@ h2 {
 }
 
 @media (min-width: 680px) {
+    .presentation {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    
+
+    .artist-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 50px;
+    }
+    
+    img {
+        width: 350px;
+        height: auto;
+        border-radius: 10px;
+        margin-right: 15px;
+    }
+}
+
     .container-artist {
         display: flex;
         flex-wrap: wrap;
