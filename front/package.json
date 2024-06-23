@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
@@ -27,7 +28,11 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.3",
+    "@vue/test-utils": "^2.4.6",
+    "cypress": "^13.12.0",
+    "jsdom": "^24.1.0",
     "sass": "^1.71.0",
-    "sass-loader": "^10.5.2"
+    "sass-loader": "^10.5.2",
+    "vitest": "^1.6.0"
   }
 }
