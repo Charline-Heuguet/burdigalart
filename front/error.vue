@@ -9,8 +9,6 @@
 </template>
 
 <script setup>
-import ButtonSubmit from '~/components/ui/ButtonSubmit.vue'
-
 definePageMeta({
   layout: '',
 })
@@ -32,7 +30,6 @@ definePageMeta({
     }
 
     p{
-        
         color: white;
         text-align: center;
         font-size: 20px;

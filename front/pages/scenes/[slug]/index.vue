@@ -24,9 +24,7 @@
             <OrangeButton >Contactez-nous</OrangeButton>
         </NuxtLink>
         </div>
-        
         <Event />
-
     </div>
 </template>
 
@@ -38,6 +36,7 @@ const url = runtimeConfig.apiUrl || runtimeConfig.public?.apiUrl;
 
 const route = useRoute(); //useRoute permet de récupérer les paramètres de l'URL
 const slug = route.params.slug; // On récupère le slug de l'URL
+console.log(route);
 
 const { data: scene, error } = useAsyncData('scene', async () => {
     const response = await fetch(url + 'scenes/' + slug);

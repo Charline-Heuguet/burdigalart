@@ -11,7 +11,7 @@ import { defineProps } from 'vue';
 const props = defineProps({
   type: {
     type: String,
-    default: 'submit' // 'submit' est la valeur par défaut
+    default: 'submit'
   }
 });
 </script>
