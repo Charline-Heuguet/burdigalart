@@ -2,7 +2,4 @@
 
 
 
-## TECHNOS utilisées:
-- Symfony 6 en back
-- NuxtJs et VueJs3 en front
-- Bundle: Easy admin
+## branch develop
